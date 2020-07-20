@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role_id', 'status', 'created_by', 'updated_by'
+        'id', 'name', 'email', 'email_verified_at', 'password', 'picture', 'role_id', 'token', 'dev_web', 'dev_country_id', 'dev_adrress', 'eu_birthday', 'eu_device_id', 'is_verified', 'is_blocked', 'created_by', 'updated_by', 'remember_token', 'created_at', 'updated_at'
     ];
 
     /**
@@ -37,8 +37,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function role()
+    public function countrys()
     {
-        return $this->belongsTo('App\Model\Tables\Role', 'role_id', 'id');
+        return $this->belongsTo('App\Model\Table\MstCountry', 'dev_country_id', 'id');
     }
 }
