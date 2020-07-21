@@ -31,7 +31,7 @@ class Controller extends BaseController
         $responseMessage = self::handlingResponse($responseCode);
         $response = [
             'code' => $responseCode,
-            'status' => $responseMessage,
+            'message' => $responseMessage,
             'data' => $data
             // 'memory_usage' => memory_get_usage()/1048576 . " mb"
         ];
