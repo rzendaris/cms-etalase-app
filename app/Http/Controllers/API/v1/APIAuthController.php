@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use Firebase\JWT\JWT;

@@ -17,10 +17,15 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::post('login', 'API\APIAuthController@login');
-Route::post('register', 'API\APIAuthController@register');
+Route::post('v1/login', 'API\v1\APIAuthController@login');
+Route::post('v1/register', 'API\v1\APIAuthController@register');
 
 Route::group(['middleware' => 'auth.api'], function() {
-    Route::get('logout', 'API\APIAuthController@logout');
-    Route::get('user', 'API\APIAuthController@user');
+    /**
+     * API Version 1
+     */
+    Route::group(['prefix' => 'v1'], function () {
+        Route::get('logout', 'API\v1\APIAuthController@logout');
+        Route::get('user', 'API\v1\APIAuthController@user');
+    });
 });
