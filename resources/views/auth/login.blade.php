@@ -8,16 +8,23 @@
 
 @section('content')
 <style>
-    .login .content .forget-password {margin-top: 10px;}
+    .login .content {
+        background: rgb(255 255 255 / 1);
+        margin-top: 8%;
+    }
+    .login .content .forget-password {margin-top: 25px;}
     div#LoginCaptcha_CaptchaDiv { 
         background: white;
         width: 100%!important;
         padding: 10px!important;
         height: auto!important;
+        border: solid 1px #c2cbd8;
+        border-bottom: none;
     }
     .login-box-- {
+        margin-top:20%;
         background: rgba(255, 255, 255, .7);
-        border-radius: 10px!important;
+        border-radius: 5px!important;
         box-shadow: 0 0 10px rgba(51, 51, 51, 0.3);
     }
     .login-box-- .logo-default-login {
@@ -25,6 +32,18 @@
     }
     #CaptchaCode {
         padding-left: 10px;
+    }
+    .form-control {
+        height: 38px;
+    }
+    .btn-login {
+        width:100%;
+    }
+    .btn-registration {
+        width:100%;
+    }
+    .login .content .form-actions {
+        padding: 0 30px 15px;
     }
     @media (max-width:767px){
         .login .content {
@@ -36,20 +55,17 @@
         }
     }
 </style>
-<div class="logo">
-    <!-- <a href="#">
-        <img src="{{ asset('assets/global/img/logo.png') }}" alt="logo-mina-indonesia" width="100"/> 
-    </a> -->
-</div>
+
+
 <div class="content login-box--">
     <form class="login-form" method="POST" action="{{ route('login') }}">
     @csrf
         <div class="row">
             <div class="col-md-12 text-center">
                 <a href="/" >
-                    <img src="{{ asset('assets/global/img/logo.png') }}" alt="" width="100" style="width:190px; height: 110px" class="logo-default-login" />
+                    <img src="{{ asset('assets/global/img/logo.png') }}" alt="" width="100" style="width:190px;" class="logo-default-login" />
                 </a>
-                <h3 class="form-title">Login to your account</h3>
+                <hr>
                 @if(session()->has('err_message'))
                     <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -102,16 +118,20 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-8 col-md-6">
-                <div class="forget-password">
-                    <a href="{{ url('forgot-password') }}" style="color:#000000"><b> <i class="fa fa-unlock-alt"></i> Lupa Password ? </b></a>
-                </div>
-            </div>
-            <div class="col-xs-4 col-md-6">
+            <div class="col-xs-12 col-md-12">
                 <div class="form-actions">
-                    <button type="submit" class="btn green pull-right"> Login </button>
+                    <button type="submit" class="btn green w-100 btn-login"> <i class="fa fa-sign-in"></i> Login </button>
                 </div>
             </div>
+            <div class="col-xs-12 col-md-12">
+                <a href="{{ url('register-page') }}" class="btn green w-100 btn-registration"> <i class="fa fa-user-plus"></i> Registration </a> 
+            </div>
+            <div class="col-xs-12 col-md-12">
+                <div class="forget-password text-center">
+                    <a href="{{ url('forgot-password') }}"><b> <i class="fa fa-unlock-alt"></i> Lupa Password ? </b></a>
+                </div>
+            </div>
+            
         </div>
         <br>
     </form>

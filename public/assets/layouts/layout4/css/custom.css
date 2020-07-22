@@ -92,8 +92,8 @@ table.dataTable thead th, table.dataTable thead td {
 }
 
 .page-header.navbar .page-logo .logo-default {
-    margin: 10px 0;
-    height: 54px;
+    margin: 20px 0;
+    height: 33px;
     width: auto;
 }
 .page-footer {
@@ -129,5 +129,19 @@ li.nav-item.border-r-active {
     }
     .table-responsive.custom--2 {
         padding: 10px;
+    }
+}
+
+.table tbody tr td {
+    vertical-align: middle;
+}
+.custom-position-header {
+    position: absolute;
+    width: 100%;
+}
+@media(max-width:767px) {
+    .custom-position-header {
+        position: relative;
+        width: unset;
     }
 }
