@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Firebase\JWT\JWT;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -11,17 +12,31 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public static function appResponse($responseCode, $data = null)
+
+    public static function jwt($user) {
+        $payload = [
+            'iss' => "lumen-jwt", // Issuer of the token
+            'sub' => $user, // Subject of the token
+            'iat' => time(), // Time when JWT was issued. 
+            'exp' => time() + 60*3600 // Expiration time
+        ];
+        
+        // As you can see we are passing `JWT_SECRET` as the second parameter that will 
+        // be used to decode the token in the future.
+        return JWT::encode($payload, env('JWT_SECRET'));
+    }
+
+    public static function appResponse($responseCode, $httpCode = 200, $data = null)
     {
         $responseMessage = self::handlingResponse($responseCode);
         $response = [
             'code' => $responseCode,
-            'status' => $responseMessage,
+            'message' => $responseMessage,
             'data' => $data
             // 'memory_usage' => memory_get_usage()/1048576 . " mb"
         ];
 
-        return response()->json($response);
+        return response()->json($response, $httpCode);
     }
 
     /**
@@ -43,6 +58,12 @@ class Controller extends BaseController
             break;
             case "156":
                 $message = "User not found";
+            break;
+            case "201":
+                $message = "Login Success";
+            break;
+            case "202":
+                $message = "Successfully logged out";
             break;
             case "300":
                 $message = "Token Passed";
@@ -66,7 +87,7 @@ class Controller extends BaseController
                 $message = "Error sending data";
             break;
             case "505":
-            $message = "Data Already Exist!";
+                $message = "Data Already Exist!";
             break;
             case "600":
                 $message = "New Token Successfully Created";
@@ -78,19 +99,16 @@ class Controller extends BaseController
                 $message = "Current Token is not expired yet!";
             break;
             case "104":
-            $message = "Data not Found!";
+                $message = "Data not Found!";
             break;
             case "105":
-            $message = "Wrong Username";
-            break;
-            case "106":
-            $message = "Wrong Username or Password";
+                $message = "Incorrect Username or Password";
             break;
             case "1995":
-            $message = "Access Denied";
+                $message = "Access Denied";
             break;
             case "2000":
-            $message = "Exception Handler";
+                $message = "Something went wrong. Please try again later.";
             break;
             default:
                 $message = "Response Code Undefined";
