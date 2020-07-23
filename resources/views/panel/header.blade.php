@@ -26,15 +26,56 @@
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
                 <li class="separator hide"></li>
-                <li class="separator hide"> </li>
-                <li class="separator hide"> </li>
+                <li class="separator hide"></li>
+                <li class="separator hide"></li>
                 <li>
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="icon-key"></i> Log Out
+                    <a class="nav-link dropdown-toggle" href="#" id="notification-menu-navbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bell-o fa-lg"></i>
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
+                    <div class="dropdown-menu" aria-labelledby="notification-menu-navbar" style="min-width: 250px;">
+                        <div class="card">
+                            <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <b>2048</b> Anda mendapatkan feedback dari fulan@gmail.com<br>
+                                    <small><i class="fa fa-clock-o"></i> 10/10/2020</small>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>2049</b> Anda mendapatkan feedback dari bin@gmail.com<br>
+                                    <small><i class="fa fa-clock-o"></i> 10/10/2020</small>
+                                </li>
+                            </ul>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="#" style=" padding-bottom: 15px; display: block; ">More</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a class="nav-link dropdown-toggle" href="#" id="user-menu-navbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user fa-lg"></i> <i class="fa fa-sort-desc"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="user-menu-navbar">
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="list-group text-center" style=" margin-bottom: 0; ">
+                                    <li class="list-group-item">
+                                        <a href="{{ url('profile') }}">Profile</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="{{ url('profile-password') }}">Change Passowrd</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item" href="#">Logout</a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>

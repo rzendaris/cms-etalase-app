@@ -86,3 +86,12 @@ Route::get('forgot-password', 'Auth\ForgotPasswordController@forgotPasswordInit'
 Route::post('forgot-password-send-email', 'Auth\ForgotPasswordController@forgotPassword');
 Route::get('forgot-password-verify/{token}', 'Auth\ForgotPasswordController@forgotPasswordVerify');
 Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
+
+// FE Route Dummy
+Route::get('register-page', 'FeController@Register');
+Route::get('profile', 'FeController@Profile');
+Route::get('profile-password', 'FeController@ProfilePassword');
+Route::get('end-user-management', 'FeController@EndUserManagement');
+Route::get('add-end-user', 'FeController@AddEndUser');
+Route::get('edit-end-user', 'FeController@EditEndUser');
+Route::get('detail-end-user', 'FeController@DetailEndUser');

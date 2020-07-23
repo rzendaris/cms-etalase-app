@@ -3,6 +3,49 @@
         <li class="heading">
             <h3 class="uppercase">Menu</h3>
         </li>
+        <li class="nav-item {{ Request::is('end-user-management') || Request::is('end-user-management/*') ? 'active' : '' }}">
+            <a href="{{ url('end-user-management') }}" class="nav-link nav-toggle">
+                <i class="fa fa-users"></i>
+                <span class="title">User Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
+            <a href="{{ url('#') }}" class="nav-link nav-toggle">
+                <i class="fa fa-user"></i>
+                <span class="title">Developer Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
+            <a href="{{ url('#') }}" class="nav-link nav-toggle">
+                <i class="fa fa-android"></i>
+                <span class="title">Apps Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
+            <a href="{{ url('#') }}" class="nav-link nav-toggle">
+                <i class="fa fa-user-secret"></i>
+                <span class="title">End User Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
+            <a href="{{ url('#') }}" class="nav-link nav-toggle">
+                <i class="fa fa-pie-chart"></i>
+                <span class="title">Ads Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
+            <a href="{{ url('#') }}" class="nav-link nav-toggle">
+                <i class="fa fa-file"></i>
+                <span class="title">Report </span>
+            </a>
+        </li>
+    </ul>
+</div>
+<!-- <div class="page-sidebar navbar-collapse collapse">
+    <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+        <li class="heading">
+            <h3 class="uppercase">Menu</h3>
+        </li>
         <li class="nav-item {{ Request::is('dashboard')? 'active' : '' }}">
             <a href="{{ url('dashboard') }}" class="nav-link nav-toggle">
                 <i class="icon-home"></i>
@@ -85,4 +128,4 @@
             </a>
         </li>
     </ul>
-</div>
+</div> -->

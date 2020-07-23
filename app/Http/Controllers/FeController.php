@@ -11,67 +11,33 @@ class FeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
-    public function Dashboard()
+    public function Register()
     {
-        return view('m-dashboard/dashboard');
+        return view('auth/register-page');
     }
-    public function UserMgmt()
+    public function Profile()
     {
-        return view('m-user-mgmt/list-user-mgmt');
+        return view('auth/profile');
     }
-    public function FamilyTree()
+    public function ProfilePassword()
     {
-        return view('m-family-tree/list-family-tree');
+        return view('auth/profile-password');
     }
-    public function DetailFamilyTree()
+    public function EndUserManagement()
     {
-        return view('m-family-tree/detail-family-tree');
+        return view('end-user-management/index');
     }
-    public function FamilyManagement()
+    public function AddEndUser()
     {
-        return view('m-family-mgmt/list-family-mgmt');
+        return view('end-user-management/add');
     }
-    public function AddFamilyMgmt()
+    public function EditEndUser()
     {
-        return view('m-family-mgmt/add-family-mgmt');
+        return view('end-user-management/edit');
     }
-    public function EditFamilyMgmt()
+    public function DetailEndUser()
     {
-        return view('m-family-mgmt/update-family-mgmt');
-    }
-
-
-    public function Mastercity()
-    {
-        return view('m-master-data/m-city-mgmt/m-city-mgmt');
-    }
-    public function Masterdegree()
-    {
-        return view('m-master-data/m-degree-mgmt/m-degree-mgmt');
-    }
-    public function Masterdistrict()
-    {
-        return view('m-master-data/m-district-mgmt/m-district-mgmt');
-    }
-    public function Masterethnic()
-    {
-        return view('m-master-data/m-ethnic-mgmt/m-ethnic-mgmt');
-    }
-    public function Masterjob()
-    {
-        return view('m-master-data/m-job-mgmt/m-job-mgmt');
-    }
-    public function Masterprovince()
-    {
-        return view('m-master-data/m-province-mgmt/m-province-mgmt');
-    }
-    public function Mastervillage()
-    {
-        return view('m-master-data/m-village-mgmt/m-village-mgmt');
+        return view('end-user-management/detail');
     }
 }
