@@ -52,4 +52,9 @@ class LoginController extends Controller
         'CaptchaCode' => 'required|valid_captcha',
       ]);
     }
+    public function LoginAdmin()
+    {
+
+        return view('auth/loginadmin');
+    }
 }
