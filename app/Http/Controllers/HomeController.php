@@ -23,11 +23,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role_id == 1){
-            return redirect('dashboard');
-        } else {
-            return redirect('family-tree');
-        }
+      if (Auth::user()->role_id == 1){
+          return redirect('end-user-management');
+      } else {
+          // return redirect('family-tree');
+          echo "developer";
+      }
     }
 
     /**
@@ -38,9 +39,10 @@ class HomeController extends Controller
     public function main()
     {
         if (Auth::user()->role_id == 1){
-            return redirect('dashboard');
+            return redirect('end-user-management');
         } else {
-            return redirect('family-tree');
+            // return redirect('family-tree');
+            echo "login developer";
         }
     }
 
@@ -62,5 +64,25 @@ class HomeController extends Controller
             'CaptchaCode' => 'required|valid_captcha',
         ]);
         return redirect('login')->with('suc_message', 'Periksa email anda!');
+    }
+    public function register(Request $request)
+    {
+      // if($request->photo_master){
+      //     $file_extention = $request->photo_master->getClientOriginalExtension();
+      //     $file_name = $request->email.'image_profile.'.$file_extention;
+      //     $file_path = $request->photo_master->move(public_path().'/pictures',$file_name);
+      // }
+        return User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'dev_web' => $request->website,
+            'dev_country_id' => $request->country,
+            'dev_address' => $request->address,
+            'role_id' => 2,
+            'is_blocked' => 1,
+            'picture' => $request->photo_master,
+            'password' => Hash::make($request->password),
+        ]);
+      echo "ok";
     }
 }

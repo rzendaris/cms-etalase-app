@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Model\Table\MstCountry;
 
 class FeController extends Controller
 {
@@ -14,7 +15,11 @@ class FeController extends Controller
 
     public function Register()
     {
-        return view('auth/register-page');
+        $country = MstCountry::all();
+        $data = [
+            'country' => $country
+        ];
+        return view('auth/register-page')->with($data);
     }
     public function Profile()
     {

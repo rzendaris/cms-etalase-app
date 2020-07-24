@@ -11,10 +11,10 @@
 |
 */
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 Route::middleware('auth')->group(function() {
 
-    Route::get('/', 'HomeController@main');
+    Route::get('/', 'HomeController@main')->middleware('verified');
     Route::get('dashboard', 'Admin\DashboardController@Dashboard');
 
     Route::get('user-management-fe', 'Admin\UserManController@UserMgmtInit');
@@ -87,11 +87,23 @@ Route::post('forgot-password-send-email', 'Auth\ForgotPasswordController@forgotP
 Route::get('forgot-password-verify/{token}', 'Auth\ForgotPasswordController@forgotPasswordVerify');
 Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 
+// Route::get('user-management-cms', 'Cms\UserManController@UserMgmtInit');
+// Route::post('user-management-cms/reset', 'Cms\UserManController@UserMgmtResetPass');
+// Route::get('user-management-cms/profile', 'Cms\UserManController@UserMgmtProfile');
 // FE Route Dummy
 Route::get('register-page', 'FeController@Register');
-Route::get('profile', 'FeController@Profile');
-Route::get('profile-password', 'FeController@ProfilePassword');
-Route::get('end-user-management', 'FeController@EndUserManagement');
-Route::get('add-end-user', 'FeController@AddEndUser');
-Route::get('edit-end-user', 'FeController@EditEndUser');
-Route::get('detail-end-user', 'FeController@DetailEndUser');
+Route::get('register-dev', 'Auth\RegisterController@getRegister');
+Route::get('profile', 'Cms\UserManController@UserMgmtProfile');
+Route::get('profile-password', 'Cms\UserManController@UserMgmtProfilePassword');
+Route::get('end-user-management', 'Cms\UserManController@UserMgmtInit');
+Route::get('add-end-user', 'Cms\UserManController@UserMgmtAddEndUser');
+Route::get('edit-end-user/{id}', 'Cms\UserManController@UserMgmtEditEndUser');
+Route::get('detail-end-user/{id}', 'Cms\UserManController@UserMgmtDetailEndUser');
+Route::post('insert-end-user', 'Cms\UserManController@UserMgmtInsert');
+Route::post('update-end-user', 'Cms\UserManController@UserMgmtUpdate');
+Route::post('update-profile-user', 'Cms\UserManController@UserMgmtUpdateProfile');
+Route::post('delete-end-user', 'Cms\UserManController@UserMgmtDelete');
+Route::post('block-end-user', 'Cms\UserManController@UserMgmtBlock');
+Route::post('unblock-end-user', 'Cms\UserManController@UserMgmtUnBlock');
+Route::post('change-pass-user', 'Cms\UserManController@UserMgmtChangePass');
+Route::post('reset-pass-user', 'Cms\UserManController@UserMgmtResetPass');
