@@ -16,7 +16,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-     
+
             <div class="table-responsive custom--2">
                 <div class="row custom-position-header">
                     <div class="float-left col-xl-3 col-md-3 col-xs-8 m-b-10px">
@@ -38,38 +38,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                    
+                      @foreach($data['user'] as $user)
                         <tr>
-                            <td>1</td>
+                            <td>{{ $user->no }}</td>
                             <td>
-                                <img src="{{ asset('assets/global/img/no-profile.jpg') }}" width="100"/>
+                                <img src="{{ url('/pictures/'.$user->picture) }}" width="100"/>
                             </td>
-                            <td>Fulan 1</td>
-                            <td>fulan1@gmail.com</td>
-                            <td>Active</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->is_blocked }}</td>
                             <td class="text-center">
-                                <a href="{{ url('detail-end-user') }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
-                                <a href="{{ url('edit-end-user') }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
-                                <a href="#" data-toggle="modal" data-target="#modal-banned"><i class="fa fa-ban fa-lg custom--1"></i></a>
-                                <a href="#" data-toggle="modal" data-target="#modal-delete"><i class="fa fa-trash fa-lg custom--1"></i></a>
+                                <a href="{{ url('detail-end-user/'.$user->id) }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
+                                <a href="{{ url('edit-end-user/'.$user->id) }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
+                                <a href="{{ url('block-end-user/'.$user->id) }}" data-toggle="modal" data-target="#modal-banned-{{ $user-> id }}"><i class="fa fa-ban fa-lg custom--1"></i></a>
+                                <a href="{{ url('delete-end-user/'.$user->id) }}" data-toggle="modal" data-target="#modal-delete-{{ $user-> id }}"><i class="fa fa-trash fa-lg custom--1"></i></a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <img src="{{ asset('assets/global/img/no-profile.jpg') }}" width="100"/>
-                            </td>
-                            <td>Fulan 2</td>
-                            <td>fulan2@gmail.com</td>
-                            <td>Active</td>
-                            <td class="text-center">
-                                <a href="{{ url('detail-end-user') }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
-                                <a href="{{ url('edit-end-user') }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
-                                <a href="#" data-toggle="modal" data-target="#modal-banned"><i class="fa fa-unlock-alt fa-lg custom--1"></i></a>
-                                <a href="#" data-toggle="modal" data-target="#modal-delete"><i class="fa fa-trash fa-lg custom--1"></i></a>
-                            </td>
-                        </tr>
-                    
+                        @endforeach
+
+
                     </tbody>
                 </table>
             </div>
@@ -79,16 +66,18 @@
 </div>
 
 
+@foreach($data['user'] as $user)
     <!-- Modal Delete -->
-    <div id="modal-delete" class="modal fade">
-        <form method="post" action="{{url('family-management/delete')}}" enctype="multipart/form-data">
+    <div id="modal-delete-{{ $user->id }}" class="modal fade">
+        <form method="post" action="{{url('delete-end-user')}}" enctype="multipart/form-data">
+            {{csrf_field()}}
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center">
                         <h2>Warning</h2>
                         <p>Delete data can't be recovery, are you sure?</p>
                     </div>
-                    <input type="hidden" name="id" value=""/>
+                    <input type="text" name="id" value="{{ $user->id }}"/>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
                         <button type="submit" class="btn btn-danger">Yes</button>
@@ -98,15 +87,16 @@
         </form>
     </div>
     <!-- Modal Banned -->
-    <div id="modal-banned" class="modal fade">
-        <form method="post" action="{{url('family-management/delete')}}" enctype="multipart/form-data">
+    <div id="modal-banned-{{ $user->id }}" class="modal fade">
+        <form method="post" action="{{url('block-end-user')}}" enctype="multipart/form-data">
+          {{csrf_field()}}
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center">
                         <h2>Warning</h2>
                         <p>Are you sure?</p>
                     </div>
-                    <input type="hidden" name="id" value=""/>
+                    <input type="hidden" name="id" value="{{ $user->id }}"/>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
                         <button type="submit" class="btn btn-danger">Yes</button>
@@ -116,12 +106,14 @@
         </form>
     </div>
 
+    @endforeach
+
 @endsection
 
 @section('myscript')
 
     <script src="{{ asset('assets/global/plugins/datatables/datatables.min.js') }}"></script>
-    <script>   
+    <script>
     $(function () {
         $('#search-button').click(function(){
             var search = $('#search-value').val();
@@ -138,7 +130,7 @@
             "paging":     false,
             "searching":     false,
         } );
-    
+
         $("div.toolbar").html('<a class="float-right btn btn-success" href="{{ url('add-end-user') }}">Tambah</a>');
     });
     </script>

@@ -9,8 +9,8 @@
 @section('content')
 
 <div class="content-body-white">
-    <form method="post" action="{{url('#')}}" enctype="multipart/form-data">
-
+    <form method="post" action="{{url('insert-end-user')}}" enctype="multipart/form-data">
+          {{csrf_field()}}
         <div class="page-head">
             <div class="page-title">
                 <h1>Add End User</h1>
@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Birthday :*</label>
-                                    <input type="date" name="website" class="form-control date"/>
+                                    <input type="date" name="eu_birthday" class="form-control date"/>
                                 </div>
                             </div>
                             <div class="col-xl-5 col-md-5 m-b-10px">

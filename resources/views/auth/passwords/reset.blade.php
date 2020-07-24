@@ -8,17 +8,14 @@
 
 @section('content')
 <style>
-    .login .content {
-        background: rgb(255 255 255 / 1);
-    }
     .login .content .forget-password {margin-top: 10px;}
-    div#LoginCaptcha_CaptchaDiv { 
+    div#LoginCaptcha_CaptchaDiv {
         background: white;
         width: 100%!important;
         padding: 10px!important;
         height: auto!important;
     }
-    div#ResetPasswordCaptcha_CaptchaDiv { 
+    div#ResetPasswordCaptcha_CaptchaDiv {
         background: white;
         width: 100%!important;
         padding: 10px!important;
@@ -26,7 +23,7 @@
     }
     .login-box-- {
         background: rgba(255, 255, 255, .7);
-        border-radius: 5px!important;
+        border-radius: 10px!important;
         box-shadow: 0 0 10px rgba(51, 51, 51, 0.3);
     }
     .login-box-- .logo-default-login {
@@ -34,21 +31,6 @@
     }
     #CaptchaCode {
         padding-left: 10px;
-    }
-    .form-control {
-        height: 38px;
-    }
-    .btn-login {
-        width:100%;
-    }
-    .btn-submit{
-        width:100%;
-        margin-bottom:15px;
-    }
-    .login .content h3 {
-        color: #333;
-        text-align: center;
-        margin: 5px auto 20px;
     }
     @media (max-width:767px){
         .login .content {
@@ -62,14 +44,15 @@
 </style>
 <div class="logo">
     <!-- <a href="#">
-        <img src="{{ asset('assets/global/img/logo.png') }}" alt="logo-mina-indonesia" width="100"/> 
+        <img src="{{ asset('assets/global/img/logo.png') }}" alt="logo-mina-indonesia" width="100"/>
     </a> -->
 </div>
 <div class="content login-box--">
     <!-- BEGIN FORGOT PASSWORD FORM -->
     <form class="login-form" method="post" action="{{ url('forgot-password-send-email') }}" enctype="multipart/form-data">
     {{csrf_field()}}
-        <h3 class="lupa-password">Lupa Password ?</h3>
+        <h3>Lupa Password ?</h3>
+        <p> Masukan alamat email anda dibawah ini untuk memperbarui kata sandi akun anda. </p>
         @if(session()->has('err_message'))
             <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -85,12 +68,24 @@
         <div class="form-group">
             <div class="input-icon">
                 <i class="fa fa-envelope"></i>
-                <input class="form-control placeholder-no-fix" type="email" autocomplete="off" placeholder="Email" name="email" required/> 
+                <input class="form-control placeholder-no-fix" type="email" autocomplete="off" placeholder="Email" name="email" required/>
             </div>
         </div>
-        <div class="form-group">            
-            <button type="submit" class="btn green btn-submit"><i class="fa fa-check"></i> Submit</button>
-            <a href="{{ url('login') }}" type="button" class="btn red btn-outline btn-login">Remember Your Password? Login <i class="fa fa-sign-in"></i></a>
+        <div class="form-group{{ $errors->has('CaptchaCode') ? ' has-error' : '' }}">
+            <div class="input-icon">
+                {!! captcha_image_html('ResetPasswordCaptcha') !!}
+                <input type="text" class="form-control" name="CaptchaCode" id="CaptchaCode" required>
+
+                @if ($errors->has('CaptchaCode'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('CaptchaCode') }}</strong>
+                    </span>
+                @endif
+            </div>
+        </div>
+        <div class="form-actions">
+            <a href="{{ url('login') }}" type="button" class="btn red btn-outline">Back </a>
+            <button type="submit" class="btn green pull-right"> Submit </button>
         </div>
     </form>
 </div>

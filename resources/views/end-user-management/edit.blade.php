@@ -9,8 +9,8 @@
 @section('content')
 
 <div class="content-body-white">
-    <form method="post" action="{{url('#')}}" enctype="multipart/form-data">
-
+    <form method="post" action="{{url('update-end-user')}}" enctype="multipart/form-data">
+        {{csrf_field()}}
         <div class="page-head">
             <div class="page-title">
                 <h1>Edit End User</h1>
@@ -23,18 +23,19 @@
                         <div class="row">
                             <div class="col-xl-2 col-md-2 m-b-10px">
                                 <div class="form-group">
-                                    <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ asset('assets/global/img/no-profile.jpg') }}" /><br>
+                                    <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/pictures/'.$data->picture) }}" /><br>
                                     <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
                                 </div>
                             </div>
                             <div class="col-xl-5 col-md-5 m-b-10px">
                                 <div class="form-group">
                                     <label class="form-control-label">Nama :*</label>
-                                    <input type="text" name="full_name" class="form-control" required/>
+                                    <input type="hidden" name="id" value="{{ $data->id }}">
+                                    <input type="text" name="full_name" value="{{ $data->name }}"  class="form-control" required/>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Email :*</label>
-                                    <input type="text" name="email" class="form-control"/>
+                                    <input type="text" name="email" value="{{ $data->email }}"  class="form-control"/>
                                 </div>
                             </div>
                         </div>
