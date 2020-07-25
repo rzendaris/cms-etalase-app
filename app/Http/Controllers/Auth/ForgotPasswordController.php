@@ -47,14 +47,14 @@ class ForgotPasswordController extends Controller
     {
         return view('auth.passwords.email');
     }
-    
+
     public function validator(array $data)
     {
       // custom error message for valid_captcha validation rule
       $messages  = [
         'valid_captcha' => 'Wrong code. Try again please.'
       ];
-  
+
       return Validator::make($data, [
         'email' => 'required|string',
         'CaptchaCode' => 'required|valid_captcha'
@@ -98,7 +98,7 @@ class ForgotPasswordController extends Controller
         $now_time = Carbon::now();
         $token = ResetPasswordToken::where('token', $token)->where('expired_at', '>=', $now_time->toDateTimeString())->first();
         if(isset($token)){
-            return view('auth.verify')->with('data', $token);
+            return view('auth/verify-password')->with('data', $token);
         } else {
             return redirect('forgot-password')->with('err_message', 'Masa berlaku permintaan pembaruan kata sandi telah berakhir.');
         }
@@ -109,4 +109,5 @@ class ForgotPasswordController extends Controller
         User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
         return redirect('login')->with('succ_message', 'Selamat, kata sandi telah diperbarui');
     }
+
 }

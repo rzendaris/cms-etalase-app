@@ -21,7 +21,7 @@ class UserManController extends Controller
     {
         $this->middleware(function ($request, $next) {
             if (Auth::user()->role_id != 1){
-                return redirect('family-tree')->with('access_message', 'Akses untuk Menu User Management Ditolak!');
+                return redirect('/')->with('access_message', 'Akses untuk Menu User Management Ditolak!');
             }
             return $next($request);
         });
