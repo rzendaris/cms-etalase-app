@@ -8,6 +8,13 @@
 
 @section('content')
 <style>
+    .login .content {
+        background: rgb(255 255 255 / 1);
+        margin-top: 8%;
+    }
+    .login .content label, .login .content p, .login .content h3, .login .content h4{
+        color: #333;
+    }
     .login .content .forget-password {margin-top: 10px;}
     div#LoginCaptcha_CaptchaDiv {
         background: white;
@@ -20,17 +27,20 @@
         width: 100%!important;
         padding: 10px!important;
         height: auto!important;
+        border: solid 1px #c2cbd8;
     }
     .login-box-- {
         background: rgba(255, 255, 255, .7);
         border-radius: 10px!important;
         box-shadow: 0 0 10px rgba(51, 51, 51, 0.3);
+        border-radius: 5px!important;
     }
     .login-box-- .logo-default-login {
         margin:auto;
     }
     #CaptchaCode {
         padding-left: 10px;
+        text-transform: unset!important;
     }
     @media (max-width:767px){
         .login .content {
@@ -42,11 +52,7 @@
         }
     }
 </style>
-<div class="logo">
-    <!-- <a href="#">
-        <img src="{{ asset('assets/global/img/logo.png') }}" alt="logo-mina-indonesia" width="100"/>
-    </a> -->
-</div>
+
 <div class="content login-box--">
     <!-- BEGIN FORGOT PASSWORD FORM -->
     <form class="login-form" method="post" action="{{ url('forgot-password-send-email') }}" enctype="multipart/form-data">
@@ -74,7 +80,7 @@
         <div class="form-group{{ $errors->has('CaptchaCode') ? ' has-error' : '' }}">
             <div class="input-icon">
                 {!! captcha_image_html('ResetPasswordCaptcha') !!}
-                <input type="text" class="form-control" name="CaptchaCode" id="CaptchaCode" required>
+                <input type="text" class="form-control" name="CaptchaCode" id="CaptchaCode" placeholder="Masukkan Captcha" required>
 
                 @if ($errors->has('CaptchaCode'))
                     <span class="help-block">

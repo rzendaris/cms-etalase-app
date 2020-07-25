@@ -32,6 +32,7 @@
     }
     #CaptchaCode {
         padding-left: 10px;
+        text-transform: unset!important;
     }
     .form-control {
         height: 38px;
@@ -108,7 +109,7 @@
         <div class="form-group{{ $errors->has('CaptchaCode') ? ' has-error' : '' }}">
             <div class="input-icon">
                 {!! captcha_image_html('LoginCaptcha') !!}
-                <input type="text" class="form-control" name="CaptchaCode" id="CaptchaCode" required>
+                <input type="text" class="form-control" name="CaptchaCode" id="CaptchaCode" placeholder="Masukkan Captcha"  required>
 
                 @if ($errors->has('CaptchaCode'))
                     <span class="help-block">
@@ -124,7 +125,7 @@
                 </div>
             </div>
             <div class="col-xs-12 col-md-12">
-                <a href="{{ url('register-page') }}" class="btn green w-100 btn-registration"> <i class="fa fa-user-plus"></i> Registration </a> 
+                <a href="{{ url('register-dev') }}" class="btn green w-100 btn-registration"> <i class="fa fa-user-plus"></i> Registration </a> 
             </div>
             <div class="col-xs-12 col-md-12">
                 <div class="forget-password text-center">
