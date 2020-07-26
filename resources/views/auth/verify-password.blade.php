@@ -9,7 +9,7 @@
 @section('content')
 <style>
     .login .content .forget-password {margin-top: 10px;}
-    div#LoginCaptcha_CaptchaDiv {
+    div#LoginCaptcha_CaptchaDiv { 
         background: white;
         width: 100%!important;
         padding: 10px!important;
@@ -38,7 +38,7 @@
 </style>
 <div class="logo">
     <!-- <a href="#">
-        <img src="{{ asset('assets/global/img/logo.png') }}" alt="logo-mina-indonesia" width="100"/>
+        <img src="{{ asset('assets/global/img/logo.png') }}" alt="logo-mina-indonesia" width="100"/> 
     </a> -->
 </div>
 <div class="content login-box--">
@@ -49,25 +49,33 @@
                 <a href="/" >
                     <img src="{{ asset('assets/global/img/logo.png') }}" alt="" width="100" class="logo-default-login" />
                 </a>
-                <h3 class="form-title">{{ __('Verify Your Email Address') }}</h3>
+                <h3 class="form-title">Perbarui Password</h3>
             </div>
         </div>
-
-        <div class="card-body">
-            @if (session('resent'))
-                <div class="alert alert-success" role="alert">
-                    {{ __('A fresh verification link has been sent to your email address.') }}
-                </div>
-            @endif
-
-            {{ __('Before proceeding, please check your email for a verification link.') }}
-            {{ __('If you did not receive the email') }},
-            <br>
-            <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                @csrf
-                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
-            </form>
+        <div class="form-group">
+            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+            <label class="control-label visible-ie8 visible-ie9">Email</label>
+            <div class="input-icon">
+                <i class="fa fa-user"></i>
+                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" value="{{ $data->email }}" disabled required/>
+                <input type="hidden" name="email" value="{{ $data->email }}"/>
+            </div>
         </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">Password</label>
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" required autofocus/> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-md-12">
+                <div class="form-actions">
+                    <button type="submit" class="btn green pull-right"> Simpan </button>
+                </div>
+            </div>
+        </div>
+        <br>
     </form>
     <!-- END LOGIN FORM -->
 </div>

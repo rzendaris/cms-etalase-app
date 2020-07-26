@@ -12,6 +12,8 @@
 */
 
 Auth::routes(['verify' => true]);
+
+Route::get('/home', 'HomeController@main')->middleware('verified');
 Route::middleware('auth')->group(function() {
 
     Route::get('/', 'HomeController@main')->middleware('verified');
@@ -80,6 +82,23 @@ Route::middleware('auth')->group(function() {
     /**
      * End Content Management Routes
      */
+     /**
+      * Cms User Etalase Routes
+      */
+     Route::get('profile', 'Cms\UserManController@UserMgmtProfile');
+     Route::get('profile-password', 'Cms\UserManController@UserMgmtProfilePassword');
+     Route::get('end-user-management', 'Cms\UserManController@UserMgmtInit');
+     Route::get('add-end-user', 'Cms\UserManController@UserMgmtAddEndUser');
+     Route::get('edit-end-user/{id}', 'Cms\UserManController@UserMgmtEditEndUser');
+     Route::get('detail-end-user/{id}', 'Cms\UserManController@UserMgmtDetailEndUser');
+     Route::post('insert-end-user', 'Cms\UserManController@UserMgmtInsert');
+     Route::post('update-end-user', 'Cms\UserManController@UserMgmtUpdate');
+     Route::post('update-profile-user', 'Cms\UserManController@UserMgmtUpdateProfile');
+     Route::post('delete-end-user', 'Cms\UserManController@UserMgmtDelete');
+     Route::post('block-end-user', 'Cms\UserManController@UserMgmtBlock');
+     Route::post('unblock-end-user', 'Cms\UserManController@UserMgmtUnBlock');
+     Route::post('change-pass-user', 'Cms\UserManController@UserMgmtChangePass'); // change pass by user login
+     Route::post('reset-pass-user', 'Cms\UserManController@UserMgmtResetPass'); // change pass by id user
 });
 Route::get('under-construction', 'HomeController@underConstruction');
 Route::get('forgot-password', 'Auth\ForgotPasswordController@forgotPasswordInit');
@@ -93,17 +112,3 @@ Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 // FE Route Dummy
 Route::get('register-page', 'FeController@Register');
 Route::get('register-dev', 'Auth\RegisterController@getRegister');
-Route::get('profile', 'Cms\UserManController@UserMgmtProfile');
-Route::get('profile-password', 'Cms\UserManController@UserMgmtProfilePassword');
-Route::get('end-user-management', 'Cms\UserManController@UserMgmtInit');
-Route::get('add-end-user', 'Cms\UserManController@UserMgmtAddEndUser');
-Route::get('edit-end-user/{id}', 'Cms\UserManController@UserMgmtEditEndUser');
-Route::get('detail-end-user/{id}', 'Cms\UserManController@UserMgmtDetailEndUser');
-Route::post('insert-end-user', 'Cms\UserManController@UserMgmtInsert');
-Route::post('update-end-user', 'Cms\UserManController@UserMgmtUpdate');
-Route::post('update-profile-user', 'Cms\UserManController@UserMgmtUpdateProfile');
-Route::post('delete-end-user', 'Cms\UserManController@UserMgmtDelete');
-Route::post('block-end-user', 'Cms\UserManController@UserMgmtBlock');
-Route::post('unblock-end-user', 'Cms\UserManController@UserMgmtUnBlock');
-Route::post('change-pass-user', 'Cms\UserManController@UserMgmtChangePass');
-Route::post('reset-pass-user', 'Cms\UserManController@UserMgmtResetPass');
