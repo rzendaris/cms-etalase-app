@@ -59,6 +59,9 @@ class Controller extends BaseController
             case "156":
                 $message = "User not found";
             break;
+            case "200":
+                $message = "Request Success";
+            break;
             case "201":
                 $message = "Login Success";
             break;
@@ -103,6 +106,9 @@ class Controller extends BaseController
             break;
             case "105":
                 $message = "Incorrect Username or Password";
+            break;
+            case "106":
+                $message = "Email not Registered";
             break;
             case "1995":
                 $message = "Access Denied";
