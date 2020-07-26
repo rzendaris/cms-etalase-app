@@ -6,6 +6,10 @@ use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Mail;
+use App\Mail\SendMailResetPassword;
+use App\Model\Tables\ResetPasswordToken;
+
 use App\User;
 
 class APIAuthController extends Controller
@@ -24,18 +28,27 @@ class APIAuthController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
+            'website' => 'required|string',
+            'country' => 'required|string',
+            'address' => 'required|string',
             'password' => 'required|string|confirmed'
         ]);
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role_id' => $request->role_id,
-            'password' => bcrypt($request->password)
-        ]);
-        $user->save();
-        return response()->json([
-            'message' => 'Successfully created user!'
-        ], 201);
+        $check_user = User::where('email', $request->email)->where('role_id', 2)->first();
+        if ($check_user){
+            return $this->appResponse(505, 200);
+        } else {
+            $user = new User([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role_id' => $request->role_id,
+                'website' => $request->role_id,
+                'country' => $request->role_id,
+                'address' => $request->role_id,
+                'password' => bcrypt($request->password)
+            ]);
+            $user->save();
+            return $this->appResponse(500, 200);
+        }
     }
   
     /**
@@ -103,5 +116,39 @@ class APIAuthController extends Controller
     {
         $user = User::where('email', $request->user_email)->where('role_id', 2)->first();
         return $this->appResponse(100, 200, $user);
+    }
+  
+    /**
+     * Forgot Password
+     *
+     * @return [json] user object
+     */
+
+    public function forgotPassword(Request $request)
+    {
+        $email = $request->email;
+        if ($email == ""){
+            return $this->appResponse(106, 200);
+        }
+        $user = User::where('email', $request->email)->first();
+        if(isset($user)){
+            $token = md5(rand(1, 50) . microtime());
+            $now_time = Carbon::now();
+            $expired = Carbon::parse($now_time->toDateTimeString())->addHour();
+            $data = array(
+                'email' => $request->email,
+                'name' => $user->name,
+                'reset_url' => url('forgot-password-verify/'.$token),
+            );
+            Mail::send(new SendMailResetPassword($data));
+            ResetPasswordToken::create([
+                'email' => $request->email,
+                'token' => $token,
+                'expired_at' => $expired
+            ]);
+            return $this->appResponse(200, 200, "Periksa email anda!");
+        } else {
+            return $this->appResponse(106, 200);
+        }
     }
 }

@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 
 Route::post('v1/login', 'API\v1\APIAuthController@login');
 Route::post('v1/register', 'API\v1\APIAuthController@register');
+Route::post('v1/forgot-password', 'API\v1\APIAuthController@forgotPassword');
 
 Route::group(['middleware' => 'auth.api'], function() {
     /**
