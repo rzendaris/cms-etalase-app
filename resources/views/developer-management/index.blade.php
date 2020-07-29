@@ -11,9 +11,9 @@
 <div class="content-body-white">
     <div class="page-head">
         <div class="page-title">
-            <h1>User Management</h1>
+            <h1>Developer Management</h1>
         </div>
-    </div>
+    </div>  
     <div class="row">
         <div class="col-md-12">
 
@@ -33,29 +33,33 @@
                             <th>Profile PIC</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Country</th>
+                            <th>Website</th>
+                            <th>Address</th>
                             <th>Status</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                      @foreach($data['user'] as $user)
+                      
                         <tr>
-                            <td>{{ $user->no }}</td>
+                            <td>1</td>
                             <td>
-                                <img src="{{ url('/pictures/'.$user->picture) }}" width="100"/>
+                                <img src="https://www.clker.com//cliparts/f/a/0/c/1434020125875430376profile-hi.png" width="100"/>
                             </td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->is_blocked }}</td>
+                            <td>Name</td>
+                            <td>ubisoft@gmail.com</td>
+                            <td>Indonesia</td>
+                            <td>ubisoft.com</td>
+                            <td>Jalan No 15</td>
+                            <td>Active</td>
                             <td class="text-center">
-                                <a href="{{ url('detail-end-user/'.$user->id) }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
-                                <a href="{{ url('edit-end-user/'.$user->id) }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
-                                <a href="{{ url('block-end-user/'.$user->id) }}" data-toggle="modal" data-target="#modal-banned-{{ $user-> id }}"><i class="fa fa-ban fa-lg custom--1"></i></a>
-                                <a href="{{ url('delete-end-user/'.$user->id) }}" data-toggle="modal" data-target="#modal-delete-{{ $user-> id }}"><i class="fa fa-trash fa-lg custom--1"></i></a>
+                                <a href="{{ url('detail-developer-management') }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
+                                <a href="{{ url('edit-developer-management') }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#modal-banned-1"><i class="fa fa-ban fa-lg custom--1"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#modal-delete-1"><i class="fa fa-trash fa-lg custom--1"></i></a>
                             </td>
                         </tr>
-                        @endforeach
-
 
                     </tbody>
                 </table>
@@ -66,9 +70,9 @@
 </div>
 
 
-@foreach($data['user'] as $user)
+
     <!-- Modal Delete -->
-    <div id="modal-delete-{{ $user->id }}" class="modal fade">
+    <div id="modal-delete-1" class="modal fade">
         <form method="post" action="{{url('delete-end-user')}}" enctype="multipart/form-data">
             {{csrf_field()}}
             <div class="modal-dialog modal-dialog-centered">
@@ -77,7 +81,7 @@
                         <h2>Warning</h2>
                         <p>Delete data can't be recovery, are you sure?</p>
                     </div>
-                    <input type="text" name="id" value="{{ $user->id }}"/>
+                    <input type="hidden" name="id" value="1"/>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
                         <button type="submit" class="btn btn-danger">Yes</button>
@@ -87,7 +91,7 @@
         </form>
     </div>
     <!-- Modal Banned -->
-    <div id="modal-banned-{{ $user->id }}" class="modal fade">
+    <div id="modal-banned-1" class="modal fade">
         <form method="post" action="{{url('block-end-user')}}" enctype="multipart/form-data">
           {{csrf_field()}}
             <div class="modal-dialog modal-dialog-centered">
@@ -96,7 +100,7 @@
                         <h2>Warning</h2>
                         <p>Are you sure?</p>
                     </div>
-                    <input type="hidden" name="id" value="{{ $user->id }}"/>
+                    <input type="hidden" name="id" value="1"/>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
                         <button type="submit" class="btn btn-danger">Yes</button>
@@ -105,8 +109,6 @@
             </div>
         </form>
     </div>
-
-    @endforeach
 
 @endsection
 
@@ -131,7 +133,7 @@
             "searching":     false,
         } );
 
-        $("div.toolbar").html('<a class="float-right btn btn-success" href="{{ url('add-end-user') }}">Tambah</a>');
+        $("div.toolbar").html('<a class="float-right btn btn-success" href="{{ url('add-developer-management') }}">Tambah</a>');
     });
     </script>
 @endsection

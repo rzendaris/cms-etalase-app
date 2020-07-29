@@ -45,4 +45,21 @@ class FeController extends Controller
     {
         return view('end-user-management/detail');
     }
+
+    public function DeveloperManagement()
+    {
+        return view('developer-management/index');
+    }
+    public function AddDeveloperManagement()
+    {
+        return view('developer-management/add');
+    }
+    public function EditDeveloperManagement()
+    {
+        return view('developer-management/edit');
+    }
+    public function DetailDeveloperManagement()
+    {
+        return view('developer-management/detail');
+    }
 }
