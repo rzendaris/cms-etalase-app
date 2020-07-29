@@ -112,3 +112,7 @@ Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 // FE Route Dummy
 Route::get('register-page', 'FeController@Register');
 Route::get('register-dev', 'Auth\RegisterController@getRegister');
+Route::get('developer-management', 'FeController@DeveloperManagement');
+Route::get('add-developer-management', 'FeController@AddDeveloperManagement');
+Route::get('edit-developer-management', 'FeController@EditDeveloperManagement');
+Route::get('detail-developer-management', 'FeController@DetailDeveloperManagement');

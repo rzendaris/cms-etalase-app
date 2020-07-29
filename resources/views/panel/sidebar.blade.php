@@ -9,8 +9,8 @@
                 <span class="title">User Management </span>
             </a>
         </li>
-        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
-            <a href="{{ url('#') }}" class="nav-link nav-toggle">
+        <li class="nav-item {{ Request::is('developer-management') || Request::is('developer-management/*') ? 'active' : '' }}">
+            <a href="{{ url('developer-management') }}" class="nav-link nav-toggle">
                 <i class="fa fa-user"></i>
                 <span class="title">Developer Management </span>
             </a>
