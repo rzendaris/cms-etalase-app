@@ -27,10 +27,7 @@ class APIAuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'website' => 'required|string',
-            'country' => 'required|string',
-            'address' => 'required|string',
+            'email' => 'required|string|email',
             'password' => 'required|string|confirmed'
         ]);
         $check_user = User::where('email', $request->email)->where('role_id', 2)->first();
@@ -41,9 +38,6 @@ class APIAuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'role_id' => $request->role_id,
-                'website' => $request->role_id,
-                'country' => $request->role_id,
-                'address' => $request->role_id,
                 'password' => bcrypt($request->password)
             ]);
             $user->save();
