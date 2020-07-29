@@ -30,3 +30,9 @@ Route::group(['middleware' => 'auth.api'], function() {
         Route::get('user', 'API\v1\APIAuthController@user');
     });
 });
+
+Route::any('{path}', function() {
+    return response()->json([
+        'message' => 'Route not found'
+    ], 404);
+})->where('path', '.*');

@@ -32,7 +32,7 @@
     }
     #CaptchaCode {
         padding-left: 10px;
-        text-transform: unset!important;
+        /* text-transform: unset!important; */
     }
     .form-control {
         height: 38px;
