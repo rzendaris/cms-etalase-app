@@ -9,11 +9,11 @@
 @section('content')
 
 <div class="content-body-white">
-    <form method="post" action="{{url('update-developer-management')}}" enctype="multipart/form-data">
+    <form method="post" action="{{url('insert-user')}}" enctype="multipart/form-data">
           {{csrf_field()}}
         <div class="page-head">
             <div class="page-title">
-                <h1>Edit Developer</h1>
+                <h1>Add End User</h1>
             </div>
         </div>
         <div class="wrapper">
@@ -35,50 +35,32 @@
                         <div class="row">
                             <div class="col-xl-2 col-md-2 m-b-10px">
                                 <div class="form-group">
-                                    <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/pictures/'.$data['user']->picture) }}" /><br>
+                                    <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ asset('assets/global/img/no-profile.jpg') }}" /><br>
                                     <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
                                 </div>
                             </div>
                             <div class="col-xl-5 col-md-5 m-b-10px">
                                 <div class="form-group">
                                     <label class="form-control-label">Nama :*</label>
-                                    <input type="hidden" name="id" value="{{ $data['user']->id }}">
-                                    <input type="text" name="full_name" class="form-control" value="{{ $data['user']->name }}" required/>
+                                    <input type="text" name="full_name" class="form-control" required/>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label">Website :*</label>
-                                    <input type="text" name="website" class="form-control" value="{{ $data['user']->dev_web }}"/>
+                                    <label class="form-control-label">Email :*</label>
+                                    <input type="text" name="email" class="form-control"/>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label">Password :</label>
-                                    <input type="password" name="password" class="form-control date" value="{{ $data['user']->password }}"/>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-control-label">Re-type Password :</label>
-                                    <input type="password" name="password" class="form-control date" value="{{ $data['user']->password }}"/>
+                                    <label class="form-control-label">Birthday :*</label>
+                                    <input type="date" name="eu_birthday" class="form-control date"/>
                                 </div>
                             </div>
                             <div class="col-xl-5 col-md-5 m-b-10px">
                                 <div class="form-group">
-                                    <label class="form-control-label">Email :*</label>
-                                    <input type="text" name="email" class="form-control" value="{{ $data['user']->email }}"/>
+                                    <label class="form-control-label">Password :*</label>
+                                    <input type="password" name="Password" class="form-control date"/>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label">Country* :</label>
-                                    <select name="country" id="country" class="custom-select form-control" required>
-                                        <option value="">Pilih Country</option>
-                                        @foreach($data['country'] as $get)
-                                        @if($data['user']->dev_country_id == $get->id)
-                                                <option value="{{ $get-> id}}" selected>{{ $get->country}}</option>
-                                        @else
-                                                <option value="{{ $get-> id}}">{{ $get->country}}</option>
-                                        @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Address* :</label>
-                                    <textarea class="textarea-register form-control" name="dev_address" rows="5">{{ $data['user']->dev_address }}</textarea>
+                                    <label class="form-control-label">Re-type Password :*</label>
+                                    <input type="password" name="Password" class="form-control date"/>
                                 </div>
                             </div>
                         </div>
@@ -91,9 +73,8 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
-                    <a href="{{ url('developer-management') }}" class="btn btn-danger pull-left">Cancel</a>
-                    <button type="submit" class="btn btn-primary">Save & Add Apps</button>
-                    <input type="submit" class="btn btn-primary" value="Save">
+                    <a href="{{ url('end-user-management') }}" class="btn btn-danger pull-left">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>

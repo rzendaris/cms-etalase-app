@@ -88,23 +88,29 @@ Route::middleware('auth')->group(function() {
         */
         Route::get('profile', 'Cms\UserManController@UserMgmtProfile');
         Route::get('profile-password', 'Cms\UserManController@UserMgmtProfilePassword');
-        Route::get('end-user-management', 'Cms\UserManController@UserMgmtInit');
-        Route::get('add-end-user', 'Cms\UserManController@UserMgmtAddEndUser');
-        Route::get('edit-end-user/{id}', 'Cms\UserManController@UserMgmtEditEndUser');
-        Route::get('detail-end-user/{id}', 'Cms\UserManController@UserMgmtDetailEndUser');
-        Route::post('insert-end-user', 'Cms\UserManController@UserMgmtInsert');
-        Route::post('update-end-user', 'Cms\UserManController@UserMgmtUpdate');
+        Route::get('user-management', 'Cms\UserManController@UserMgmtInit');
+        Route::get('add-user', 'Cms\UserManController@UserMgmtAddEndUser');
+        Route::get('edit-user/{id}', 'Cms\UserManController@UserMgmtEditEndUser');
+        Route::get('detail-user/{id}', 'Cms\UserManController@UserMgmtDetailEndUser');
+        Route::post('insert-user', 'Cms\UserManController@UserMgmtInsert');
+        Route::post('update-user', 'Cms\UserManController@UserMgmtUpdate');
         Route::post('update-profile-user', 'Cms\UserManController@UserMgmtUpdateProfile');
-        Route::post('delete-end-user', 'Cms\UserManController@UserMgmtDelete');
-        Route::post('block-end-user', 'Cms\UserManController@UserMgmtBlock');
-        Route::post('unblock-end-user', 'Cms\UserManController@UserMgmtUnBlock');
+        Route::post('delete-user', 'Cms\UserManController@UserMgmtDelete');
+        Route::post('block-user', 'Cms\UserManController@UserMgmtBlock');
+        Route::post('unblock-user', 'Cms\UserManController@UserMgmtUnBlock');
         Route::post('change-pass-user', 'Cms\UserManController@UserMgmtChangePass'); // change pass by user login
-        Route::post('reset-pass-user', 'Cms\UserManController@UserMgmtResetPass'); // change pass by id user
+        Route::post('reset-pass-user', 'Cms\UserManController@UserMgmtResetPass');
+        Route::get('developer-management', 'Cms\DeveloperController@DeveloperInit');
+        Route::get('add-developer-management', 'Cms\DeveloperController@DeveloperAdd');
+        Route::get('edit-developer-management/{id}', 'Cms\DeveloperController@DeveloperChangeInfo');
+        Route::get('detail-developer-management/{id}', 'Cms\DeveloperController@DeveloperDetailInfo');
+        Route::post('insert-developer-management', 'Cms\DeveloperController@DeveloperInsert');
+        Route::post('update-developer-management', 'Cms\DeveloperController@DeveloperUpdate');
     } else if (env('ENV') == 'DEVELOPER'){
         /**
          * PUT endpoint for CMS of developer here
          */
-        
+
     }
 });
 Route::get('under-construction', 'HomeController@underConstruction');
@@ -119,7 +125,3 @@ Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 // FE Route Dummy
 Route::get('register-page', 'FeController@Register');
 Route::get('register-dev', 'Auth\RegisterController@getRegister');
-Route::get('developer-management', 'FeController@DeveloperManagement');
-Route::get('add-developer-management', 'FeController@AddDeveloperManagement');
-Route::get('edit-developer-management', 'FeController@EditDeveloperManagement');
-Route::get('detail-developer-management', 'FeController@DetailDeveloperManagement');

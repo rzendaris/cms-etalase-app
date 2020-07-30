@@ -4,7 +4,7 @@
             <h3 class="uppercase">Menu</h3>
         </li>
         <li class="nav-item {{ Request::is('end-user-management') || Request::is('end-user-management/*') ? 'active' : '' }}">
-            <a href="{{ url('end-user-management') }}" class="nav-link nav-toggle">
+            <a href="{{ url('user-management') }}" class="nav-link nav-toggle">
                 <i class="fa fa-users"></i>
                 <span class="title">User Management </span>
             </a>

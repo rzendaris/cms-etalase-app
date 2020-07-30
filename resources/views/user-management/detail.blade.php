@@ -11,7 +11,7 @@
 <div class="content-body-white">
     <div class="page-head">
         <div class="page-title">
-            <h1>Developer Detail</h1>
+            <h1>Detail End User</h1>
         </div>
     </div>
     <div class="row">
@@ -20,32 +20,28 @@
                 <div class="row">
                     <div class="col-xl-2 col-md-2 m-b-10px">
                         <div class="form-group">
-                            <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/pictures/'.$data->picture) }}"" /><br>
+                            <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/pictures/'.$data->picture) }}" /><br>
                             <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
                         </div>
                     </div>
                     <div class="col-xl-5 col-md-5 m-b-10px">
                         <div class="form-group">
-                            <label class="form-control-label">Nama :</label>
-                            <input type="text" name="full_name" value="{{ $data->name }}" class="form-control" disabled/>
+                            <label class="form-control-label">Nama :*</label>
+                            <input type="text" name="full_name" value="{{ $data->name }}" class="form-control" required/>
                         </div>
                         <div class="form-group">
-                            <label class="form-control-label">Website :</label>
-                            <input type="text" name="email" value="{{ $data->dev_web }}" class="form-control" disabled/>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Address :</label>
-                            <textarea class="textarea-register form-control" rows="5" disabled>{{ $data->dev_address }}</textarea>
+                            <label class="form-control-label">Email :*</label>
+                            <input type="text" name="email" value="{{ $data->email }}" class="form-control"/>
                         </div>
                     </div>
                     <div class="col-xl-5 col-md-5 m-b-10px">
                         <div class="form-group">
-                            <label class="form-control-label">Email :</label>
-                            <input type="text" name="full_name" value="{{ $data->email }}" class="form-control" disabled/>
+                            <label class="form-control-label">Registered At :</label>
+                            <input type="date" name="Registered" value="{{ date('Y-m-d', strtotime($data->created_at)) }}" class="form-control"/>
                         </div>
                         <div class="form-group">
-                            <label class="form-control-label">Country :</label>
-                            <input type="text" name="{{ $data->country }}" value="Indonesia" class="form-control" disabled/>
+                            <label class="form-control-label">Birthday :*</label>
+                            <input type="date" name="Birthday"  value="{{ $data->eu_birthday }}" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -66,33 +62,46 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Icon App</th>
-                            <th>Name</th>
+                            <th>App Name</th>
                             <th>Type</th>
                             <th>Category</th>
                             <th>Rate</th>
-                            <th>Status</th>
+                            <th>Ratings</th>
+                            <th>Comment</th>
+                            <th>Reply</th>
                         </tr>
                     </thead>
                     <tbody>
 
                         <tr>
                             <td>1</td>
-                            <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT0OWKbF0-Ej8522yJrhGo2yIqMSEGzY9_IFw&usqp" width="60"/></td>
                             <td><a href="#">Ubisoft1</a></td>
                             <td>Game</td>
                             <td>RPG</td>
                             <td>13+</td>
-                            <td>Active</td>
+                            <td>3</td>
+                            <td>Loremp ipsum</td>
+                            <td>Loremp ipsum</td>
                         </tr>
                         <tr>
                             <td>2</td>
-                            <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT0OWKbF0-Ej8522yJrhGo2yIqMSEGzY9_IFw&usqp" width="60"/></td>
-                            <td><a href="#">Ubisoft1</a></td>
+                            <td><a href="#">Ubisoft2</a></td>
                             <td>Game</td>
                             <td>RPG</td>
                             <td>13+</td>
-                            <td>Blocked</td>
+                            <td>4</td>
+                            <td>Loremp ipsum</td>
+                            <td>Loremp ipsum</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><a href="#">Ubisoft3</a></td>
+                            <td>Game</td>
+                            <td>RPG</td>
+                            <td>13+</td>
+                            <td>4</td>
+                            <td>Loremp ipsum</td>
+                            <td>Loremp ipsum</td>
                         </tr>
 
                     </tbody>
@@ -103,7 +112,7 @@
     <hr>
     <div class="row">
         <div class="col-xl-12 col-md-12 m-b-10px text-right">
-            <a href="{{ url('developer-management') }}" class="btn btn-danger pull-left">Back</a>
+            <a href="{{ url('end-user-management') }}" class="btn btn-danger pull-left">Back</a>
         </div>
     </div>
 

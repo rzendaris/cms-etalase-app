@@ -41,7 +41,7 @@ class UserManController extends Controller
             'user' => $user,
             'country' => $country
         );
-        return view('end-user-management/index')->with('data', $data);
+        return view('user-management/index')->with('data', $data);
     }
     public function UserMgmtProfile()
     {
@@ -60,17 +60,17 @@ class UserManController extends Controller
     }
     public function UserMgmtAddEndUser()
     {
-        return view('end-user-management/add');
+        return view('user-management/add');
     }
     public function UserMgmtEditEndUser($id)
     {
         $user = User::where('id', $id)->first();
-        return view('end-user-management/edit')->with('data', $user);
+        return view('user-management/edit')->with('data', $user);
     }
     public function UserMgmtDetailEndUser($id)
     {
         $user = User::where('id', $id)->first();
-        return view('end-user-management/detail')->with('data', $user);
+        return view('user-management/detail')->with('data', $user);
     }
     public function UserMgmtInsert(Request $request)
     {
@@ -93,7 +93,7 @@ class UserManController extends Controller
                 'password' => Hash::make($request->password),
                 // 'token' => Str::random(60),
             ]);
-            return redirect('end-user-management')->with('suc_message', 'Data baru berhasil ditambahkan!');
+            return redirect('user-management')->with('suc_message', 'Data baru berhasil ditambahkan!');
         } else {
             return redirect()->back()->with('err_message', 'Email telah digunakan! Gunakan alamat email yang belum terdaftar!');
         }
@@ -120,7 +120,7 @@ class UserManController extends Controller
             if(!empty($request->password)){
                 User::where('id', $request->id)->update(['password' => Hash::make($request->password)]);
             }
-            return redirect('end-user-management')->with('suc_message', 'Data telah diperbarui!');
+            return redirect('user-management')->with('suc_message', 'Data telah diperbarui!');
         } else {
             return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
         }
@@ -149,7 +149,7 @@ class UserManController extends Controller
             if(!empty($request->password)){
                 User::where('id', $request->id)->update(['password' => Hash::make($request->password)]);
             }
-            return redirect('end-user-management')->with('suc_message', 'Data telah diperbarui!');
+            return redirect('user-management')->with('suc_message', 'Data telah diperbarui!');
         } else {
             return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
         }
@@ -166,7 +166,7 @@ class UserManController extends Controller
             if(!empty($request->password)){
                 User::where('id', $request->id)->update(['password' => Hash::make($request->password)]);
             }
-            return redirect('end-user-management')->with('suc_message', 'Data telah diperbarui!');
+            return redirect('user-management')->with('suc_message', 'Data telah diperbarui!');
         } else {
             return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
         }
@@ -188,7 +188,7 @@ class UserManController extends Controller
             if(!empty($request->new_password)){
                 User::where('id', $request->id)->update(['password' => Hash::make($request->new_password)]);
             }
-            return redirect('end-user-management')->with('suc_message', 'Data telah diperbarui!');
+            return redirect()->back()->with('suc_message', 'Data telah diperbarui!');
         } else {
             return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
         }
@@ -198,7 +198,7 @@ class UserManController extends Controller
         $user = User::where('id', $request->id)->first();
         if(!empty($user)){
             User::where('id', $request->id)->delete();
-            return redirect('end-user-management')->with('suc_message', 'Data telah dihapus!');
+            return redirect()->back()->with('suc_message', 'Data telah dihapus!');
         } else {
             return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
         }
@@ -215,7 +215,24 @@ class UserManController extends Controller
             if(!empty($request->password)){
                 User::where('id', $request->id)->update(['password' => Hash::make($request->password)]);
             }
-            return redirect('end-user-management')->with('suc_message', 'Data telah diblock!');
+            return redirect()->back()->with('suc_message', 'Data telah diblock!');
+        } else {
+            return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
+        }
+    }
+    public function UserMgmtUnBlock(Request $request)
+    {
+        $user = User::where('id', $request->id)->first();
+        if(!empty($user)){
+            User::where('id', $request->id)
+              ->update([
+                    'is_blocked' => 1,
+                  ]
+                );
+            if(!empty($request->password)){
+                User::where('id', $request->id)->update(['password' => Hash::make($request->password)]);
+            }
+            return redirect()->back()->with('suc_message', 'Data telah diblock!');
         } else {
             return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
         }
