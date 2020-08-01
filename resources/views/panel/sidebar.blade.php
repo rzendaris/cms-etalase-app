@@ -3,7 +3,7 @@
         <li class="heading">
             <h3 class="uppercase">Menu</h3>
         </li>
-        <li class="nav-item {{ Request::is('end-user-management') || Request::is('end-user-management/*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('user-management') || Request::is('user-management/*') ? 'active' : '' }}">
             <a href="{{ url('user-management') }}" class="nav-link nav-toggle">
                 <i class="fa fa-users"></i>
                 <span class="title">User Management </span>
@@ -15,8 +15,8 @@
                 <span class="title">Developer Management </span>
             </a>
         </li>
-        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
-            <a href="{{ url('#') }}" class="nav-link nav-toggle">
+        <li class="nav-item {{ Request::is('apps-management') || Request::is('apps-management/*') ? 'active' : '' }}">
+            <a href="{{ url('apps-management') }}" class="nav-link nav-toggle">
                 <i class="fa fa-android"></i>
                 <span class="title">Apps Management </span>
             </a>

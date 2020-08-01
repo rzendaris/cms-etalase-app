@@ -62,4 +62,41 @@ class FeController extends Controller
     {
         return view('developer-management/detail');
     }
+
+    public function AppsManagement()
+    {
+        return view('apps-management/index');
+    }
+    public function AddAppsManagement()
+    {
+        return view('apps-management/add');
+    }
+    public function EditAppsManagement()
+    {
+        return view('apps-management/edit');
+    }
+    public function DetailAppsManagement()
+    {
+        return view('apps-management/detail');
+    }
+    public function ReviewInfo()
+    {
+        return view('apps-management/reviewinfo');
+    }
+    public function Approval()
+    {
+        return view('apps-management/approval');
+    }
+    public function PartnershipIndex()
+    {
+        return view('apps-management/index-partnership');
+    }
+    public function AddAppsPartnership()
+    {
+        return view('apps-management/add-apps-partnership');
+    }
+    public function EditAppsPartnership()
+    {
+        return view('apps-management/edit-apps-partnership');
+    }
 }

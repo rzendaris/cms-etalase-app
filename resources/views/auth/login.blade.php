@@ -11,6 +11,7 @@
     .login .content {
         background: rgb(255 255 255 / 1);
         margin-top: 8%;
+        margin-bottom: 5%;
     }
     .login .content .forget-password {margin-top: 25px;}
     div#LoginCaptcha_CaptchaDiv { 
@@ -124,7 +125,7 @@
                     <button type="submit" class="btn green w-100 btn-login"> <i class="fa fa-sign-in"></i> Login </button>
                 </div>
             </div>
-            <div class="col-xs-12 col-md-12">
+            <div class="col-xs-12 col-md-12 hidden">
                 <a href="{{ url('register-dev') }}" class="btn green w-100 btn-registration"> <i class="fa fa-user-plus"></i> Registration </a> 
             </div>
             <div class="col-xs-12 col-md-12">

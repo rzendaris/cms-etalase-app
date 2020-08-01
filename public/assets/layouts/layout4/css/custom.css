@@ -137,8 +137,14 @@ li.nav-item.border-r-active {
 }
 .custom-position-header {
     position: absolute;
-    width: 100%;
+    width: 80%;
+    z-index: 1;
 }
+
+.title-approval-apps {
+    margin: 0 auto 20px; text-align: center; border-bottom: solid 1px #5cc7d2; padding-bottom: 20px;
+}
+
 @media(max-width:767px) {
     .custom-position-header {
         position: relative;

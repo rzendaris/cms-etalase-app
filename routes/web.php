@@ -125,3 +125,13 @@ Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 // FE Route Dummy
 Route::get('register-page', 'FeController@Register');
 Route::get('register-dev', 'Auth\RegisterController@getRegister');
+
+Route::get('apps-management', 'FeController@AppsManagement');
+Route::get('add-apps-management', 'FeController@AddAppsManagement');
+Route::get('edit-apps-management', 'FeController@EditAppsManagement');
+Route::get('detail-apps-management', 'FeController@DetailAppsManagement');
+Route::get('review-info', 'FeController@ReviewInfo');
+Route::get('approval-apps', 'FeController@Approval');
+Route::get('partnership-apps-management', 'FeController@PartnershipIndex');
+Route::get('add-apps-partnership', 'FeController@AddAppsPartnership');
+Route::get('edit-apps-partnership', 'FeController@EditAppsPartnership');
