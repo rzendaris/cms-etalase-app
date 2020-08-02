@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 use App\User;
 use App\Model\Table\MstCountry;
+use App\Model\Table\Apps;
 
 class DeveloperController extends Controller
 {
@@ -63,7 +64,17 @@ class DeveloperController extends Controller
     public function DeveloperDetailInfo($id)
     {
         $user = User::where('id', $id)->first();
-        return view('developer-management/detail')->with('data', $user);
+        $apps = Apps::with(['categories'])->where('developer_id', $id)->get();
+        $no = 1;
+        foreach($apps as $data){
+            $data->no = $no;
+            $no++;
+        }
+        $data = array(
+            'user' => $user,
+            'apps' => $apps
+        );
+        return view('developer-management/detail')->with('data', $data);
     }
     public function DeveloperInsert(Request $request)
     {
@@ -101,7 +112,8 @@ class DeveloperController extends Controller
     {
         $user = User::where('id', $request->id)->first();
         $email = User::where('email', $request->email)->first();
-        if(!empty($user)){
+        if ($user->email == $request->email or empty($email)) {
+          // echo "email sama dan ";  // save data
           if($request->photo){
               $file_extention = $request->photo->getClientOriginalExtension();
               $file_name = $request->email.'image_profile.'.$file_extention;
@@ -123,7 +135,9 @@ class DeveloperController extends Controller
                 User::where('id', $request->id)->update(['password' => Hash::make($request->password)]);
             }
             return redirect('developer-management')->with('suc_message', 'Data telah diperbarui!');
-        } else {
+        }else if(!empty($email)){
+          return redirect()->back()->with('err_message', 'Email telah digunakan! Gunakan alamat email yang belum terdaftar!');
+        }else{
             return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
         }
     }

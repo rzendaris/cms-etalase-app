@@ -21,75 +21,87 @@
                 <div class="col-md-12 element">
                     <div class="box-pencarian-family-tree" style=" background: #fff; ">
                     <div class="row">
-                        <div class="col-md-12">
-                            <h3 class="title-approval-apps"><i class="fa fa-user"></i> Developer 1</h3>
-                        </div>
-                    </div>
+                      <div class="col-xl-2 col-md-2 m-b-10px">
+                          <div class="form-group">
+                              <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/apps/'.$data['apps']->app_icon) }}" /><br>
+                              <input id="upload-img-2" name="photo" type="file" disabled onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
+                          </div>
+                          <div class="form-group">
+                              <a href="{{ url('review-info') }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-user"></i> Developer</a>
+                          </div>
+                      </div>
+                      <div class="col-xl-10 col-md-10 m-b-10px">
                         <div class="row">
-                            <div class="col-xl-2 col-md-2 m-b-10px">
+                            <div class="col-xl-6 col-md-6 m-b-10px">
                                 <div class="form-group">
-                                    <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg" /><br>
-                                    <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
+                                    <label class="form-control-label">Nama :</label>
+                                    <input type="hidden" name="id" value="{{ $data['apps']->id }}">
+                                    <input type="text" name="name"  value="{{ $data['apps']->name }}" class="form-control" disabled/>
                                 </div>
                                 <div class="form-group">
-                                    <a href="{{ url('#') }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-user"></i> Developer</a>
+                                    <label class="form-control-label">Category :</label>
+                                    <select class="form-control" name="category" disabled>
+                                      @foreach($data['category'] as $get)
+                                      @if($data['apps']->category_id == $get->id)
+                                              <option value="{{ $get->id}}" selected>{{ $get->name}}</option>
+                                      @else
+                                              <option value="{{ $get->id}}">{{ $get->name}}</option>
+                                      @endif
+                                      @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">SDK Target : </label>
+                                    <select class="form-control" name="sdk" disabled>
+                                      @foreach($data['sdk'] as $get)
+                                      @if($data['apps']->sdk_target_id == $get->id)
+                                              <option value="{{ $get->id}}" selected>{{ $get->sdk}}</option>
+                                      @else
+                                              <option value="{{ $get->id}}">{{ $get->sdk}}</option>
+                                      @endif
+                                      @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">File Size :</label>
+                                    <input type="text" name="file_size" value="{{ $data['apps']->file_size }}" class="form-control" disabled/>
                                 </div>
                             </div>
-                            <div class="col-xl-10 col-md-10 m-b-10px">
-                                <div class="row">
-                                    <div class="col-xl-6 col-md-6 m-b-10px">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Nama :</label>
-                                            <input type="text" name="full_name" value="Nama" class="form-control" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">Category :</label>
-                                            <input type="text" name="category" value="Game" class="form-control" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">SDK Target :</label>
-                                            <select name="sdk" id="sdk-target" class="custom-select form-control" required>
-                                                <option value="">Android 9.0 (SDK 25)</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">File Size :</label>
-                                            <input type="text" name="file_size" value="80 MB" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-md-6 m-b-10px">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Tipe :</label>
-                                            <select name="tipe" id="tipe" class="custom-select form-control" required>
-                                                <option value="">Tipe</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">Rate :</label>
-                                            <input type="text" name="rate" value="" class="form-control" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">Version :</label>
-                                            <input type="text" name="type" value="" class="form-control" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">Last Update :</label>
-                                            <input type="text" name="rate" value="10/10/2020 10:22" class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-xl-12 m-b-10px">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Google Play Link :</label>
-                                            <input type="text" name="rate" value="" class="form-control" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Description :</label>
-                                            <textarea class="textarea-register form-control" rows="5" ></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label">New Update Description :</label>
-                                            <textarea class="textarea-register form-control" rows="5" ></textarea>
-                                        </div>
+                            <div class="col-xl-6 col-md-6 m-b-10px">
+                                <div class="form-group">
+                                    <label class="form-control-label">Type :</label>
+                                    <select class="form-control" name="type" disabled>
+                                        <option value="Games">Games</option>
+                                        <option value="Hiburan">Hiburan</option>
+                                        <option value="Musik">Musik</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Rate :</label>
+                                    <input type="text" name="rate" value="{{ $data['apps']->rate }}" class="form-control" disabled/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Version :</label>
+                                    <input type="text" name="version" value="{{ $data['apps']->version }}" class="form-control" disabled/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label">Last Update :</label>
+                                    <input type="text" name="updated_at" value="{{ $data['apps']->updated_at }}" class="form-control" disabled/>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-xl-12 m-b-10px">
+                                <div class="form-group">
+                                    <label class="form-control-label">Google Play Link :</label>
+                                    <input type="text" name="link" value="" class="form-control" disabled />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Description :</label>
+                                    <textarea class="textarea-register form-control" name="description" rows="5" disabled>{{ $data['apps']->description }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">New Update Description :</label>
+                                    <textarea class="textarea-register form-control" name="updates_description" rows="5" disabled>{{ $data['apps']->updates_description }}</textarea>
+                                </div>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +123,7 @@
 
     <!-- Modal Rejected -->
     <div id="modal-rejected" class="modal fade">
-        <form method="post" action="{{url('delete-user')}}" enctype="multipart/form-data">
+        <form method="post" action="{{url('rejected-apps')}}" enctype="multipart/form-data">
             {{csrf_field()}}
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -122,7 +134,8 @@
                             <div class="col-md-12 col-xl-12">
                                 <div class="form-group">
                                     <label class="control-label text-left">Rejected Reason :*</label>
-                                    <textarea class="textarea-register form-control" rows="3" ></textarea>
+                                    <input type="hidden" name="id" value="{{ $data['apps']->id }}">
+                                    <textarea class="textarea-register form-control" name="reaseon" rows="3" ></textarea>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +151,7 @@
 
     <!-- Modal Approve -->
     <div id="modal-approve" class="modal fade">
-        <form method="post" action="{{url('block-user')}}" enctype="multipart/form-data">
+        <form method="post" action="{{url('approved-apps')}}" enctype="multipart/form-data">
           {{csrf_field()}}
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -148,6 +161,7 @@
                     </div>
                     <input type="hidden" name="id" value="1"/>
                     <div class="modal-footer">
+                    <input type="hidden" name="id" value="{{ $data['apps']->id }}">
                         <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
                         <button type="submit" class="btn btn-danger">Yes</button>
                     </div>

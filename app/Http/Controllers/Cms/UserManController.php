@@ -102,7 +102,8 @@ class UserManController extends Controller
     public function UserMgmtUpdate(Request $request)
     {
         $user = User::where('id', $request->id)->first();
-        if(!empty($user)){
+        $email = User::where('email', $request->email)->first();
+        if ($user->email == $request->email or empty($email)) {
           if($request->photo){
               $file_extention = $request->photo->getClientOriginalExtension();
               $file_name = $request->email.'image_profile.'.$file_extention;
@@ -121,7 +122,9 @@ class UserManController extends Controller
                 User::where('id', $request->id)->update(['password' => Hash::make($request->password)]);
             }
             return redirect('user-management')->with('suc_message', 'Data telah diperbarui!');
-        } else {
+        }else if(!empty($email)){
+            return redirect()->back()->with('err_message', 'Email telah digunakan! Gunakan alamat email yang belum terdaftar!');
+        }else {
             return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
         }
     }
