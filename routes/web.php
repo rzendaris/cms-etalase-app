@@ -100,12 +100,31 @@ Route::middleware('auth')->group(function() {
         Route::post('unblock-user', 'Cms\UserManController@UserMgmtUnBlock');
         Route::post('change-pass-user', 'Cms\UserManController@UserMgmtChangePass'); // change pass by user login
         Route::post('reset-pass-user', 'Cms\UserManController@UserMgmtResetPass');
+        //dev management
         Route::get('developer-management', 'Cms\DeveloperController@DeveloperInit');
         Route::get('add-developer-management', 'Cms\DeveloperController@DeveloperAdd');
         Route::get('edit-developer-management/{id}', 'Cms\DeveloperController@DeveloperChangeInfo');
         Route::get('detail-developer-management/{id}', 'Cms\DeveloperController@DeveloperDetailInfo');
         Route::post('insert-developer-management', 'Cms\DeveloperController@DeveloperInsert');
         Route::post('update-developer-management', 'Cms\DeveloperController@DeveloperUpdate');
+        //apps management
+        Route::get('apps-management', 'Cms\AppsManController@AppsManInit');
+        Route::get('partnership-apps-management', 'Cms\AppsManController@PartnershipIndex');
+        Route::get('detail-apps-management/{id}', 'Cms\AppsManController@AppsManDetailInfo');
+        Route::post('block-apps', 'Cms\AppsManController@AppsManBlock');
+        Route::post('unblock-apps', 'Cms\AppsManController@AppsManUnBlock');
+        Route::get('review-info/{id}', 'Cms\RatingController@RatingInit');
+        Route::get('edit-apps-management/{id}', 'Cms\AppsManController@AppsManEdit');
+        Route::post('update-apps-management', 'Cms\AppsManController@AppsManUpdate');
+        Route::get('edit-apps-partnership/{id}', 'Cms\AppsManController@EditAppsPartnership');
+        Route::get('add-apps-partnership', 'Cms\AppsManController@AddAppsPartnership');
+        Route::post('create-apps-partnership', 'Cms\AppsManController@CreateAppsPartnership');
+        Route::get('edit-apps-partnership', 'Cms\AppsManController@EditAppsPartnership');
+        Route::post('update-apps-partnership', 'Cms\AppsManController@UpdateAppsPartnership');
+        Route::post('delete-apps', 'Cms\AppsManController@AppsManDelete');
+        Route::get('approval-apps/{id}', 'Cms\AppsManController@ApprovalApps');
+        Route::post('approved-apps', 'Cms\AppsManController@Approved');
+        Route::post('rejected-apps', 'Cms\AppsManController@Rejected');
     } else if (env('ENV') == 'DEVELOPER'){
         /**
          * PUT endpoint for CMS of developer here
@@ -125,13 +144,3 @@ Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 // FE Route Dummy
 Route::get('register-page', 'FeController@Register');
 Route::get('register-dev', 'Auth\RegisterController@getRegister');
-
-Route::get('apps-management', 'FeController@AppsManagement');
-Route::get('add-apps-management', 'FeController@AddAppsManagement');
-Route::get('edit-apps-management', 'FeController@EditAppsManagement');
-Route::get('detail-apps-management', 'FeController@DetailAppsManagement');
-Route::get('review-info', 'FeController@ReviewInfo');
-Route::get('approval-apps', 'FeController@Approval');
-Route::get('partnership-apps-management', 'FeController@PartnershipIndex');
-Route::get('add-apps-partnership', 'FeController@AddAppsPartnership');
-Route::get('edit-apps-partnership', 'FeController@EditAppsPartnership');

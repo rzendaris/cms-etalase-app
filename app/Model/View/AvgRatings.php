@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Model\Table;
+namespace App\Model\View;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Apps extends Model
+class AvgRatings extends Model
 {
   use \Awobaz\Compoships\Compoships;
 
-  protected $table = 'apps';
+  protected $table = 'view_avg_ratings';
 
   protected $fillable = [
-      'id', 'name', 'type', 'app_icon', 'sdk_target_id', 'category_id', 'rate', 'version', 'file_size', 'description', 'updates_description',
+      'avg_ratings','id', 'name', 'type', 'app_icon', 'sdk_target_id', 'category_id', 'rate', 'version', 'file_size', 'description', 'updates_description',
       'link', 'apk_file', 'expansion_file', 'developer_id', 'is_approve', 'is_active', 'is_partnership', 'created_at', 'created_by', 'updated_at', 'updated_by'
   ];
   public function skds()

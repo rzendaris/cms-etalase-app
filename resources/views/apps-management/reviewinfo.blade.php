@@ -11,16 +11,16 @@
 <div class="content-body-white">
     <div class="page-head">
         <div class="text-center">
-            <h2>2024</h2>
-            <h4>Game - Feedbacks</h4>
-            <h2>4.5 <i class="fa fa-star"></i></h2>
-            <h4>102 Feedbacks</h4>
+            <h2>{{ count($data['ratingsall']) }}</h2>
+            <h4>{{ $data['apps']->type }} - Feedbacks</h4>
+            <h2>{{ $data['avgrating'] }} <i class="fa fa-star"></i></h2>
+            <h4>{{ count($data['ratings']) }} Feedbacks</h4>
         </div>
     </div>
     <hr>
     <div class="row">
         <div class="col-md-12">
-     
+
             <div class="table-responsive custom--2">
                 <div class="row custom-position-header">
                     <div class="float-left col-xl-3 col-md-3 col-xs-8 m-b-10px">
@@ -44,28 +44,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        @foreach($data['ratings'] as $ratings)
                         <tr>
-                            <td>1</td>
-                            <td><a href="#">fulan@gmail.com</a></td>
-                            <td>4</td>
-                            <td>Bagus</td>
-                            <td>12/12/2020 10:10</td>
-                            <td>Terima Kasih</td>
-                            <td>12/12/2020 13:00</td>
-                            <td>1.0.0</td>
+                            <td>{{ $ratings->no }}</td>
+                            <td><a href="#">{{ $ratings->endusers->email }}</a></td>
+                            <td>{{ $ratings->ratings }}</td>
+                            <td>{{ $ratings->comment }}</td>
+                            <td>{{ $ratings->comment_at }}</td>
+                            <td>{{ $ratings->reply }}</td>
+                            <td>{{ $ratings->reply_at }}</td>
+                            <td>{{ $ratings->apps->version }}</td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><a href="#">fulan@gmail.com</a></td>
-                            <td>4</td>
-                            <td>Bagus</td>
-                            <td>12/12/2020 10:10</td>
-                            <td>Terima Kasih</td>
-                            <td>12/12/2020 13:00</td>
-                            <td>1.0.0</td>
-                        </tr>
-
+                        @endforeach
                     </tbody>
                 </table>
             </div>

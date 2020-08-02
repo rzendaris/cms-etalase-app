@@ -20,32 +20,32 @@
                 <div class="row">
                     <div class="col-xl-2 col-md-2 m-b-10px">
                         <div class="form-group">
-                            <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/pictures/'.$data->picture) }}"" /><br>
+                            <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/pictures/'.$data['user']->picture) }}" /><br>
                             <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
                         </div>
                     </div>
                     <div class="col-xl-5 col-md-5 m-b-10px">
                         <div class="form-group">
                             <label class="form-control-label">Nama :</label>
-                            <input type="text" name="full_name" value="{{ $data->name }}" class="form-control" disabled/>
+                            <input type="text" name="full_name" value="{{ $data['user']->name }}" class="form-control" disabled/>
                         </div>
                         <div class="form-group">
                             <label class="form-control-label">Website :</label>
-                            <input type="text" name="email" value="{{ $data->dev_web }}" class="form-control" disabled/>
+                            <input type="text" name="email" value="{{ $data['user']->dev_web }}" class="form-control" disabled/>
                         </div>
                         <div class="form-group">
                             <label class="control-label">Address :</label>
-                            <textarea class="textarea-register form-control" rows="5" disabled>{{ $data->dev_address }}</textarea>
+                            <textarea class="textarea-register form-control" rows="5" disabled>{{ $data['user']->dev_address }}</textarea>
                         </div>
                     </div>
                     <div class="col-xl-5 col-md-5 m-b-10px">
                         <div class="form-group">
                             <label class="form-control-label">Email :</label>
-                            <input type="text" name="full_name" value="{{ $data->email }}" class="form-control" disabled/>
+                            <input type="text" name="full_name" value="{{ $data['user']->email }}" class="form-control" disabled/>
                         </div>
                         <div class="form-group">
                             <label class="form-control-label">Country :</label>
-                            <input type="text" name="{{ $data->country }}" value="Indonesia" class="form-control" disabled/>
+                            <input type="text" name="{{ $data['user']->country }}" value="Indonesia" class="form-control" disabled/>
                         </div>
                     </div>
                 </div>
@@ -75,25 +75,22 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($data['apps'] as $apps)
 
                         <tr>
-                            <td>1</td>
-                            <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT0OWKbF0-Ej8522yJrhGo2yIqMSEGzY9_IFw&usqp" width="60"/></td>
-                            <td><a href="#">Ubisoft1</a></td>
-                            <td>Game</td>
-                            <td>RPG</td>
-                            <td>13+</td>
-                            <td>Active</td>
+                            <td>{{ $apps->no }}</td>
+                            <td><img src="{{ url('/apps/'.$apps->app_icon) }}" width="60"/></td>
+                            <td><a href="#">{{ $apps->name }}</a></td>
+                            <td>{{ $apps->type }}</td>
+                            <td>{{ $apps->categories->name }}</td>
+                            <td>{{ $apps->rate }}</td>
+                            <td>@if($apps->is_active==0)
+                                    {{"Blocked"}}
+                                  @else
+                                    {{"Actived"}}
+                                  @endif </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT0OWKbF0-Ej8522yJrhGo2yIqMSEGzY9_IFw&usqp" width="60"/></td>
-                            <td><a href="#">Ubisoft1</a></td>
-                            <td>Game</td>
-                            <td>RPG</td>
-                            <td>13+</td>
-                            <td>Blocked</td>
-                        </tr>
+                        @endforeach
 
                     </tbody>
                 </table>

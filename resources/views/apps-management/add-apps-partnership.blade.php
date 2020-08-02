@@ -9,7 +9,7 @@
 @section('content')
 
 <div class="content-body-white">
-    <form method="post" action="{{url('update-developer-management')}}" enctype="multipart/form-data">
+    <form method="post" action="{{url('create-apps-partnership')}}" enctype="multipart/form-data">
           {{csrf_field()}}
         <div class="page-head">
             <div class="page-title">
@@ -18,6 +18,18 @@
         </div>
         <div class="wrapper">
             <div class="row">
+              @if(session()->has('err_message'))
+                  <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      {{ session()->get('err_message') }}
+                  </div>
+              @endif
+              @if(session()->has('succ_message'))
+                  <div class="alert alert-success alert-dismissible" role="alert" auto-close="10000">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      {{ session()->get('succ_message') }}
+                  </div>
+              @endif
                 <div class="col-md-12 element">
                     <div class="box-pencarian-family-tree" style=" background: #fff; ">
                         <div class="row">
@@ -30,21 +42,26 @@
                             <div class="col-xl-10 col-md-10 m-b-10px">
                                 <div class="row">
                                     <div class="col-xl-6 col-md-6 m-b-10px">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Nama : *</label>
-                                            <input type="text" name="full_name" value="" class="form-control" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">Category : *</label>
-                                            <input type="text" name="category" value="" class="form-control" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">SDK Target : *</label>
-                                            <select name="sdk" id="sdk-target" class="custom-select form-control" required>
-                                                <option selected disabled>Pilih SDK Target</option>
-                                                <option value="">Android 9.0 (SDK 25)</option>
-                                            </select>
-                                        </div>
+                                      <div class="form-group">
+                                          <label class="form-control-label">Nama :</label>
+                                          <input type="text" name="name"  class="form-control"/>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="form-control-label">Category :</label>
+                                          <select class="form-control" name="category">
+                                            @foreach($data['category'] as $get)
+                                                    <option value="{{ $get->id}}">{{ $get->name}}</option>
+                                            @endforeach
+                                          </select>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="form-control-label">SDK Target : </label>
+                                          <select class="form-control" name="sdk">
+                                            @foreach($data['sdk'] as $get)
+                                                    <option value="{{ $get->id}}">{{ $get->sdk}}</option>
+                                            @endforeach
+                                          </select>
+                                      </div>
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -59,37 +76,40 @@
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-md-6 m-b-10px">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Tipe : *</label>
-                                            <select name="tipe" id="tipe" class="custom-select form-control" required>
-                                                <option selected disabled>Pilih Tipe</option>
-                                                <option value="">Tipe</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">Rate : *</label>
-                                            <input type="text" name="rate" value="" class="form-control" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">Version : *</label>
-                                            <input type="text" name="type" value="" class="form-control" />
-                                        </div>
+                                      <div class="form-group">
+                                          <label class="form-control-label">Type :</label>
+                                          <select class="form-control" name="type">
+                                              <option value="Games">Games</option>
+                                              <option value="Hiburan">Hiburan</option>
+                                              <option value="Musik">Musik</option>
+                                          </select>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="form-control-label">Rate :</label>
+                                          <input type="text" name="rate" class="form-control"/>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="form-control-label">Version :</label>
+                                          <input type="text" name="version" class="form-control"/>
+                                      </div>
                                         <div class="form-group">
                                             <label class="form-control-label">Developer : *</label>
                                             <select name="developer" id="developer" class="custom-select form-control" required>
                                                 <option selected disabled>Pilih Developer</option>
-                                                <option value="">Developer 1</option>
+                                                @foreach($data['dev'] as $get)
+                                                        <option value="{{ $get->id}}">{{ $get->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-xl-12 m-b-10px">
                                         <div class="form-group">
                                             <label class="control-label">Description :</label>
-                                            <textarea class="textarea-register form-control" rows="5" ></textarea>
+                                            <textarea class="textarea-register form-control" name="description" rows="5" ></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">New Update Description :</label>
-                                            <textarea class="textarea-register form-control" rows="5" ></textarea>
+                                            <textarea class="textarea-register form-control" name="updates_description" rows="5" ></textarea>
                                         </div>
                                     </div>
                                 </div>

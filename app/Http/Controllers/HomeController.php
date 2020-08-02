@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function index()
     {
       if (Auth::user()->role_id == 1){
-          return redirect('end-user-management');
+          return redirect('user-management');
       } else {
           // return redirect('family-tree');
           echo "developer";
@@ -39,7 +39,7 @@ class HomeController extends Controller
     public function main()
     {
         if (Auth::user()->role_id == 1){
-            return redirect('end-user-management');
+            return redirect('user-management');
         } else {
             // return redirect('family-tree');
             echo "login developer";

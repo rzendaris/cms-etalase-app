@@ -45,47 +45,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <img src="https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg" width="100"/>
-                            </td>
-                            <td>2024</td>
-                            <td>Game</td>
-                            <td>Puzzle</td>
-                            <td>3+</td>
-                            <td>4.8</td>
-                            <td>1.0.0</td>
-                            <td>01/01/2020</td>
-                            <td>Active</td>
-                            <td class="text-center">
-                                <a href="{{ url('detail-apps-management') }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
-                                <a href="{{ url('edit-apps-partnership') }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
-                                <a href="#" data-toggle="modal" data-target="#modal-banned-1"><i class="fa fa-ban fa-lg custom--1"></i></a>
-                                <a href="#" data-toggle="modal" data-target="#modal-delete-1"><i class="fa fa-trash fa-lg custom--1"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <img src="https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg" width="100"/>
-                            </td>
-                            <td>2024</td>
-                            <td>Game</td>
-                            <td>Puzzle</td>
-                            <td>3+</td>
-                            <td>4.8</td>
-                            <td>1.0.0</td>
-                            <td>01/01/2020</td>
-                            <td>Blocked</td>
-                            <td class="text-center">
-                                <a href="{{ url('detail-apps-management') }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
-                                <a href="{{ url('edit-apps-partnership') }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
-                                <a href="#" data-toggle="modal" data-target="#modal-banned-1"><i class="fa fa-ban fa-lg custom--1"></i></a>
-                                <a href="#" data-toggle="modal" data-target="#modal-delete-1"><i class="fa fa-trash fa-lg custom--1"></i></a>
-                            </td>
-                        </tr>
+                      @foreach($data['apps'] as $apps)
+                      <tr>
+                          <td>{{ $apps->no }}</td>
+                          <td>
+                                <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100"/>
+                          </td>
+                          <td>{{ $apps->name }}</td>
+                          <td>{{ $apps->type }}</td>
+                          <td>{{ $apps->categories->name }}</td>
+                          <td>{{ $apps->rate }}</td>
+                          <td>{{ '0' }}</td>
+                          <td>{{ $apps->version }}</td>
+                          <td>{{ $apps->updated_at }}</td>
+                          <td>@if($apps->is_active==0)
+                                  {{"Blocked"}}
+                                @else
+                                  {{"Actived"}}
+                                @endif </td>
+                          <td class="text-center">
+                              <a href="{{ url('detail-apps-management/'.$apps->id) }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
+                              <a href="{{ url('edit-apps-partnership/'.$apps->id) }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
+                              @if($apps->is_active==0)
+                                <a href="#" data-toggle="modal" data-target="#modal-unbanned-{{$apps->id}}"><i class="fa fa-folder-open fa-lg custom--1"></i></a>
+                              @else
+                                <a href="#" data-toggle="modal" data-target="#modal-banned-{{$apps->id}}"><i class="fa fa-ban fa-lg custom--1"></i></a>
+                              @endif
+                              <a href="#" data-toggle="modal" data-target="#modal-delete-{{$apps->id}}"><i class="fa fa-trash fa-lg custom--1"></i></a>
+                          </td>
+                      </tr>
+                      @endforeach
+
 
                     </tbody>
                 </table>
@@ -97,45 +87,64 @@
 </div>
 
 
-
-    <!-- Modal Delete -->
-    <div id="modal-delete-1" class="modal fade">
-        <form method="post" action="{{url('delete-user')}}" enctype="multipart/form-data">
-            {{csrf_field()}}
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <h2>Warning</h2>
-                        <p>Delete data can't be recovery, are you sure?</p>
-                    </div>
-                    <input type="hidden" name="id" value="1"/>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
-                        <button type="submit" class="btn btn-danger">Yes</button>
-                    </div>
+@foreach($data['apps'] as $apps)
+<!-- Modal Delete -->
+<div id="modal-delete-{{$apps->id}}" class="modal fade">
+    <form method="post" action="{{url('delete-apps')}}" enctype="multipart/form-data">
+        {{csrf_field()}}
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <h2>Warning</h2>
+                    <p>Delete data can't be recovery, are you sure?</p>
+                </div>
+                <input type="hidden" name="id" value="{{ $apps->id }}"/>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-danger">Yes</button>
                 </div>
             </div>
-        </form>
-    </div>
-    <!-- Modal Banned -->
-    <div id="modal-banned-1" class="modal fade">
-        <form method="post" action="{{url('block-user')}}" enctype="multipart/form-data">
-          {{csrf_field()}}
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <h2>Warning</h2>
-                        <p>Are you sure?</p>
-                    </div>
-                    <input type="hidden" name="id" value="1"/>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
-                        <button type="submit" class="btn btn-danger">Yes</button>
-                    </div>
+        </div>
+    </form>
+</div>
+<!-- Modal Banned -->
+<div id="modal-banned-{{$apps->id}}" class="modal fade">
+    <form method="post" action="{{url('block-apps')}}" enctype="multipart/form-data">
+      {{csrf_field()}}
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <h2>Warning</h2>
+                    <p>Are you sure?</p>
+                </div>
+                <input type="hidden" name="id" value="{{ $apps->id }}"/>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-danger">Yes</button>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
+<div id="modal-unbanned-{{$apps->id}}" class="modal fade">
+    <form method="post" action="{{url('unblock-apps')}}" enctype="multipart/form-data">
+      {{csrf_field()}}
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <h2>Warning</h2>
+                    <p>Are you sure?</p>
+                </div>
+                <input type="hidden" name="id" value="{{ $apps->id }}"/>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@endforeach
 
 @endsection
 
