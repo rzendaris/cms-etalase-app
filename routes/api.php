@@ -27,7 +27,14 @@ Route::group(['middleware' => 'auth.api'], function() {
      */
     Route::group(['prefix' => 'v1'], function () {
         Route::get('logout', 'API\v1\APIAuthController@logout');
-        Route::get('user', 'API\v1\APIAuthController@user');
+        Route::get('user-info', 'API\v1\APIAuthController@user');
+        
+        Route::get('apps', 'API\v1\AppsController@user');
+        Route::get('apps/{id}/detail', 'API\v1\AppsController@AppDetail');
+        Route::get('apps/installed', 'API\v1\AppsController@user');
+        Route::get('apps/download', 'API\v1\AppsController@user');
+        Route::get('apps/update', 'API\v1\AppsController@user');
+        Route::get('apps/category/{id}', 'API\v1\AppsController@user');
     });
 });
 

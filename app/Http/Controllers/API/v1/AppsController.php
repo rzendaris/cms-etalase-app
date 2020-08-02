@@ -6,36 +6,20 @@ use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+
 use App\User;
+use App\Model\Table\Apps;
 
 class AppsController extends Controller
 {
-    /**
-     * Create user
-     *
-     * @param  [string] name
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [string] password_confirmation
-     * @return [string] message
-     */
-    public function register(Request $request)
+    public function AppDetail($id)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed'
-        ]);
-        $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role_id' => $request->role_id,
-            'password' => bcrypt($request->password)
-        ]);
-        $user->save();
-        return response()->json([
-            'message' => 'Successfully created user!'
-        ], 201);
+        $apps = Apps::where('id', $id)->first();
+        if(isset($apps)){
+            return $this->appResponse(100, 200, $apps);
+        } else {
+            return $this->appResponse(104, 200);
+        }
     }
   
     /**
