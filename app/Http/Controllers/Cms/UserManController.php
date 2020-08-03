@@ -75,27 +75,30 @@ class UserManController extends Controller
     public function UserMgmtInsert(Request $request)
     {
         $user = User::where('email', $request->email)->first();
-
-        if(empty($user)){
-            if($request->photo){
-                $file_extention = $request->photo->getClientOriginalExtension();
-                $file_name = $request->email.'image_profile.'.$file_extention;
-                $file_path = $request->photo->move(public_path().'/pictures',$file_name);
-            }
-            User::create([
-                'name' => $request->full_name,
-                'email' => $request->email,
-                'eu_birthday' => $request->eu_birthday,
-                'role_id' => 1,
-                'is_blocked' => 1,
-                'picture' => $file_name,
-                'email_verified_at' => date('Y-m-d H:i:s'),
-                'password' => Hash::make($request->password),
-                // 'token' => Str::random(60),
-            ]);
-            return redirect('user-management')->with('suc_message', 'Data baru berhasil ditambahkan!');
-        } else {
-            return redirect()->back()->with('err_message', 'Email telah digunakan! Gunakan alamat email yang belum terdaftar!');
+        if ($request->password != $request->re_password) {
+          return redirect()->back()->with('err_message', 'Re-Type Password Not Match!');
+        }else{
+          if(empty($user)){
+              if($request->photo){
+                  $file_extention = $request->photo->getClientOriginalExtension();
+                  $file_name = $request->email.'image_profile.'.$file_extention;
+                  $file_path = $request->photo->move(public_path().'/pictures',$file_name);
+              }
+              User::create([
+                  'name' => $request->full_name,
+                  'email' => $request->email,
+                  'eu_birthday' => $request->eu_birthday,
+                  'role_id' => 1,
+                  'is_blocked' => 1,
+                  'picture' => $file_name,
+                  'email_verified_at' => date('Y-m-d H:i:s'),
+                  'password' => Hash::make($request->password),
+                  // 'token' => Str::random(60),
+              ]);
+              return redirect('user-management')->with('suc_message', 'Data baru berhasil ditambahkan!');
+          } else {
+              return redirect()->back()->with('err_message', 'Email telah digunakan! Gunakan alamat email yang belum terdaftar!');
+          }
         }
     }
 
@@ -177,23 +180,26 @@ class UserManController extends Controller
     public function UserMgmtChangePass(Request $request)
     {
         $user = User::where('id', Auth::user()->id)->first();
-        // echo Hash::make($request->old_password)."==".$user->password;
-        if(!empty($user)){
-            if(Hash::check($request->old_password, $user->password)){
-            User::where('id', Auth::user()->id)
-              ->update([
-                    'password' => Hash::make($request->new_password),
-                  ]
-                );
-            }else {
-                return redirect()->back()->with('err_message', 'Old Password Not Match!');
-            }
-            if(!empty($request->new_password)){
-                User::where('id', $request->id)->update(['password' => Hash::make($request->new_password)]);
-            }
-            return redirect()->back()->with('suc_message', 'Data telah diperbarui!');
-        } else {
-            return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
+        if ($request->new_password != $request->re_password) {
+          return redirect()->back()->with('err_message', 'Re-Type Password Not Match!');
+        }else{
+          if(!empty($user)){
+              if(Hash::check($request->old_password, $user->password)){
+              User::where('id', Auth::user()->id)
+                ->update([
+                      'password' => Hash::make($request->new_password),
+                    ]
+                  );
+              }else {
+                  return redirect()->back()->with('err_message', 'Old Password Not Match!');
+              }
+              if(!empty($request->new_password)){
+                  User::where('id', $request->id)->update(['password' => Hash::make($request->new_password)]);
+              }
+              return redirect()->back()->with('suc_message', 'Data telah diperbarui!');
+          } else {
+              return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
+          }
         }
     }
     public function UserMgmtDelete(Request $request)
