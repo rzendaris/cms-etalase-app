@@ -11,13 +11,9 @@ class AvgRatings extends Model
   protected $table = 'view_avg_ratings';
 
   protected $fillable = [
-      'avg_ratings','id', 'name', 'type', 'app_icon', 'sdk_target_id', 'category_id', 'rate', 'version', 'file_size', 'description', 'updates_description',
+      'avg_ratings','id', 'name', 'type', 'app_icon', 'eu_sdk_version', 'category_id', 'rate', 'version', 'file_size', 'description', 'updates_description',
       'link', 'apk_file', 'expansion_file', 'developer_id', 'is_approve', 'is_active', 'is_partnership', 'created_at', 'created_by', 'updated_at', 'updated_by'
   ];
-  public function skds()
-  {
-      return $this->belongsTo('App\Model\Table\MstSdk', 'sdk_target_id', 'id');
-  }
   public function categories()
   {
       return $this->belongsTo('App\Model\Table\MstCategories', 'category_id', 'id');

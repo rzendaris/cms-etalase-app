@@ -79,33 +79,37 @@ class DeveloperController extends Controller
     public function DeveloperInsert(Request $request)
     {
         $user = User::where('email', $request->email)->first();
-        if(empty($user)){
-          if($request->photo){
-              $file_extention = $request->photo->getClientOriginalExtension();
-              $file_name = $request->email.'image_profile.'.$file_extention;
-              $file_path = $request->photo->move(public_path().'/pictures',$file_name);
-          }else{
-            $file_name=$user->picture;
-          }
-            User::create([
-                  'name' => $request->full_name,
-                  'dev_web' => $request->website,
-                  'dev_address' => $request->dev_address,
-                  'dev_country_id' => $request->country,
-                  'picture' => $file_name,
-                  'email' => $request->email,
-                  'role_id' => 2,
-                  'is_blocked' => 1,
-                  'email_verified_at' => date('Y-m-d H:i:s'),
-                  'password' => Hash::make($request->password)
-                  ]
-                );
-            if(!empty($request->password)){
-                User::where('id', $request->id)->update(['password' => Hash::make($request->password)]);
+        if ($request->password != $request->re_password) {
+          return redirect()->back()->with('err_message', 'Re-Type Password Not Match!');
+        }else{
+          if(empty($user)){
+            if($request->photo){
+                $file_extention = $request->photo->getClientOriginalExtension();
+                $file_name = $request->email.'image_profile.'.$file_extention;
+                $file_path = $request->photo->move(public_path().'/pictures',$file_name);
+            }else{
+              $file_name=$user->picture;
             }
-            return redirect('developer-management')->with('suc_message', 'Data telah diperbarui!');
-        } else {
-          return redirect()->back()->with('err_message', 'Email telah digunakan! Gunakan alamat email yang belum terdaftar!');
+              User::create([
+                    'name' => $request->full_name,
+                    'dev_web' => $request->website,
+                    'dev_address' => $request->dev_address,
+                    'dev_country_id' => $request->country,
+                    'picture' => $file_name,
+                    'email' => $request->email,
+                    'role_id' => 2,
+                    'is_blocked' => 1,
+                    'email_verified_at' => date('Y-m-d H:i:s'),
+                    'password' => Hash::make($request->password)
+                    ]
+                  );
+              if(!empty($request->password)){
+                  User::where('id', $request->id)->update(['password' => Hash::make($request->password)]);
+              }
+              return redirect('developer-management')->with('suc_message', 'Data telah diperbarui!');
+          } else {
+            return redirect()->back()->with('err_message', 'Email telah digunakan! Gunakan alamat email yang belum terdaftar!');
+          }
         }
     }
     public function DeveloperUpdate(Request $request)

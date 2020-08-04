@@ -24,10 +24,10 @@
                       {{ session()->get('err_message') }}
                   </div>
               @endif
-              @if(session()->has('succ_message'))
+              @if(session()->has('suc_message'))
                   <div class="alert alert-success alert-dismissible" role="alert" auto-close="10000">
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      {{ session()->get('succ_message') }}
+                      {{ session()->get('suc_message') }}
                   </div>
               @endif
                 <div class="col-md-12 element">
@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Re-type Password :*</label>
-                                    <input type="password" name="password" class="form-control date"/>
+                                    <input type="password" name="re_password" class="form-control date"/>
                                 </div>
                             </div>
                             <div class="col-xl-5 col-md-5 m-b-10px">

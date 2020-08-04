@@ -24,10 +24,10 @@
                       {{ session()->get('err_message') }}
                   </div>
               @endif
-              @if(session()->has('succ_message'))
+              @if(session()->has('suc_message'))
                   <div class="alert alert-success alert-dismissible" role="alert" auto-close="10000">
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      {{ session()->get('succ_message') }}
+                      {{ session()->get('suc_message') }}
                   </div>
               @endif
                 <div class="col-md-12 element">
