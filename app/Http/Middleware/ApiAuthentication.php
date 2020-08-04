@@ -31,6 +31,8 @@ class ApiAuthentication
             $credentials = JWT::decode($token, env('JWT_SECRET'), ['HS256']);
             $request->user_email = $credentials->sub->email;
             $request->username = $credentials->sub->name;
+            $request->sdk_version = $credentials->sub->eu_sdk_version;
+            $request->user_id = $credentials->sub->id;
             return $next($request)->header('Cache-Control', 'no-cache, must-revalidate');
         } catch(\Firebase\JWT\ExpiredException $e) {
             return response()->json([

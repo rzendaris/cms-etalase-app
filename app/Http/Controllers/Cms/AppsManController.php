@@ -126,21 +126,21 @@ class AppsManController extends Controller
               $file_name = 'app_icon_'.$request->name.'_'.$request->id.'.'.$file_extention;
               $file_path = $request->photo->move(public_path().'/apps',$file_name);
           }else{
-            $file_name=$apps->app_icon;
+            $file_name="Photo not exists";
           }
           if($request->apk_file){
               $file_extention = $request->apk_file->getClientOriginalExtension();
               $apk_name = 'apk_'.$request->name.'_'.$request->id.'.'.$file_extention;
               $file_path = $request->apk_file->move(public_path().'/apk',$apk_name);
           }else{
-            $apk_name=$apps->app_icon;
+            $apk_name="APK File not exists";
           }
           if($request->exp_file){
               $file_extention = $request->exp_file->getClientOriginalExtension();
               $expfile_name = 'exp_file_'.$request->name.'_'.$request->id.'.'.$file_extention;
               $file_path = $request->exp_file->move(public_path().'/exp_file',$expfile_name);
           }else{
-            $expfile_name=$apps->app_icon;
+            $expfile_name="Exp File not exists";
           }
             Apps::create([
                   'name' => $request->name,
