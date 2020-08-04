@@ -40,10 +40,9 @@ if (env('ENV') == 'API'){
             Route::get('apps/category/{id}', 'API\v1\AppsController@user');
         });
     });
-
-    Route::any('{path}', function() {
-        return response()->json([
-            'message' => 'Route not found'
-        ], 404);
-    })->where('path', '.*');
 }
+Route::any('{path}', function() {
+    return response()->json([
+        'message' => 'Route not found'
+    ], 404);
+})->where('path', '.*');
