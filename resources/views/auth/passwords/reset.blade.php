@@ -40,7 +40,6 @@
     }
     #CaptchaCode {
         padding-left: 10px;
-        text-transform: unset!important;
     }
     @media (max-width:767px){
         .login .content {
