@@ -46,15 +46,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">SDK Target :</label>
-                                    <select class="form-control" name="sdk" disabled>
-                                      @foreach($data['sdk'] as $get)
-                                      @if($data['apps']->sdk_target_id == $get->id)
-                                              <option value="{{ $get->id}}" selected>{{ $get->sdk}}</option>
-                                      @else
-                                              <option value="{{ $get->id}}">{{ $get->sdk}}</option>
-                                      @endif
-                                      @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" name="eu_sdk_version" value="{{ $data['apps']->eu_sdk_version }}" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">File Size :</label>

@@ -63,8 +63,7 @@ class AppsManController extends Controller
         $sdk = MstSdk::all();
         $data = array(
             'apps' => $apps,
-            'category' => $category,
-            'sdk' => $sdk
+            'category' => $category
         );
         return view('apps-management/edit')->with('data', $data);
     }
@@ -72,23 +71,19 @@ class AppsManController extends Controller
     {
         $apps = AvgRatings::with(['categories','skds'])->where('id', $id)->first();
         $category = MstCategories::all();
-        $sdk = MstSdk::all();
         $data = array(
             'apps' => $apps,
-            'category' => $category,
-            'sdk' => $sdk
+            'category' => $category
         );
         return view('apps-management/approval')->with('data', $data);
     }
     public function AppsManDetailInfo($id)
     {
-        $apps = AvgRatings::with(['categories','ratings','skds'])->where('id', $id)->first();
+        $apps = AvgRatings::with(['categories','ratings'])->where('id', $id)->first();
         $user = User::with(['countrys'])->where('id', $apps->developer_id)->first();
-        $sdk = MstSdk::all();
         $data = array(
             'user' => $user,
-            'apps' => $apps,
-            'sdk' => $sdk
+            'apps' => $apps
         );
         return view('apps-management/detail')->with('data', $data);
     }
@@ -108,11 +103,9 @@ class AppsManController extends Controller
     public function AddAppsPartnership()
     {
       $category = MstCategories::all();
-      $sdk = MstSdk::all();
       $dev = User::with(['countrys'])->where('role_id', 2)->get();
       $data = array(
           'category' => $category,
-          'sdk' => $sdk,
           'dev' => $dev
       );
         return view('apps-management/add-apps-partnership')->with('data', $data);
@@ -132,6 +125,7 @@ class AppsManController extends Controller
               $file_extention = $request->apk_file->getClientOriginalExtension();
               $apk_name = 'apk_'.$request->name.'_'.$request->id.'.'.$file_extention;
               $file_path = $request->apk_file->move(public_path().'/apk',$apk_name);
+              // call function from Controller.php to get sdk package
           }else{
             $apk_name=$apps->app_icon;
           }
@@ -146,7 +140,7 @@ class AppsManController extends Controller
                   'name' => $request->name,
                   'type' => $request->type,
                   'app_icon' => $file_name,
-                  'sdk_target_id' => $request->sdk,
+                  'eu_sdk_version' => $request->sdk,
                   'category_id' => $request->category,
                   'rate' => $request->rate,
                   'version' => $request->version,
@@ -173,12 +167,10 @@ class AppsManController extends Controller
     {
       $apps = Apps::with(['categories','ratings','skds'])->where('id', $id)->first();
       $category = MstCategories::all();
-      $sdk = MstSdk::all();
       $dev = User::with(['countrys'])->where('role_id', 2)->get();
       $data = array(
           'apps' => $apps,
           'category' => $category,
-          'sdk' => $sdk,
           'dev' => $dev
       );
         return view('apps-management/edit-apps-partnership')->with('data', $data);
@@ -198,6 +190,7 @@ class AppsManController extends Controller
               $file_extention = $request->apk_file->getClientOriginalExtension();
               $apk_name = 'apk_'.$request->name.'_'.$request->id.'.'.$file_extention;
               $file_path = $request->apk_file->move(public_path().'/apk',$apk_name);
+              // call function from Controller.php to get sdk package
           }else{
             $apk_name=$apps->app_icon;
           }
@@ -212,7 +205,7 @@ class AppsManController extends Controller
                   'name' => $request->name,
                   'type' => $request->type,
                   'app_icon' => $file_name,
-                  'sdk_target_id' => $request->sdk,
+                  'eu_sdk_version' => $request->sdk,
                   'category_id' => $request->category,
                   'rate' => $request->rate,
                   'version' => $request->version,
@@ -261,7 +254,7 @@ class AppsManController extends Controller
                 'name' => $request->name,
                 'type' => $request->type,
                 'app_icon' => $file_name,
-                'sdk_target_id' => $request->sdk,
+                'eu_sdk_version' => $request->sdk,
                 'category_id' => $request->category,
                 'rate' => $request->rate,
                 'version' => $request->version,
@@ -298,7 +291,7 @@ class AppsManController extends Controller
                   'name' => $request->name,
                   'type' => $request->type,
                   'app_icon' => $file_name,
-                  'sdk_target_id' => $request->sdk,
+                  'eu_sdk_version' => $request->sdk,
                   'category_id' => $request->category,
                   'rate' => $request->rate,
                   'version' => $request->version,

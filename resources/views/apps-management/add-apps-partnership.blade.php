@@ -55,24 +55,14 @@
                                           </select>
                                       </div>
                                       <div class="form-group">
-                                          <label class="form-control-label">SDK Target : </label>
-                                          <select class="form-control" name="sdk">
-                                            @foreach($data['sdk'] as $get)
-                                                    <option value="{{ $get->id}}">{{ $get->sdk}}</option>
-                                            @endforeach
-                                          </select>
+                                          <label class="form-control-label">APK File : *</label>
+                                          <input type="file" name="apk_file" class="form-control" />
                                       </div>
                                         <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label class="form-control-label">APK File : *</label>
-                                                    <input type="file" name="apk_file" class="form-control" />
-                                                </div>
-                                                <div class="col-md-6">
+
                                                     <label class="form-control-label">Expansion File : *</label>
                                                     <input type="file" name="exp_file" class="form-control" />
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-md-6 m-b-10px">
