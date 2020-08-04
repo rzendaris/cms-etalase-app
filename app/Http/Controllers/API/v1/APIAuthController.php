@@ -31,14 +31,14 @@ class APIAuthController extends Controller
             'password' => 'required|string|confirmed',
             'sdk_version' => 'required|string',
         ]);
-        $check_user = User::where('email', $request->email)->where('role_id', 2)->first();
+        $check_user = User::where('email', $request->email)->where('role_id', 3)->first();
         if ($check_user){
             return $this->appResponse(505, 200);
         } else {
             $user = new User([
                 'name' => $request->name,
                 'email' => $request->email,
-                'role_id' => $request->role_id,
+                'role_id' => 3,
                 'password' => bcrypt($request->password),
                 'eu_sdk_version' => $request->sdk_version
             ]);
@@ -66,7 +66,7 @@ class APIAuthController extends Controller
                 'password' => 'required',
                 'sdk_version' => 'required'
             ]);
-            $user = User::where('email', $request->email)->where('role_id', 2)->first();
+            $user = User::where('email', $request->email)->where('role_id', 3)->first();
             if(isset($user)){
                 if($hasher->check($request->input('password'), $user->password)){
                     $apikey = $this->jwt($user);
