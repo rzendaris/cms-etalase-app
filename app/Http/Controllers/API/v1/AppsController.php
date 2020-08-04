@@ -6,12 +6,38 @@ use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use ApkParser\Parser;
 
 use App\User;
 use App\Model\Table\Apps;
+use App\Model\Table\DownloadApps;
+use App\Model\Table\MstCategories;
 
 class AppsController extends Controller
 {
+    public function GetAllApps(Request $request)
+    {
+        $apps = Apps::get();
+        foreach($apps as $key => $data){
+            $apk_manifest = $this->CheckApkPackage($data->apk_file);
+            if((int)$request->sdk_version < $apk_manifest['min_sdk_level']){
+                unset($apps[$key]);
+            }
+            $apps_status = 'DOWNLOAD';
+            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $data->id)->first();
+            if(isset($installed_apps)){
+                if($apk_manifest['version_code'] != (int)$data->version){
+                    $apps_status = "UPDATE";
+                } else {
+                    $apps_status = "INSTALLED";
+                }
+            }
+            $data->apps_status = $apps_status;
+
+        }
+        return $this->appResponse(100, 200, $apps);
+    }
+
     public function AppDetail($id)
     {
         $apps = Apps::where('id', $id)->first();
@@ -21,71 +47,55 @@ class AppsController extends Controller
             return $this->appResponse(104, 200);
         }
     }
-  
-    /**
-     * Login user and create token
-     *
-     * @param  [string] email
-     * @param  [string] password
-     * @return [string] user_id
-     * @return [string] email
-     * @return [string] name
-     * @return [string] token
-     */
 
-    public function login(Request $request){
-        try{
-            $hasher = app()->make('hash');
-            $this->validate($request, [
-                'email' => 'required',
-                'password' => 'required'
-            ]);
-            $user = User::where('email', $request->email)->where('role_id', 2)->first();
-            if(isset($user)){
-                if($hasher->check($request->input('password'), $user->password)){
-                    $apikey = $this->jwt($user);
-                    $decode = JWT::decode($apikey, env('JWT_SECRET'), ['HS256']);
-    
-                    $data['user_email'] = $user->email;
-                    $returnData = [
-                        "user_id" => $user->id,
-                        "email" => $user->email,
-                        "name" => $user->name,
-                        "role_id" => $user->role_id,
-                        "token" => $apikey,
-                    ];
-                    return $this->appResponse(201, 200, $returnData);
-                }else{
-                    return $this->appResponse(105, 401);
+    public function AppsAction(Request $request, $action, $apps_id)
+    {
+        $data = "Action > ".$action." --- "."Apps Id > ".$apps_id;
+        $apps = Apps::where('id', $apps_id)->first();
+        if(isset($apps)){
+            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->first();
+            if($action == "DOWNLOAD"){
+
+                if(empty($installed_apps)){
+                    $apk_manifest = $this->CheckApkPackage($apps->apk_file);
+                    $apps_download = new DownloadApps([
+                        'end_users_id' => $request->user_id,
+                        'apps_id' => $apps->id,
+                        'version' => $apk_manifest['version_code']
+                    ]);
+                    $apps_download->save();
+                    $return = array(
+                        'path_file' => "apk/".$apps->apk_file
+                    );
+                    return $this->appResponse(200, 200, $return);
+                } else {
+                    return $this->appResponse(505, 200);
                 }
-            }else{
-                return $this->appResponse(105, 401);
+
+            } else if($action == "UPDATE"){
+
+                if(isset($installed_apps)){
+                    $apk_manifest = $this->CheckApkPackage($apps->apk_file);
+                    DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->update(['version' => $apk_manifest['version_code']]);
+                    $return = array(
+                        'path_file' => "apk/".$apps->apk_file
+                    );
+                    return $this->appResponse(200, 200, $return);
+                } else {
+                    return $this->appResponse(104, 200, "Please Download before!");
+                }
+
+            } else {
+                return $this->appResponse(104, 200, "ACTION NOT FOUND");
             }
-            
-        } catch (Exception $e){
-            return $this->appResponse(2000, 200);
+        } else {
+            return $this->appResponse(104, 200);
         }
     }
-  
-    /**
-     * Logout user (Revoke the token)
-     *
-     * @return [string] message
-     */
-    public function logout(Request $request)
+
+    public function GetAppsCategory()
     {
-        $request->user()->token()->revoke();
-        return $this->appResponse(202, 200);
-    }
-  
-    /**
-     * Get the authenticated User
-     *
-     * @return [json] user object
-     */
-    public function user(Request $request)
-    {
-        $user = User::where('email', $request->user_email)->where('role_id', 2)->first();
-        return $this->appResponse(100, 200, $user);
+        $apps_category = MstCategories::get();
+        return $this->appResponse(100, 200, $apps_category);
     }
 }

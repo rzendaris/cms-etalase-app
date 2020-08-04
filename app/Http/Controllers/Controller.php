@@ -25,6 +25,20 @@ class Controller extends BaseController
         // be used to decode the token in the future.
         return JWT::encode($payload, env('JWT_SECRET'));
     }
+    
+    public static function CheckApkPackage($filename) {
+        $apk = new \ApkParser\Parser('apk/'.$filename);
+        $manifest = $apk->getManifest();
+        $permissions = $manifest->getPermissions();
+        $data = array(
+            "package_name" => $manifest->getPackageName(),
+            "version_name" => $manifest->getVersionName(),
+            "version_code" => $manifest->getVersionCode(),
+            "min_sdk_level" => $manifest->getMinSdkLevel(),
+            "min_sdk_platform" => $manifest->getMinSdk()->platform,
+        );
+        return $data;
+    }
 
     public static function appResponse($responseCode, $httpCode = 200, $data = null)
     {

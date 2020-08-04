@@ -2,3 +2,4 @@ vendor/
 ven/
 .env
 composer.lock
+public/apk
