@@ -28,7 +28,8 @@ class APIAuthController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed',
+            'sdk_version' => 'required|string',
         ]);
         $check_user = User::where('email', $request->email)->where('role_id', 2)->first();
         if ($check_user){
@@ -38,7 +39,8 @@ class APIAuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'role_id' => $request->role_id,
-                'password' => bcrypt($request->password)
+                'password' => bcrypt($request->password),
+                'eu_sdk_version' => $request->sdk_version
             ]);
             $user->save();
             return $this->appResponse(500, 200);
@@ -61,7 +63,8 @@ class APIAuthController extends Controller
             $hasher = app()->make('hash');
             $this->validate($request, [
                 'email' => 'required',
-                'password' => 'required'
+                'password' => 'required',
+                'sdk_version' => 'required'
             ]);
             $user = User::where('email', $request->email)->where('role_id', 2)->first();
             if(isset($user)){
@@ -77,6 +80,7 @@ class APIAuthController extends Controller
                         "role_id" => $user->role_id,
                         "token" => $apikey,
                     ];
+                    User::where('id', $user->id)->update(['eu_sdk_version' => $request->sdk_version]);
                     return $this->appResponse(201, 200, $returnData);
                 }else{
                     return $this->appResponse(105, 401);
