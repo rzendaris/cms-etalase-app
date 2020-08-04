@@ -42,8 +42,6 @@
     </a> -->
 </div>
 <div class="content login-box--">
-    <form class="login-form" method="POST" action="{{ url('change-password') }}">
-    @csrf
         <div class="row">
             <div class="col-md-12 text-center">
                 <a href="/" >
@@ -68,7 +66,6 @@
                 <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
             </form>
         </div>
-    </form>
     <!-- END LOGIN FORM -->
 </div>
 
