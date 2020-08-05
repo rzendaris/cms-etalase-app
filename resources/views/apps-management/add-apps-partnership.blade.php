@@ -55,15 +55,17 @@
                                           </select>
                                       </div>
                                       <div class="form-group">
-                                          <label class="form-control-label">APK File : *</label>
-                                          <input type="file" name="apk_file" class="form-control" />
-                                      </div>
-                                        <div class="form-group">
-
-                                                    <label class="form-control-label">Expansion File : *</label>
-                                                    <input type="file" name="exp_file" class="form-control" />
-
+                                        <div class="row">
+                                          <div class="col-md-6">
+                                            <label class="form-control-label">APK File : *</label>
+                                            <input type="file" name="apk_file" class="form-control" />
+                                          </div>
+                                          <div class="col-md-6">
+                                            <label class="form-control-label">Expansion File : *</label>
+                                            <input type="file" name="exp_file" class="form-control" />
+                                          </div>
                                         </div>
+                                      </div>
                                     </div>
                                     <div class="col-xl-6 col-md-6 m-b-10px">
                                       <div class="form-group">
@@ -78,10 +80,7 @@
                                           <label class="form-control-label">Rate :</label>
                                           <input type="text" name="rate" class="form-control"/>
                                       </div>
-                                      <div class="form-group">
-                                          <label class="form-control-label">Version :</label>
-                                          <input type="text" name="version" class="form-control"/>
-                                      </div>
+
                                         <div class="form-group">
                                             <label class="form-control-label">Developer : *</label>
                                             <select name="developer" id="developer" class="custom-select form-control" required>

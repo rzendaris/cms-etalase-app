@@ -34,7 +34,7 @@ class RatingController extends Controller
         $ratings = Ratings::with(['endusers','apps'])->where('apps_id',$id)->get();
         $ratingsall = Ratings::with(['endusers','apps'])->get();
         $avgrating = Ratings::where('apps_id',$id)->avg('ratings');
-        $apps = Apps::with(['categories','ratings','skds'])->where('id', $id)->first();
+        $apps = Apps::with(['categories','ratings'])->where('id', $id)->first();
         $no = 1;
         foreach($ratings as $data){
             $data->no = $no;

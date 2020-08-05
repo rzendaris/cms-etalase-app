@@ -18,6 +18,18 @@
         </div>
         <div class="wrapper">
             <div class="row">
+              @if(session()->has('err_message'))
+                  <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      {{ session()->get('err_message') }}
+                  </div>
+              @endif
+              @if(session()->has('succ_message'))
+                  <div class="alert alert-success alert-dismissible" role="alert" auto-close="10000">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      {{ session()->get('succ_message') }}
+                  </div>
+              @endif
                 <div class="col-md-12 element">
                     <div class="box-pencarian-family-tree" style=" background: #fff; ">
                         <div class="row">
@@ -48,8 +60,16 @@
                                           </select>
                                       </div>
                                       <div class="form-group">
-                                          <label class="form-control-label">SDK Target : </label>
-                                          <input type="text" class="form-control" name="eu_sdk_version" value="{{ $data['apps']->eu_sdk_version }}" disabled>
+                                          <div class="row">
+                                              <div class="col-md-6">
+                                                <label class="form-control-label">SDK Target : </label>
+                                                <input type="text" class="form-control" name="eu_sdk_version" value="{{ $data['apps']->eu_sdk_version }}" readonly>
+                                              </div>
+                                              <div class="col-md-6">
+                                                <label class="form-control-label">Package Name : </label>
+                                                <input type="text" class="form-control" name="package_name" value="{{ $data['apps']->package_name }}" readonly>
+                                              </div>
+                                            </div>
                                       </div>
                                         <div class="form-group">
                                             <div class="row">
@@ -79,7 +99,7 @@
                                       </div>
                                       <div class="form-group">
                                           <label class="form-control-label">Version :</label>
-                                          <input type="text" name="version" value="{{ $data['apps']->version }}" class="form-control"/>
+                                          <input type="text" name="version" value="{{ $data['apps']->version }}" class="form-control"  readonly/>
                                       </div>
                                         <div class="form-group">
                                             <label class="form-control-label">Developer : *</label>

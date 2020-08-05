@@ -45,8 +45,16 @@
                                     <input type="text" name="category"  class="form-control" value="{{ $data['apps']->categories->name }}" disabled/>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label">SDK Target :</label>
-                                    <input type="text" class="form-control" name="eu_sdk_version" value="{{ $data['apps']->eu_sdk_version }}" disabled>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                        <label class="form-control-label">SDK Target : </label>
+                                        <input type="text" class="form-control" name="eu_sdk_version" value="{{ $data['apps']->eu_sdk_version }}" readonly>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label class="form-control-label">Package Name : </label>
+                                        <input type="text" class="form-control" name="package_name" value="{{ $data['apps']->package_name }}" readonly>
+                                      </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">File Size :</label>
