@@ -58,9 +58,8 @@ class AppsManController extends Controller
     }
     public function AppsManEdit($id)
     {
-        $apps = AvgRatings::with(['categories','skds'])->where('id', $id)->first();
+        $apps = AvgRatings::with(['categories'])->where('id', $id)->first();
         $category = MstCategories::all();
-        $sdk = MstSdk::all();
         $data = array(
             'apps' => $apps,
             'category' => $category
@@ -69,7 +68,7 @@ class AppsManController extends Controller
     }
     public function ApprovalApps($id)
     {
-        $apps = AvgRatings::with(['categories','skds'])->where('id', $id)->first();
+        $apps = AvgRatings::with(['categories'])->where('id', $id)->first();
         $category = MstCategories::all();
         $data = array(
             'apps' => $apps,
@@ -126,8 +125,11 @@ class AppsManController extends Controller
               $apk_name = 'apk_'.$request->name.'_'.$request->id.'.'.$file_extention;
               $file_path = $request->apk_file->move(public_path().'/apk',$apk_name);
               // call function from Controller.php to get sdk package
+              $cek_sdk = $this->CheckApkPackage($apk_name);
+
           }else{
             $apk_name="APK File not exists";
+            $cek_sdk = $this->CheckApkPackage($apk_name);
           }
           if($request->exp_file){
               $file_extention = $request->exp_file->getClientOriginalExtension();
@@ -140,10 +142,11 @@ class AppsManController extends Controller
                   'name' => $request->name,
                   'type' => $request->type,
                   'app_icon' => $file_name,
-                  'eu_sdk_version' => $request->sdk,
+                  'eu_sdk_version' => $cek_sdk['min_sdk_level'],
+                  'package_name' => $cek_sdk['package_name'],
                   'category_id' => $request->category,
                   'rate' => $request->rate,
-                  'version' => $request->version,
+                  'version' => $cek_sdk['version_name'],
                   'file_size' => '',
                   'apk_file' => $apk_name,
                   'expansion_file' => $expfile_name,
@@ -165,7 +168,7 @@ class AppsManController extends Controller
     }
     public function EditAppsPartnership($id)
     {
-      $apps = Apps::with(['categories','ratings','skds'])->where('id', $id)->first();
+      $apps = Apps::with(['categories','ratings'])->where('id', $id)->first();
       $category = MstCategories::all();
       $dev = User::with(['countrys'])->where('role_id', 2)->get();
       $data = array(
@@ -191,24 +194,40 @@ class AppsManController extends Controller
               $apk_name = 'apk_'.$request->name.'_'.$request->id.'.'.$file_extention;
               $file_path = $request->apk_file->move(public_path().'/apk',$apk_name);
               // call function from Controller.php to get sdk package
+              // $cek_sdk['package_name'].//com.example.rezkyflutter
+              // $cek_sdk['version_name'].//1.0.0
+              // $cek_sdk['version_code'].//1
+              // $cek_sdk['min_sdk_level'].//16
+              // $cek_sdk['min_sdk_platform']//Android 4.1,4.1.1
+              $cek_sdk = $this->CheckApkPackage($apk_name);
+              $package_name = $cek_sdk['package_name'];
+              $sdk_version = $cek_sdk['min_sdk_level'];
+              $version = $cek_sdk['version_name'];
+              if ($cek_sdk['version_name'] <= $request->version) {
+                 return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan, Mohon Update Version Apps Lebih Tinggi!');
+              }
           }else{
-            $apk_name=$apps->app_icon;
+            $apk_name=$apps->apk_file;
+            $package_name = $apps->package_name;
+            $sdk_version = $apps->eu_sdk_version;
+            $version = $apps->version;
           }
           if($request->exp_file){
               $file_extention = $request->exp_file->getClientOriginalExtension();
               $expfile_name = 'exp_file_'.$request->name.'_'.$request->id.'.'.$file_extention;
               $file_path = $request->exp_file->move(public_path().'/exp_file',$expfile_name);
           }else{
-            $expfile_name=$apps->app_icon;
+            $expfile_name=$apps->expansion_file;
           }
             Apps::where('id', $request->id)->update([
                   'name' => $request->name,
                   'type' => $request->type,
                   'app_icon' => $file_name,
-                  'eu_sdk_version' => $request->sdk,
+                  'eu_sdk_version' => $sdk_version,
+                  'package_name' => $package_name,
                   'category_id' => $request->category,
                   'rate' => $request->rate,
-                  'version' => $request->version,
+                  'version' => $version,
                   'file_size' => '',
                   'apk_file' => $apk_name,
                   'expansion_file' => $expfile_name,
@@ -225,7 +244,7 @@ class AppsManController extends Controller
           return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan!');
         }
     }
-    public function AppsManInsert(Request $request)
+    public function AppsManInsert(Request $request) // not used right now
     {
       $apps = Apps::where('id', $request->id)->first();
         if(!empty($apps)){
@@ -291,10 +310,8 @@ class AppsManController extends Controller
                   'name' => $request->name,
                   'type' => $request->type,
                   'app_icon' => $file_name,
-                  'eu_sdk_version' => $request->sdk,
                   'category_id' => $request->category,
                   'rate' => $request->rate,
-                  'version' => $request->version,
                   'file_size' => $request->file_size,
                   'description' => $request->description,
                   'updates_description' => $request->updates_description,

@@ -14,7 +14,7 @@
         margin-bottom: 5%;
     }
     .login .content .forget-password {margin-top: 25px;}
-    div#LoginCaptcha_CaptchaDiv { 
+    div#LoginCaptcha_CaptchaDiv {
         background: white;
         width: 100%!important;
         padding: 10px!important;
@@ -60,6 +60,9 @@
 
 
 <div class="content login-box--">
+  {!! NoCaptcha::renderJs() !!}
+
+
     <form class="login-form" method="POST" action="{{ route('login') }}">
     @csrf
         <div class="row">
@@ -104,19 +107,18 @@
             <label class="control-label visible-ie8 visible-ie9">Password</label>
             <div class="input-icon">
                 <i class="fa fa-lock"></i>
-                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" required/> 
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" required/>
             </div>
         </div>
         <div class="form-group{{ $errors->has('CaptchaCode') ? ' has-error' : '' }}">
             <div class="input-icon">
-                {!! captcha_image_html('LoginCaptcha') !!}
-                <input type="text" class="form-control" name="CaptchaCode" id="CaptchaCode" placeholder="Masukkan Captcha"  required>
-
-                @if ($errors->has('CaptchaCode'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('CaptchaCode') }}</strong>
-                    </span>
-                @endif
+              {!! NoCaptcha::display() !!}
+              {{ csrf_field() }}
+              @if ($errors->has('g-recaptcha-response'))
+              <span class="help-block">
+              <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+              </span>
+              @endif
             </div>
         </div>
         <div class="row">
@@ -126,15 +128,16 @@
                 </div>
             </div>
             <div class="col-xs-12 col-md-12 hidden">
-                <a href="{{ url('register-dev') }}" class="btn green w-100 btn-registration"> <i class="fa fa-user-plus"></i> Registration </a> 
+                <a href="{{ url('register-dev') }}" class="btn green w-100 btn-registration"> <i class="fa fa-user-plus"></i> Registration </a>
             </div>
             <div class="col-xs-12 col-md-12">
                 <div class="forget-password text-center">
                     <a href="{{ url('forgot-password') }}"><b> <i class="fa fa-unlock-alt"></i> Lupa Password ? </b></a>
                 </div>
             </div>
-            
+
         </div>
+
         <br>
     </form>
     <!-- END LOGIN FORM -->
@@ -149,4 +152,5 @@
     <script src="{{ asset('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/global/plugins/backstretch/jquery.backstretch.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/pages/scripts/login-4.min.js') }}" type="text/javascript"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 @endsection
