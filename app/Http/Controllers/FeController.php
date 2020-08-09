@@ -99,4 +99,9 @@ class FeController extends Controller
     {
         return view('apps-management/edit-apps-partnership');
     }
+
+    public function IndexUserMan()
+    {
+        return view('user-man/index');
+    }
 }

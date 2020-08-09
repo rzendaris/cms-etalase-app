@@ -41,7 +41,7 @@
                             <div class="col-xl-5 col-md-5 m-b-10px">
                                 <div class="form-group">
                                     <label class="form-control-label">Email :*</label>
-                                    <input type="text" name="email" value="{{ $user->email }}" class="form-control"/>
+                                    <input type="text" name="email" value="{{ $user->email }}" class="form-control" readonly/>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Country :*</label>

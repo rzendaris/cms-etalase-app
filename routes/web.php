@@ -144,3 +144,4 @@ Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 // FE Route Dummy
 Route::get('register-page', 'FeController@Register');
 Route::get('register-dev', 'Auth\RegisterController@getRegister');
+Route::get('user-man', 'FeController@IndexUserMan');
