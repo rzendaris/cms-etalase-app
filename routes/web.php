@@ -86,20 +86,28 @@ Route::middleware('auth')->group(function() {
         /**
          * Cms User Etalase Routes
         */
-        Route::get('profile', 'Cms\UserManController@UserMgmtProfile');
-        Route::get('profile-password', 'Cms\UserManController@UserMgmtProfilePassword');
+        //user admin
         Route::get('user-management', 'Cms\UserManController@UserMgmtInit');
-        Route::get('add-user', 'Cms\UserManController@UserMgmtAddEndUser');
-        Route::get('edit-user/{id}', 'Cms\UserManController@UserMgmtEditEndUser');
-        Route::get('detail-user/{id}', 'Cms\UserManController@UserMgmtDetailEndUser');
         Route::post('insert-user', 'Cms\UserManController@UserMgmtInsert');
         Route::post('update-user', 'Cms\UserManController@UserMgmtUpdate');
+        Route::post('reset-pass-user', 'Cms\UserManController@UserMgmtResetPass');
+
+        //user setting
+        Route::get('profile', 'Cms\UserManController@UserMgmtProfile');
+        Route::get('profile-password', 'Cms\UserManController@UserMgmtProfilePassword');
         Route::post('update-profile-user', 'Cms\UserManController@UserMgmtUpdateProfile');
+        //end user
+        Route::get('end-user-management', 'Cms\EndUserManController@EndUserMgmtInit');
+        Route::get('add-end-user', 'Cms\EndUserManController@UserMgmtAddEndUser');
+        Route::get('edit-end-user/{id}', 'Cms\EndUserManController@UserMgmtEditEndUser');
+        Route::get('detail-end-user/{id}', 'Cms\EndUserManController@UserMgmtDetailEndUser');
+        Route::post('insert-end-user', 'Cms\EndUserManController@UserMgmtInsert');
+        Route::post('update-end-user', 'Cms\EndUserManController@UserMgmtUpdate');
+
         Route::post('delete-user', 'Cms\UserManController@UserMgmtDelete');
         Route::post('block-user', 'Cms\UserManController@UserMgmtBlock');
         Route::post('unblock-user', 'Cms\UserManController@UserMgmtUnBlock');
         Route::post('change-pass-user', 'Cms\UserManController@UserMgmtChangePass'); // change pass by user login
-        Route::post('reset-pass-user', 'Cms\UserManController@UserMgmtResetPass');
         //dev management
         Route::get('developer-management', 'Cms\DeveloperController@DeveloperInit');
         Route::get('add-developer-management', 'Cms\DeveloperController@DeveloperAdd');
@@ -130,6 +138,8 @@ Route::middleware('auth')->group(function() {
          * PUT endpoint for CMS of developer here
          */
 
+         Route::get('register-dev', 'Auth\RegisterController@getRegister');
+
     }
 });
 Route::get('under-construction', 'HomeController@underConstruction');
@@ -143,5 +153,3 @@ Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 // Route::get('user-management-cms/profile', 'Cms\UserManController@UserMgmtProfile');
 // FE Route Dummy
 Route::get('register-page', 'FeController@Register');
-Route::get('register-dev', 'Auth\RegisterController@getRegister');
-Route::get('user-man', 'FeController@IndexUserMan');

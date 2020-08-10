@@ -23,12 +23,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-      if (Auth::user()->role_id == 1){
+      $role = Auth::user()->role_id;
+        if (env('ENV') == 'ADMIN' && $role=='1'){
           return redirect('user-management');
-      } else {
-          // return redirect('family-tree');
-          echo "developer";
-      }
+        }else if(env('ENV') == 'DEVELOPER' && $role=='2'){
+          return redirect('developer-management');
+        }else{
+          Auth::logout();
+          return redirect('/')->with('err_message', 'Error Ga Boleh Masuk!');
+        }
     }
 
     /**
