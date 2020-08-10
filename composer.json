@@ -40,11 +40,15 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Illuminate\\": "app/Overrides/"
         },
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "exclude-from-classmap": [
+            "vendor\\laravel\\framework\\src\\Illuminate\\Support\\ServiceProvider.php"
         ]
     },
     "autoload-dev": {
