@@ -9,6 +9,18 @@
 @section('content')
 
 <div class="content-body-white">
+    @if(session()->has('err_message'))
+        <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ session()->get('err_message') }}
+        </div>
+    @endif
+    @if(session()->has('suc_message'))
+        <div class="alert alert-success alert-dismissible" role="alert" auto-close="10000">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ session()->get('suc_message') }}
+        </div>
+    @endif
     <div class="page-head">
         <div class="page-title">
             <h1>Partnership Apps Management</h1>

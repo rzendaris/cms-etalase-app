@@ -36,7 +36,8 @@
                             <div class="col-xl-2 col-md-2 m-b-10px">
                                 <div class="form-group">
                                     <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ asset('assets/global/img/no-profile.jpg') }}" /><br>
-                                    <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
+                                    <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; " required>
+                                    <p class="text-danger">Max. file size 2 MB</p>
                                 </div>
                             </div>
                             <div class="col-xl-5 col-md-5 m-b-10px">
@@ -73,7 +74,7 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
-                    <a href="{{ url('end-user-management') }}" class="btn btn-danger pull-left">Cancel</a>
+                    <a href="{{ url('user-management') }}" class="btn btn-danger pull-left">Cancel</a>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
