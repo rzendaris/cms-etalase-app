@@ -25,7 +25,7 @@
         <div class="page-title">
             <h1>Apps Management</h1>
         </div>
-        <a class="float-right btn btn-success pull-right" href="{{ url('partnership-apps-management') }}">Partnership Apps <i class="fa fa-external-link fa-lg"></i></a>
+        <!-- <a class="float-right btn btn-success pull-right" href="{{ url('partnership-apps-management') }}">Partnership Apps <i class="fa fa-external-link fa-lg"></i></a> -->
     </div>
     <hr>
     <div class="row">
@@ -39,7 +39,7 @@
                 <div id="released" class="tab-pane fade in active">
 
                     <div class="table-responsive custom--2">
-                        <div class="row">
+                        <div class="row custom-position-header">
                             <div class="float-left col-xl-3 col-md-3 col-xs-8 m-b-10px">
                                 <input name="name" id="search-value" type="search" value="" placeholder="Search" class="form-control">
                             </div>
@@ -154,9 +154,9 @@
                                           @endif </td>
                                     <td class="text-center">
                                       @if($apps->is_approve==0)
-                                        <a href="{{ url('approval-apps/'.$apps->id) }}" class="btn"><i class="fa fa-check-square fa-4x custom--1"></i></a>
+                                        <a href="{{ url('approval-apps/'.$apps->id) }}" class="btn"><i class="fa fa-check-square fa-2x custom--1"></i></a>
                                       @else
-                                        <a href="{{ url('approval-apps') }}" class="btn disabled"><i class="fa fa-check-square fa-4x custom--1"></i></a>
+                                        <a href="{{ url('approval-apps') }}" class="btn disabled"><i class="fa fa-check-square fa-2x custom--1"></i></a>
                                       @endif
                                     </td>
                                 </tr>
@@ -257,7 +257,7 @@
             "searching":     false,
         } );
 
-        // $("div.toolbar").html('<a class="float-right btn btn-success" href="{{ url('add-developer-management') }}">Tambah</a>');
+        $("div.toolbar").html('<a class="float-right btn btn-success" href="{{ url('add-app') }}">Tambah</a>');
     });
     </script>
 @endsection

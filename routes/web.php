@@ -145,3 +145,7 @@ Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 Route::get('register-page', 'FeController@Register');
 Route::get('register-dev', 'Auth\RegisterController@getRegister');
 Route::get('user-man', 'FeController@IndexUserMan');
+Route::get('add-app', 'FeController@AddApp');
+Route::get('upload-media', 'FeController@UploadMedia');
+Route::get('upload-app', 'FeController@UploadApp');
+Route::get('upload-expansion', 'FeController@UploadExpansion');
