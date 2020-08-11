@@ -87,7 +87,8 @@ a[x-apple-data-detectors] {
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;" >
                 <tr>
                     <td align="center" valign="top" style="padding: 40px 10px 40px 10px;">
-                         <a href="http://iwsku.org" target="_blank">
+
+                         <a href="" target="_blank">
                             <img src="{{ asset('assets/global/img/logo.png') }}" height="70" width="210" style="display: block; width:210px;max-width: 210px;min-width: 210px;height:70px;max-height:70px;min-height:70px;color: #ffffff; font-size: 18px;" border="0">
                         </a>
                     </td>
@@ -150,7 +151,7 @@ a[x-apple-data-detectors] {
                 </tr>
                 <tr>
                     <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666;font-size: 18px; font-weight: 400; line-height: 25px;" >
-                    <p style="margin: 0;">Admin IWSKU.org </p>
+                    <p style="margin: 0;">Admin EtalseApps </p>
                     </td>
                 </tr>
             </table>

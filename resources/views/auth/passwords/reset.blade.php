@@ -53,6 +53,7 @@
 </style>
 
 <div class="content login-box--">
+  {!! NoCaptcha::renderJs() !!}
     <!-- BEGIN FORGOT PASSWORD FORM -->
     <form class="login-form" method="post" action="{{ url('forgot-password-send-email') }}" enctype="multipart/form-data">
     {{csrf_field()}}
@@ -78,15 +79,15 @@
         </div>
         <div class="form-group{{ $errors->has('CaptchaCode') ? ' has-error' : '' }}">
             <div class="input-icon">
-                {!! captcha_image_html('ResetPasswordCaptcha') !!}
-                <input type="text" class="form-control" name="CaptchaCode" id="CaptchaCode" placeholder="Masukkan Captcha" required>
-
-                @if ($errors->has('CaptchaCode'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('CaptchaCode') }}</strong>
-                    </span>
-                @endif
+              {!! NoCaptcha::display() !!}
+              {{ csrf_field() }}
+              @if ($errors->has('g-recaptcha-response'))
+              <span class="help-block">
+              <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+              </span>
+              @endif
             </div>
+            <script src='https://www.google.com/recaptcha/api.js'></script>
         </div>
         <div class="form-actions">
             <a href="{{ url('login') }}" type="button" class="btn red btn-outline">Back </a>
@@ -103,5 +104,6 @@
     <script src="{{ asset('assets/global/plugins/jquery-validation/js/additional-methods.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/global/plugins/backstretch/jquery.backstretch.min.js') }}" type="text/javascript"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="{{ asset('assets/pages/scripts/login-4.min.js') }}" type="text/javascript"></script>
 @endsection

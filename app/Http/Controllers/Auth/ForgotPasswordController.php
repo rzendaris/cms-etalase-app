@@ -57,7 +57,7 @@ class ForgotPasswordController extends Controller
 
       return Validator::make($data, [
         'email' => 'required|string',
-        'CaptchaCode' => 'required|valid_captcha'
+        'g-recaptcha-response' => 'required|captcha'
       ], $messages);
 
     }
