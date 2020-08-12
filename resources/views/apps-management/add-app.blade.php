@@ -9,7 +9,7 @@
 @section('content')
 
 <div class="content-body-white">
-    <form method="post" action="{{url('create-apps-partnership')}}" enctype="multipart/form-data">
+    <form method="post" action="{{url('create-apps')}}" enctype="multipart/form-data">
           {{csrf_field()}}
         <div class="page-head">
             <div class="page-title">
@@ -50,7 +50,9 @@
                                       <div class="form-group">
                                           <label class="form-control-label">Category :</label>
                                           <select class="form-control" name="category">
-                                                    <option value="">Category</option>
+                                            @foreach($data['category'] as $get)
+                                                    <option value="{{ $get->id}}">{{ $get->name}}</option>
+                                            @endforeach
                                           </select>
                                       </div>
                                       <div class="form-group">
@@ -83,7 +85,9 @@
                                             <label class="form-control-label">Developer : *</label>
                                             <select name="developer" id="developer" class="custom-select form-control" required>
                                                 <option selected disabled>Pilih Developer</option>
-                                                        <option value="">Developer</option>
+                                                @foreach($data['dev'] as $get)
+                                                        <option value="{{ $get->id}}">{{ $get->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -106,9 +110,9 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
-                    <a href="{{ url('partnership-apps-management') }}" class="btn btn-danger pull-left">Cancel</a>
-                    <!-- <input type="submit" class="btn btn-primary" value="Add"> -->
-                    <a href="{{ url('upload-media') }}" class="btn btn-primary">Next</a>
+                    <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Cancel</a>
+                    <input type="submit" class="btn btn-primary" value="Next">
+                    <!-- <a href="{{ url('upload-media') }}" class="btn btn-primary">Next</a> -->
                 </div>
             </div>
         </div>

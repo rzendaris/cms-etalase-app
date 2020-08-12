@@ -9,7 +9,7 @@
 @section('content')
 
 <div class="content-body-white">
-    <form method="post" action="{{url('created-app')}}" enctype="multipart/form-data">
+    <form method="post" action="{{url('update-app')}}" enctype="multipart/form-data">
           {{csrf_field()}}
         <div class="page-head">
             <div class="page-title">
@@ -47,8 +47,8 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
-                    <!-- <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Cancel</a> -->
-                    <!-- <a href="{{ url('upload-expansion/'.$data['apps']->id) }}" class="btn btn-success">Add Expansion FIle</a> -->
+                    <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Cancel</a>
+                    <a href="{{ url('edit-expansion/'.$data['apps']->id) }}" class="btn btn-success">Add Expansion FIle</a>
                     <input type="submit" class="btn btn-primary" value="Save">
                 </div>
             </div>

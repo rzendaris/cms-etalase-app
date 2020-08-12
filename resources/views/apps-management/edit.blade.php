@@ -13,11 +13,23 @@
           {{csrf_field()}}
         <div class="page-head">
             <div class="page-title">
-                <h1>Edit Application</h1>
+                <h1>Edit Application </h1>
             </div>
         </div>
         <div class="wrapper">
             <div class="row">
+              @if(session()->has('err_message'))
+                  <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      {{ session()->get('err_message') }}
+                  </div>
+              @endif
+              @if(session()->has('succ_message'))
+                  <div class="alert alert-success alert-dismissible" role="alert" auto-close="10000">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      {{ session()->get('succ_message') }}
+                  </div>
+              @endif
                 <div class="col-md-12 element">
                     <div class="box-pencarian-family-tree" style=" background: #fff; ">
                         <div class="row">
@@ -27,10 +39,10 @@
                                     <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
                                 </div>
                                 <div class="form-group">
-                                    <a href="{{ url('upload-media') }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-file"></i> Upload Media</a>
+                                    <a href="{{ url('edit-media/'.$data['apps']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-file"></i> Update Media</a>
                                 </div>
                                 <div class="form-group">
-                                    <a href="{{ url('upload-app') }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-android"></i> Update App</a>
+                                    <a href="{{ url('edit-app/'.$data['apps']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-android"></i> Update App</a>
                                 </div>
                             </div>
                             <div class="col-xl-10 col-md-10 m-b-10px">
@@ -84,7 +96,7 @@
                                           <input type="text" name="updated_at" value="{{ $data['apps']->updated_at }}" class="form-control"/>
                                       </div>
                                   </div>
-                                  <div class="col-md-12 col-xl-12 m-b-10px">                                     
+                                  <div class="col-md-12 col-xl-12 m-b-10px">
                                       <div class="form-group">
                                           <label class="control-label">Description :</label>
                                           <textarea class="textarea-register form-control" name="description" rows="5">{{ $data['apps']->description }}</textarea>

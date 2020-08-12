@@ -14,7 +14,7 @@
 <div class="content-body-white">
         <div class="page-head">
             <div class="page-title">
-                <h1>Upload Media </h1>
+                <h1>Upload Media</h1>
             </div>
         </div>
         <div class="wrapper">
@@ -34,7 +34,7 @@
                 <div class="col-md-12 element">
                     <div class="box-pencarian-family-tree" style=" background: #fff; ">
                         <br>
-                        <form method="post" action="{{url('create-media')}}" enctype="multipart/form-data">
+                        <form method="post" action="{{url('update-media')}}" enctype="multipart/form-data">
                           {{csrf_field()}}
                                 <div class="input-group control-group increment" >
                                   <input type="hidden" name="id" value="{{ $data['apps']->id }}">
@@ -73,7 +73,7 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
-                    <!-- <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Cancel</a> -->
+                    <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Cancel</a>
                     <!-- <input type="submit" class="btn btn-primary" value="Save"> -->
                 </div>
             </div>

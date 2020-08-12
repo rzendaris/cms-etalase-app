@@ -19,15 +19,29 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="sliderapp" class="carousel slide" data-ride="carousel">
-            
+
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner">
-                        <div class="item active">
-                            <img src="https://www.w3schools.com/bootstrap/la.jpg" alt="etalase">
-                        </div>
-                        <div class="item">
-                            <img src="https://www.w3schools.com/bootstrap/chicago.jpg" alt="etalase">
-                        </div>
+                      @if(json_decode($data['apps']->media) != '')
+                        @foreach(json_decode($data['apps']->media) as $key => $media)
+                          @if($key=='media1')
+                            <div class="item active">
+                                <img src="{{ url('/media/'.$media) }}" alt="etalase">
+                            </div>
+                          @else
+                            <div class="item">
+                                <img src="{{ url('/media/'.$media) }}" alt="etalase">
+                            </div>
+                          @endif
+                        @endforeach
+                      @else
+                          <div class="item active">
+                              <img src="https://www.w3schools.com/bootstrap/la.jpg" alt="etalase">
+                          </div>
+                          <div class="item">
+                              <img src="https://www.w3schools.com/bootstrap/chicago.jpg" alt="etalase">
+                          </div>
+                      @endif
                     </div>
 
                     <!-- Left and right controls -->
@@ -138,7 +152,7 @@
             <div class="row">
                 <div class="col-xl-2 col-md-2 m-b-10px">
                     <div class="form-group">
-                        <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="" /><br>
+                        <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/pictures/'.$data['user']->picture) }}" /><br>
                         <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
                     </div>
                     <div class="form-group">
@@ -148,25 +162,25 @@
                 <div class="col-xl-5 col-md-5 m-b-10px">
                     <div class="form-group">
                         <label class="form-control-label">Nama :</label>
-                        <input type="text" name="full_name" value="" class="form-control" disabled/>
+                        <input type="text" name="full_name" value="{{ $data['user']->name }}" class="form-control" disabled/>
                     </div>
                     <div class="form-group">
                         <label class="form-control-label">Website :</label>
-                        <input type="text" name="email" value="" class="form-control" disabled/>
+                        <input type="text" name="email" value="{{ $data['user']->dev_web }}" class="form-control" disabled/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Address :</label>
-                        <textarea class="textarea-register form-control" rows="5" disabled></textarea>
+                        <textarea class="textarea-register form-control" rows="5" disabled>{{ $data['user']->dev_address }}</textarea>
                     </div>
                 </div>
                 <div class="col-xl-5 col-md-5 m-b-10px">
                     <div class="form-group">
                         <label class="form-control-label">Email :</label>
-                        <input type="text" name="full_name" value="" class="form-control" disabled/>
+                        <input type="text" name="full_name" value="{{ $data['user']->email }}" class="form-control" disabled/>
                     </div>
                     <div class="form-group">
                         <label class="form-control-label">Country :</label>
-                        <input type="text" name="" value="" class="form-control" disabled/>
+                        <input type="text" name="" value="{{ $data['user']->countrys->country }}" class="form-control" disabled/>
                     </div>
                 </div>
             </div>
