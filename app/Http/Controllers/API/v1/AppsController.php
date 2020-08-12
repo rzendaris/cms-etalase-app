@@ -17,7 +17,12 @@ class AppsController extends Controller
 {
     public function GetAllApps(Request $request)
     {
-        $apps = Apps::get();
+        if (isset($request)){
+            $apps = $this->searchEngine($request);
+        } else {
+            $apps = Apps::where('is_active', 1)->get();
+        }
+
         foreach($apps as $key => $data){
             $apk_manifest = $this->CheckApkPackage($data->apk_file);
             if((int)$request->sdk_version < $apk_manifest['min_sdk_level']){
@@ -95,7 +100,18 @@ class AppsController extends Controller
 
     public function GetAppsCategory()
     {
-        $apps_category = MstCategories::get();
+        $select_apps_category = Apps::select(['category_id'])->where('is_active', 1)->groupBy('category_id')->get();
+        $apps_category = MstCategories::whereIn('id', $select_apps_category)->get();
         return $this->appResponse(100, 200, $apps_category);
+    }
+
+    protected function searchEngine($request){
+        $apps = Apps::where('is_active', 1);
+        if (isset($request->category_id)){
+            $apps = $apps->where('category_id', $request->category_id);
+        }
+
+        $return = $apps->get();
+        return $return;
     }
 }
