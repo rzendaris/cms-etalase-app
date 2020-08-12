@@ -28,7 +28,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            
+
             <div class="table-responsive custom--2">
                 <div class="row custom-position-header">
                     <div class="float-left col-xl-3 col-md-3 col-xs-8 m-b-10px">
@@ -42,36 +42,25 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Profile PIC</th>
                             <th>Name</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th class="text-center">Action</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-right">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                      @foreach($data['user'] as $user)
+
+                        @foreach($data['user'] as $user)
                         <tr>
                             <td>{{ $user->no }}</td>
-                            <td>
-                                <img src="{{ url('/pictures/'.$user->picture) }}" width="100"/>
-                            </td>
                             <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>@if($user->is_blocked==0)
-                                    {{"Blocked"}}
-                                  @else
-                                    {{"Actived"}}
-                                  @endif </td>
-                            <td class="text-center">
-                                <a href="{{ url('detail-user/'.$user->id) }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
-                                <a href="{{ url('edit-user/'.$user->id) }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
-                                <a href="{{ url('block-user/'.$user->id) }}" data-toggle="modal" data-target="#modal-banned-{{ $user-> id }}"><i class="fa fa-ban fa-lg custom--1"></i></a>
-                                <a href="{{ url('delete-user/'.$user->id) }}" data-toggle="modal" data-target="#modal-delete-{{ $user-> id }}"><i class="fa fa-trash fa-lg custom--1"></i></a>
+                            <td class="text-center">{{ $user->email }}</td>
+                            <td class="text-right">
+                                <a href="#" data-toggle="modal" data-target="#modal-edit-user-{{ $user->id }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#modal-reset-user-{{ $user->id }}"><i class="fa fa-key fa-lg custom--1"></i></a>
+                                <a href="#" data-toggle="modal" data-target="#modal-delete-user-{{ $user->id }}"><i class="fa fa-trash fa-lg custom--1"></i></a>
                             </td>
                         </tr>
                         @endforeach
-
 
                     </tbody>
                 </table>
@@ -81,19 +70,33 @@
 
 </div>
 
-
-@foreach($data['user'] as $user)
-    <!-- Modal Delete -->
-    <div id="modal-delete-{{ $user->id }}" class="modal fade">
-        <form method="post" action="{{url('delete-user')}}" enctype="multipart/form-data">
-            {{csrf_field()}}
+    <!-- Modal Edit User -->
+    <div id="modal-add-user" class="modal fade">
+        <form method="post" action="{{url('insert-user')}}" enctype="multipart/form-data">
+          {{csrf_field()}}
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center">
-                        <h2>Warning</h2>
-                        <p>Delete data can't be recovery, are you sure?</p>
+                        <h2>Add User</h2>
+                        <br>
+                        <div class="form-group text-left">
+                            <label class="form-control-label">Name: *</label>
+                            <input type="text" name="full_name" class="form-control" value="" required="">
+                        </div>
+                        <div class="form-group text-left">
+                            <label class="form-control-label">Email: *</label>
+                            <input type="text" name="email" class="form-control" value="" required="">
+                        </div>
+                        <div class="form-group text-left">
+                            <label class="form-control-label">Password: *</label>
+                            <input type="password" name="password" class="form-control" value="" required="">
+                        </div>
+                        <div class="form-group text-left">
+                            <label class="form-control-label">Re-type Password: *</label>
+                            <input type="password" name="re_password" class="form-control" value="" required="">
+                        </div>
                     </div>
-                    <input type="hidden" name="id" value="{{ $user->id }}"/>
+                    <input type="hidden" name="id" value=""/>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
                         <button type="submit" class="btn btn-danger">Yes</button>
@@ -102,9 +105,64 @@
             </div>
         </form>
     </div>
-    <!-- Modal Banned -->
-    <div id="modal-banned-{{ $user->id }}" class="modal fade">
-        <form method="post" action="{{url('block-user')}}" enctype="multipart/form-data">
+    <!-- Modal Edit User -->
+    @foreach($data['user'] as $user)
+    <div id="modal-edit-user-{{ $user->id }}" class="modal fade">
+        <form method="post" action="{{url('update-user')}}" enctype="multipart/form-data">
+          {{csrf_field()}}
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <h2>Edit User</h2>
+                        <br>
+                        <div class="form-group text-left">
+                          <input type="hidden" name="id" value="{{ $user->id }}"/>
+                            <label class="form-control-label">Name: *</label>
+                            <input type="text" name="full_name" class="form-control" value="{{ $user->name }}" required="">
+                        </div>
+                        <div class="form-group text-left">
+                            <label class="form-control-label">Email: *</label>
+                            <input type="text" name="email" class="form-control" value="{{ $user->email }}" required="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Modal Reset -->
+    <div id="modal-reset-user-{{ $user->id }}" class="modal fade">
+        <form method="post" action="{{url('reset-pass-user')}}" enctype="multipart/form-data">
+          {{csrf_field()}}
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <h2>Reset Password</h2>
+                        <br>
+                        <div class="form-group text-left">
+                          <input type="hidden" name="id" value="{{ $user->id }}"/>
+                            <label class="form-control-label">Password: *</label>
+                            <input type="password" name="password" class="form-control" required="">
+                        </div>
+                        <div class="form-group text-left">
+                            <label class="form-control-label">Re-type Password: *</label>
+                            <input type="password" name="re_password" class="form-control" required="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Modal Delete -->
+    <div id="modal-delete-user-{{ $user->id }}" class="modal fade">
+        <form method="post" action="{{url('delete-user')}}" enctype="multipart/form-data">
           {{csrf_field()}}
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -121,8 +179,8 @@
             </div>
         </form>
     </div>
-
     @endforeach
+
 
 @endsection
 
@@ -147,7 +205,7 @@
             "searching":     false,
         } );
 
-        $("div.toolbar").html('<a class="float-right btn btn-success" href="{{ url('add-user') }}">Tambah</a>');
+        $("div.toolbar").html('<a class="float-right btn btn-success" data-toggle="modal" data-target="#modal-add-user" href="#">Tambah</a>');
     });
     </script>
 @endsection

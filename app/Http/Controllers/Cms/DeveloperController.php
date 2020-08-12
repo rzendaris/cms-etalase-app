@@ -86,7 +86,19 @@ class DeveloperController extends Controller
             if($request->photo){
                 $file_extention = $request->photo->getClientOriginalExtension();
                 $file_name = $request->email.'image_profile.'.$file_extention;
-                $file_path = $request->photo->move(public_path().'/pictures',$file_name);
+                $fileSize = $request->photo->getSize();
+                $valid_extension = array("jpg","jpeg","png");
+                $maxFileSize = 2097152;
+                if(in_array(strtolower($file_extention),$valid_extension)){
+                  // Check file size
+                  if($fileSize <= $maxFileSize){
+                    $file_path = $request->photo->move(public_path().'/pictures',$file_name);
+                  }else{
+                    return redirect()->back()->with('err_message', 'File too large. File must be less than 2MB.');
+                  }
+                }else{
+                  return redirect()->back()->with('err_message', 'Invalid File Extension.');
+                }
             }else{
               $file_name=$user->picture;
             }
@@ -121,7 +133,19 @@ class DeveloperController extends Controller
           if($request->photo){
               $file_extention = $request->photo->getClientOriginalExtension();
               $file_name = $request->email.'image_profile.'.$file_extention;
-              $file_path = $request->photo->move(public_path().'/pictures',$file_name);
+              $fileSize = $request->photo->getSize();
+              $valid_extension = array("jpg","jpeg","png");
+              $maxFileSize = 2097152;
+              if(in_array(strtolower($file_extention),$valid_extension)){
+                // Check file size
+                if($fileSize <= $maxFileSize){
+                  $file_path = $request->photo->move(public_path().'/pictures',$file_name);
+                }else{
+                  return redirect()->back()->with('err_message', 'File too large. File must be less than 2MB.');
+                }
+              }else{
+                return redirect()->back()->with('err_message', 'Invalid File Extension.');
+              }
           }else{
             $file_name=$user->picture;
           }

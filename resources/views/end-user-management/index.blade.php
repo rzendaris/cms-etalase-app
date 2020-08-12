@@ -23,7 +23,7 @@
     @endif
     <div class="page-head">
         <div class="page-title">
-            <h1>User Management</h1>
+            <h1>End User Management</h1>
         </div>
     </div>
     <div class="row">
@@ -58,12 +58,20 @@
                             </td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->is_blocked }}</td>
+                            <td>@if($user->is_blocked==0)
+                                    {{"Blocked"}}
+                                  @else
+                                    {{"Actived"}}
+                                  @endif </td>
                             <td class="text-center">
                                 <a href="{{ url('detail-end-user/'.$user->id) }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
                                 <a href="{{ url('edit-end-user/'.$user->id) }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
-                                <a href="{{ url('block-end-user/'.$user->id) }}" data-toggle="modal" data-target="#modal-banned-{{ $user-> id }}"><i class="fa fa-ban fa-lg custom--1"></i></a>
-                                <a href="{{ url('delete-end-user/'.$user->id) }}" data-toggle="modal" data-target="#modal-delete-{{ $user-> id }}"><i class="fa fa-trash fa-lg custom--1"></i></a>
+                                @if($user->is_blocked==0)
+                                <a href="{{ url('unblock-user/'.$user->id) }}" data-toggle="modal" data-target="#modal-unbanned-{{ $user-> id }}"><i class="fa fa-folder-open fa-lg custom--1"></i></a>
+                                @else
+                                <a href="{{ url('block-user/'.$user->id) }}" data-toggle="modal" data-target="#modal-banned-{{ $user-> id }}"><i class="fa fa-ban fa-lg custom--1"></i></a>
+                                @endif
+                                <a href="{{ url('delete-user/'.$user->id) }}" data-toggle="modal" data-target="#modal-delete-{{ $user-> id }}"><i class="fa fa-trash fa-lg custom--1"></i></a>
                             </td>
                         </tr>
                         @endforeach
@@ -81,7 +89,7 @@
 @foreach($data['user'] as $user)
     <!-- Modal Delete -->
     <div id="modal-delete-{{ $user->id }}" class="modal fade">
-        <form method="post" action="{{url('delete-end-user')}}" enctype="multipart/form-data">
+        <form method="post" action="{{url('delete-user')}}" enctype="multipart/form-data">
             {{csrf_field()}}
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -89,7 +97,7 @@
                         <h2>Warning</h2>
                         <p>Delete data can't be recovery, are you sure?</p>
                     </div>
-                    <input type="text" name="id" value="{{ $user->id }}"/>
+                    <input type="hidden" name="id" value="{{ $user->id }}"/>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
                         <button type="submit" class="btn btn-danger">Yes</button>
@@ -100,7 +108,25 @@
     </div>
     <!-- Modal Banned -->
     <div id="modal-banned-{{ $user->id }}" class="modal fade">
-        <form method="post" action="{{url('block-end-user')}}" enctype="multipart/form-data">
+        <form method="post" action="{{url('block-user')}}" enctype="multipart/form-data">
+          {{csrf_field()}}
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <h2>Warning</h2>
+                        <p>Are you sure?</p>
+                    </div>
+                    <input type="hidden" name="id" value="{{ $user->id }}"/>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="modal-unbanned-{{ $user->id }}" class="modal fade">
+        <form method="post" action="{{url('unblock-user')}}" enctype="multipart/form-data">
           {{csrf_field()}}
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
