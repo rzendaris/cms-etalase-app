@@ -104,4 +104,20 @@ class FeController extends Controller
     {
         return view('user-man/index');
     }
+    public function AddApp()
+    {
+        return view('apps-management/add-app');
+    }
+    public function UploadMedia()
+    {
+        return view('apps-management/upload-media');
+    }
+    public function UploadApp()
+    {
+        return view('apps-management/upload-app');
+    }
+    public function UploadExpansion()
+    {
+        return view('apps-management/upload-expansion');
+    }
 }

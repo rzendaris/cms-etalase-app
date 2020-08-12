@@ -151,3 +151,13 @@ li.nav-item.border-r-active {
         width: unset;
     }
 }
+
+#sliderapp {
+    margin-top: 12px;
+}
+#sliderapp .carousel-inner>.item>a>img, .carousel-inner>.item>img {
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+}

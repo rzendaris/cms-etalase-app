@@ -13,7 +13,7 @@
           {{csrf_field()}}
         <div class="page-head">
             <div class="page-title">
-                <h1>Edit Apps</h1>
+                <h1>Edit Application</h1>
             </div>
         </div>
         <div class="wrapper">
@@ -27,7 +27,10 @@
                                     <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
                                 </div>
                                 <div class="form-group">
-                                    <a href="{{ url('review-info') }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-user"></i> Developer</a>
+                                    <a href="{{ url('upload-media') }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-file"></i> Upload Media</a>
+                                </div>
+                                <div class="form-group">
+                                    <a href="{{ url('upload-app') }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-android"></i> Update App</a>
                                 </div>
                             </div>
                             <div class="col-xl-10 col-md-10 m-b-10px">
@@ -52,19 +55,15 @@
                                       </div>
                                       <div class="form-group">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-12">
                                               <label class="form-control-label">SDK Target : </label>
                                               <input type="text" class="form-control" name="eu_sdk_version" value="{{ $data['apps']->eu_sdk_version }}" readonly>
-                                            </div>
-                                            <div class="col-md-6">
-                                              <label class="form-control-label">Package Name : </label>
-                                              <input type="text" class="form-control" name="package_name" value="{{ $data['apps']->package_name }}" readonly>
                                             </div>
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label class="form-control-label">File Size :</label>
-                                          <input type="text" name="file_size" value="{{ $data['apps']->file_size }}" class="form-control"/>
+                                          <label class="form-control-label">Version :</label>
+                                          <input type="text" name="version" value="{{ $data['apps']->version }}" class="form-control" readonly/>
                                       </div>
                                   </div>
                                   <div class="col-xl-6 col-md-6 m-b-10px">
@@ -81,19 +80,11 @@
                                           <input type="text" name="rate" value="{{ $data['apps']->rate }}" class="form-control"/>
                                       </div>
                                       <div class="form-group">
-                                          <label class="form-control-label">Version :</label>
-                                          <input type="text" name="version" value="{{ $data['apps']->version }}" class="form-control" readonly/>
-                                      </div>
-                                      <div class="form-group">
                                           <label class="form-control-label">Last Update :</label>
                                           <input type="text" name="updated_at" value="{{ $data['apps']->updated_at }}" class="form-control"/>
                                       </div>
                                   </div>
-                                  <div class="col-md-12 col-xl-12 m-b-10px">
-                                      <div class="form-group">
-                                          <label class="form-control-label">Google Play Link :</label>
-                                          <input type="text" name="link" value="" class="form-control" />
-                                      </div>
+                                  <div class="col-md-12 col-xl-12 m-b-10px">                                     
                                       <div class="form-group">
                                           <label class="control-label">Description :</label>
                                           <textarea class="textarea-register form-control" name="description" rows="5">{{ $data['apps']->description }}</textarea>
@@ -113,7 +104,7 @@
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
                     <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Cancel</a>
-                    <input type="submit" class="btn btn-primary" value="Save">
+                    <input type="submit" class="btn btn-primary" value="Update">
                 </div>
             </div>
         </div>

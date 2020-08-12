@@ -16,6 +16,33 @@
                 <h1>Approval Apps</h1>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="sliderapp" class="carousel slide" data-ride="carousel">
+            
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="https://www.w3schools.com/bootstrap/la.jpg" alt="etalase">
+                        </div>
+                        <div class="item">
+                            <img src="https://www.w3schools.com/bootstrap/chicago.jpg" alt="etalase">
+                        </div>
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#sliderapp" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#sliderapp" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+
+                </div>
+            </div>
+        </div>
         <div class="wrapper">
             <div class="row">
                 <div class="col-md-12 element">
@@ -26,8 +53,14 @@
                               <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/apps/'.$data['apps']->app_icon) }}" /><br>
                               <input id="upload-img-2" name="photo" type="file" disabled onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
                           </div>
+                          <div class="form-group text-center">
+                            <h2>Rating {{ $data['apps']->avg_ratings }} <i class="fa fa-star"></i></h2>
+                          </div>
                           <div class="form-group">
-                              <a href="{{ url('review-info') }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-user"></i> Developer</a>
+                            <a href="{{ url('review-info/'.$data['apps']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-star"></i> Review Info</a>
+                          </div>
+                          <div class="form-group">
+                              <a href="{{ url('#') }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-android"></i> Download App</a>
                           </div>
                       </div>
                       <div class="col-xl-10 col-md-10 m-b-10px">
@@ -52,13 +85,9 @@
                                 </div>
                                 <div class="form-group">
                                      <div class="row">
-                                          <div class="col-md-6">
+                                          <div class="col-md-12">
                                             <label class="form-control-label">SDK Target : </label>
                                             <input type="text" class="form-control" name="eu_sdk_version" value="{{ $data['apps']->eu_sdk_version }}" readonly>
-                                          </div>
-                                          <div class="col-md-6">
-                                            <label class="form-control-label">Package Name : </label>
-                                            <input type="text" class="form-control" name="package_name" value="{{ $data['apps']->package_name }}" readonly>
                                           </div>
                                         </div>
                                 </div>
@@ -91,10 +120,6 @@
                             </div>
                             <div class="col-md-12 col-xl-12 m-b-10px">
                                 <div class="form-group">
-                                    <label class="form-control-label">Google Play Link :</label>
-                                    <input type="text" name="link" value="" class="form-control" disabled />
-                                </div>
-                                <div class="form-group">
                                     <label class="control-label">Description :</label>
                                     <textarea class="textarea-register form-control" name="description" rows="5" disabled>{{ $data['apps']->description }}</textarea>
                                 </div>
@@ -109,7 +134,43 @@
                     </div>
                 </div>
             </div>
-
+            <br>
+            <div class="row">
+                <div class="col-xl-2 col-md-2 m-b-10px">
+                    <div class="form-group">
+                        <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="" /><br>
+                        <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
+                    </div>
+                    <div class="form-group">
+                        <a href="{{ url('profile') }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-user"></i> Profile</a>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-md-5 m-b-10px">
+                    <div class="form-group">
+                        <label class="form-control-label">Nama :</label>
+                        <input type="text" name="full_name" value="" class="form-control" disabled/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Website :</label>
+                        <input type="text" name="email" value="" class="form-control" disabled/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Address :</label>
+                        <textarea class="textarea-register form-control" rows="5" disabled></textarea>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-md-5 m-b-10px">
+                    <div class="form-group">
+                        <label class="form-control-label">Email :</label>
+                        <input type="text" name="full_name" value="" class="form-control" disabled/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Country :</label>
+                        <input type="text" name="" value="" class="form-control" disabled/>
+                    </div>
+                </div>
+            </div>
+            <hr>
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
                     <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Cancel</a>
