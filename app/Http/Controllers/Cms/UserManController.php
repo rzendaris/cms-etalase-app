@@ -41,7 +41,7 @@ class UserManController extends Controller
             'user' => $user,
             'country' => $country
         );
-        return view('user-man/index')->with('data', $data);
+        return view('user-management/index')->with('data', $data);
     }
     public function UserMgmtProfile()
     {
@@ -110,7 +110,7 @@ class UserManController extends Controller
             if($request->photo){
                 $file_extention = $request->photo->getClientOriginalExtension();
                 $file_name = $request->email.'image_profile.'.$file_extention;
-                $file_path = $request->photo->move(public_path().'/pictures',$file_name);
+                $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
             }else{
               $file_name=$user->picture;
             }
@@ -225,7 +225,7 @@ class UserManController extends Controller
       // $request->validate([
       //     'picture' => 'required|mimes:jpg,jpeg,png|max:2048',
       // ]);
-       // $request->file('picture')->move(public_path('pictures'), $fileName);
+       // $request->file('picture')->move($this->MapPublicPath('pictures'), $fileName);
        echo $request->picture;
        echo $request->name.$files;
        $files = $request->file('picture');
