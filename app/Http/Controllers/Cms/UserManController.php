@@ -41,7 +41,7 @@ class UserManController extends Controller
             'user' => $user,
             'country' => $country
         );
-        return view('user-man/index')->with('data', $data);
+        return view('user-management/index')->with('data', $data);
     }
     public function UserMgmtProfile()
     {
