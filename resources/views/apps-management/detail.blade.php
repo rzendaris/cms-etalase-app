@@ -17,15 +17,29 @@
     <div class="row">
         <div class="col-md-12">
             <div id="sliderapp" class="carousel slide" data-ride="carousel">
-           
+
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
-                    <div class="item active">
-                        <img src="https://www.w3schools.com/bootstrap/la.jpg" alt="etalase">
-                    </div>
-                    <div class="item">
-                        <img src="https://www.w3schools.com/bootstrap/chicago.jpg" alt="etalase">
-                    </div>
+                  @if(json_decode($data['apps']->media) != '')
+                    @foreach(json_decode($data['apps']->media) as $key => $media)
+                      @if($key=='media1')
+                        <div class="item active">
+                            <img src="{{ url('/media/'.$media) }}" alt="etalase">
+                        </div>
+                      @else
+                        <div class="item">
+                            <img src="{{ url('/media/'.$media) }}" alt="etalase">
+                        </div>
+                      @endif
+                    @endforeach
+                  @else
+                      <div class="item active">
+                          <img src="https://www.w3schools.com/bootstrap/la.jpg" alt="etalase">
+                      </div>
+                      <div class="item">
+                          <img src="https://www.w3schools.com/bootstrap/chicago.jpg" alt="etalase">
+                      </div>
+                  @endif
                 </div>
 
                 <!-- Left and right controls -->

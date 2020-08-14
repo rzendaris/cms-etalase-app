@@ -124,11 +124,33 @@ Route::middleware('auth')->group(function() {
         Route::get('review-info/{id}', 'Cms\RatingController@RatingInit');
         Route::get('edit-apps-management/{id}', 'Cms\AppsManController@AppsManEdit');
         Route::post('update-apps-management', 'Cms\AppsManController@AppsManUpdate');
-        Route::get('edit-apps-partnership/{id}', 'Cms\AppsManController@EditAppsPartnership');
-        Route::get('add-apps-partnership', 'Cms\AppsManController@AddAppsPartnership');
-        Route::post('create-apps-partnership', 'Cms\AppsManController@CreateAppsPartnership');
-        Route::get('edit-apps-partnership', 'Cms\AppsManController@EditAppsPartnership');
-        Route::post('update-apps-partnership', 'Cms\AppsManController@UpdateAppsPartnership');
+        //create app
+        Route::get('add-app', 'Cms\AppsManController@AddApps');
+
+        Route::post('create-apps', 'Cms\AppsManController@CreateApps');
+        //view upload file
+        Route::get('upload-media/{id}', 'Cms\AppsManController@UploadMedia');
+        Route::get('upload-app/{id}', 'Cms\AppsManController@UploadApp');
+        Route::get('upload-expansion/{id}', 'Cms\AppsManController@UploadExpansion');
+        // upload file
+        Route::post('create-media', 'Cms\AppsManController@CreateMedia');
+        Route::post('created-app', 'Cms\AppsManController@CreatedApp');
+        Route::post('create-expansion', 'Cms\AppsManController@CreateExpansion');
+        //view updated file
+        Route::get('edit-media/{id}', 'Cms\AppsManController@EditMedia');
+        Route::get('edit-app/{id}', 'Cms\AppsManController@EditApp');
+        Route::get('edit-expansion/{id}', 'Cms\AppsManController@EditExpansion');
+        // updated file
+        Route::post('update-media', 'Cms\AppsManController@UpdateMedia');
+        Route::post('update-app', 'Cms\AppsManController@UpdateApp');
+        Route::post('update-expansion', 'Cms\AppsManController@UpdateExpansion');
+
+        Route::get('edit-apps-partnership/{id}', 'Cms\AppsManController@EditAppsPartnership'); //not used
+        Route::get('add-apps-partnership', 'Cms\AppsManController@AddAppsPartnership'); //not used
+        Route::post('create-apps-partnership', 'Cms\AppsManController@CreateAppsPartnership'); //not used
+        Route::get('edit-apps-partnership', 'Cms\AppsManController@EditAppsPartnership'); //not used
+        Route::post('update-apps-partnership', 'Cms\AppsManController@UpdateAppsPartnership');//not used
+
         Route::post('delete-apps', 'Cms\AppsManController@AppsManDelete');
         Route::get('approval-apps/{id}', 'Cms\AppsManController@ApprovalApps');
         Route::post('approved-apps', 'Cms\AppsManController@Approved');
@@ -153,9 +175,3 @@ Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 // Route::get('user-management-cms/profile', 'Cms\UserManController@UserMgmtProfile');
 // FE Route Dummy
 Route::get('register-page', 'FeController@Register');
-Route::get('register-dev', 'Auth\RegisterController@getRegister');
-Route::get('user-man', 'FeController@IndexUserMan');
-Route::get('add-app', 'FeController@AddApp');
-Route::get('upload-media', 'FeController@UploadMedia');
-Route::get('upload-app', 'FeController@UploadApp');
-Route::get('upload-expansion', 'FeController@UploadExpansion');

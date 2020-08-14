@@ -9,11 +9,11 @@
 @section('content')
 
 <div class="content-body-white">
-    <form method="post" action="{{url('#')}}" enctype="multipart/form-data">
+    <form method="post" action="{{url('update-expansion')}}" enctype="multipart/form-data">
           {{csrf_field()}}
         <div class="page-head">
             <div class="page-title">
-                <h1>Upload Expansion File</h1>
+                <h1>Upload Expansion File </h1>
             </div>
         </div>
         <div class="wrapper">
@@ -35,7 +35,8 @@
                         <div class="row">
                             <div class="col-xl-12 col-md-12 m-b-10px">
                                 <div class="form-group">
-                                    <input type="file" class="form-control" />
+                                  <input type="hidden" name="id" value="{{ $data['apps']->id }}">
+                                    <input type="file" name="exp_file" class="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -46,7 +47,7 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
-                    <a href="{{ url('upload-app') }}" class="btn btn-danger pull-left">Cancel</a>
+                    <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Skip</a>
                     <input type="submit" class="btn btn-primary" value="Save">
                 </div>
             </div>

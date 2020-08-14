@@ -23,7 +23,7 @@
     @endif
     <div class="page-head">
         <div class="page-title">
-            <h1>Apps Management</h1>
+            <h1>Apps Management </h1>
         </div>
         <!-- <a class="float-right btn btn-success pull-right" href="{{ url('partnership-apps-management') }}">Partnership Apps <i class="fa fa-external-link fa-lg"></i></a> -->
     </div>
@@ -136,7 +136,7 @@
                                 <tr>
                                     <td>{{ $apps->no }}</td>
                                     <td>
-                                          <img src="{{ url('/icon/'.$apps->app_icon) }}" width="100"/>
+                                      <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100"/>
                                     </td>
                                     <td>{{ $apps->name }}</td>
                                     <td>{{ $apps->type }}</td>
