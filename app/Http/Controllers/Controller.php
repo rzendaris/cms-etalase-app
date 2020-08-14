@@ -39,6 +39,14 @@ class Controller extends BaseController
         );
         return $data;
     }
+    
+    public static function MapPublicPath() {
+        $path = public_path().'/';
+        if (env('DEPLOYMENT_STATUS', 0) == 1){
+            $path = "";
+        }
+        return $path;
+    }
 
     public static function appResponse($responseCode, $httpCode = 200, $data = null)
     {

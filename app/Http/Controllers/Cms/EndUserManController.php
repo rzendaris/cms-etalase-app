@@ -67,7 +67,7 @@ class EndUserManController extends Controller
               if($request->photo){
                   $file_extention = $request->photo->getClientOriginalExtension();
                   $file_name = $request->email.'image_profile.'.$file_extention;
-                  $file_path = $request->photo->move(public_path().'/pictures',$file_name);
+                  $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
               }
               User::create([
                   'name' => $request->full_name,
@@ -95,7 +95,7 @@ class EndUserManController extends Controller
           if($request->photo){
               $file_extention = $request->photo->getClientOriginalExtension();
               $file_name = $request->email.'image_profile.'.$file_extention;
-              $file_path = $request->photo->move(public_path().'/pictures',$file_name);
+              $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
           }else{
             $file_name=$user->picture;
           }

@@ -92,7 +92,7 @@ class DeveloperController extends Controller
                 if(in_array(strtolower($file_extention),$valid_extension)){
                   // Check file size
                   if($fileSize <= $maxFileSize){
-                    $file_path = $request->photo->move(public_path().'/pictures',$file_name);
+                    $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
                   }else{
                     return redirect()->back()->with('err_message', 'File too large. File must be less than 2MB.');
                   }
@@ -139,7 +139,7 @@ class DeveloperController extends Controller
               if(in_array(strtolower($file_extention),$valid_extension)){
                 // Check file size
                 if($fileSize <= $maxFileSize){
-                  $file_path = $request->photo->move(public_path().'/pictures',$file_name);
+                  $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
                 }else{
                   return redirect()->back()->with('err_message', 'File too large. File must be less than 2MB.');
                 }

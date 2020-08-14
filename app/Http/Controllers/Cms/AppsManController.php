@@ -112,7 +112,7 @@ class AppsManController extends Controller
               if(in_array(strtolower($file_extention),$valid_extension)){
                 // Check file size
                 if($fileSize <= $maxFileSize){
-                  $file_path = $request->photo->move(public_path().'/apps',$file_name);
+                  $file_path = $request->photo->move($this->MapPublicPath().'apps',$file_name);
                 }else{
                   return redirect()->back()->with('err_message', 'File too large. File must be less than 2MB.');
                 }
@@ -125,7 +125,7 @@ class AppsManController extends Controller
           // if($request->apk_file){
           //     $file_extention = $request->apk_file->getClientOriginalExtension();
           //     $apk_name = 'apk_'.$request->name.'_'.$request->id.'.'.$file_extention;
-          //     $file_path = $request->apk_file->move(public_path().'/apk',$apk_name);
+          //     $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
           //     // call function from Controller.php to get sdk package
           //     $cek_sdk = $this->CheckApkPackage($apk_name);
           //
@@ -136,7 +136,7 @@ class AppsManController extends Controller
           // if($request->exp_file){
           //     $file_extention = $request->exp_file->getClientOriginalExtension();
           //     $expfile_name = 'exp_file_'.$request->name.'_'.$request->id.'.'.$file_extention;
-          //     $file_path = $request->exp_file->move(public_path().'/exp_file',$expfile_name);
+          //     $file_path = $request->exp_file->move($this->MapPublicPath().'exp_file',$expfile_name);
           // }else{
           //   $expfile_name="Exp File not exists";
           // }
@@ -237,7 +237,7 @@ class AppsManController extends Controller
               $name='media_'.$request->id.'_'.$request->name.'_'.$no.'.'.$file_extention;
               $valid_extension = array("jpg","jpeg","png","mp4","mkv");
               if(in_array(strtolower($file_extention),$valid_extension)){
-                  $image->move(public_path().'/media',$name);
+                  $image->move($this->MapPublicPath().'media',$name);
               }else{
                 return redirect()->back()->with('err_message', 'Invalid File Extension.');
               }
@@ -279,7 +279,7 @@ class AppsManController extends Controller
               $name='media_'.$request->id.'_'.$request->name.'_'.$no.'.'.$file_extention;
               $valid_extension = array("jpg","jpeg","png","mp4","mkv");
               if(in_array(strtolower($file_extention),$valid_extension)){
-                  $image->move(public_path().'/media',$name);
+                  $image->move($this->MapPublicPath().'media',$name);
               }else{
                 return redirect()->back()->with('err_message', 'Invalid File Extension.');
               }
@@ -316,7 +316,7 @@ class AppsManController extends Controller
               // if(in_array(strtolower($file_extention),$valid_extension)){
                 // Check file size
                 if($fileSize <= $maxFileSize){
-                  $file_path = $request->apk_file->move(public_path().'/apk',$apk_name);
+                  $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
                   $cek_sdk = $this->CheckApkPackage($apk_name);
                   if ($cek_sdk['version_name'] <= $apps->version) {
                      return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan, Mohon Update Version Apps Lebih Tinggi!');
@@ -364,7 +364,7 @@ class AppsManController extends Controller
               // if(in_array(strtolower($file_extention),$valid_extension)){
                 // Check file size
                 if($fileSize <= $maxFileSize){
-                  $file_path = $request->apk_file->move(public_path().'/apk',$apk_name);
+                  $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
                   $cek_sdk = $this->CheckApkPackage($apk_name);
                   if ($cek_sdk['version_name'] <= $apps->version) {
                      return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan, Mohon Update Version Apps Lebih Tinggi!');
@@ -412,7 +412,7 @@ class AppsManController extends Controller
               // if(in_array(strtolower($file_extention),$valid_extension)){
                 // Check file size
                 if($fileSize <= $maxFileSize){
-                  $file_path = $request->exp_file->move(public_path().'/exp_file',$expfile_name);
+                  $file_path = $request->exp_file->move($this->MapPublicPath().'exp_file',$expfile_name);
 
                 }else{
                   return redirect()->back()->with('err_message', 'File too large. File must be less than 100MB.');
@@ -445,21 +445,21 @@ class AppsManController extends Controller
           if($request->photo){
               $file_extention = $request->photo->getClientOriginalExtension();
               $file_name = 'app_icon_'.$request->name.'_'.$request->id.'.'.$file_extention;
-              $file_path = $request->photo->move(public_path().'/apps',$file_name);
+              $file_path = $request->photo->move($this->MapPublicPath().'apps',$file_name);
           }else{
             $file_name=$apps->app_icon;
           }
           if($request->apk_file){
               $file_extention = $request->apk_file->getClientOriginalExtension();
               $apk_name = 'apk_'.$request->name.'_'.$request->id.'.'.$file_extention;
-              $file_path = $request->photo->move(public_path().'/apk',$apk_name);
+              $file_path = $request->photo->move($this->MapPublicPath().'apk',$apk_name);
           }else{
             $apk_name=$apps->app_icon;
           }
           if($request->exp_file){
               $file_extention = $request->exp_file->getClientOriginalExtension();
               $expfile_name = 'exp_file_'.$request->name.'_'.$request->id.'.'.$file_extention;
-              $file_path = $request->photo->move(public_path().'/exp_file',$expfile_name);
+              $file_path = $request->photo->move($this->MapPublicPath().'exp_file',$expfile_name);
           }else{
             $expfile_name=$apps->app_icon;
           }
@@ -501,7 +501,7 @@ class AppsManController extends Controller
               if(in_array(strtolower($file_extention),$valid_extension)){
                 // Check file size
                 if($fileSize <= $maxFileSize){
-                  $file_path = $request->photo->move(public_path().'/apps',$file_name);
+                  $file_path = $request->photo->move($this->MapPublicPath().'apps',$file_name);
                 }else{
                   return redirect()->back()->with('err_message', 'File too large. File must be less than 2MB.');
                 }
@@ -636,14 +636,14 @@ class AppsManController extends Controller
           if($request->photo){
               $file_extention = $request->photo->getClientOriginalExtension();
               $file_name = 'app_icon_'.$request->name.'_'.$request->id.'.'.$file_extention;
-              $file_path = $request->photo->move(public_path().'/apps',$file_name);
+              $file_path = $request->photo->move($this->MapPublicPath().'apps',$file_name);
           }else{
             $file_name="Photo not exists";
           }
           if($request->apk_file){
               $file_extention = $request->apk_file->getClientOriginalExtension();
               $apk_name = 'apk_'.$request->name.'_'.$request->id.'.'.$file_extention;
-              $file_path = $request->apk_file->move(public_path().'/apk',$apk_name);
+              $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
               // call function from Controller.php to get sdk package
               $cek_sdk = $this->CheckApkPackage($apk_name);
 
@@ -654,7 +654,7 @@ class AppsManController extends Controller
           if($request->exp_file){
               $file_extention = $request->exp_file->getClientOriginalExtension();
               $expfile_name = 'exp_file_'.$request->name.'_'.$request->id.'.'.$file_extention;
-              $file_path = $request->exp_file->move(public_path().'/exp_file',$expfile_name);
+              $file_path = $request->exp_file->move($this->MapPublicPath().'exp_file',$expfile_name);
           }else{
             $expfile_name="Exp File not exists";
           }
@@ -705,14 +705,14 @@ class AppsManController extends Controller
           if($request->photo){
               $file_extention = $request->photo->getClientOriginalExtension();
               $file_name = 'app_icon_'.$request->name.'_'.$request->id.'.'.$file_extention;
-              $file_path = $request->photo->move(public_path().'/apps',$file_name);
+              $file_path = $request->photo->move($this->MapPublicPath().'apps',$file_name);
           }else{
             $file_name=$apps->app_icon;
           }
           if($request->apk_file){
               $file_extention = $request->apk_file->getClientOriginalExtension();
               $apk_name = 'apk_'.$request->name.'_'.$request->id.'.'.$file_extention;
-              $file_path = $request->apk_file->move(public_path().'/apk',$apk_name);
+              $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
               // call function from Controller.php to get sdk package
               // $cek_sdk['package_name'].//com.example.rezkyflutter
               // $cek_sdk['version_name'].//1.0.0
@@ -735,7 +735,7 @@ class AppsManController extends Controller
           if($request->exp_file){
               $file_extention = $request->exp_file->getClientOriginalExtension();
               $expfile_name = 'exp_file_'.$request->name.'_'.$request->id.'.'.$file_extention;
-              $file_path = $request->exp_file->move(public_path().'/exp_file',$expfile_name);
+              $file_path = $request->exp_file->move($this->MapPublicPath().'exp_file',$expfile_name);
           }else{
             $expfile_name=$apps->expansion_file;
           }
