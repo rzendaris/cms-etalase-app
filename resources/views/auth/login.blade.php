@@ -83,6 +83,24 @@
                         {{ session()->get('succ_message') }}
                     </div>
                 @endif
+                @if($errors->has('g-recaptcha-response'))
+                    <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ $errors->first('g-recaptcha-response') }}
+                    </div>
+                @endif
+                @if ($errors->has('email'))
+                    <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ $errors->first('email') }}
+                    </div>
+                @endif
+                @if(session()->has('err_message'))
+                    <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ session()->get('err_message') }}
+                    </div>
+                @endif
             </div>
         </div>
         <div class="alert alert-danger display-hide">
@@ -96,11 +114,11 @@
                 <i class="fa fa-user"></i>
                 <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" required autofocus/>
 
-                @if ($errors->has('email'))
+                <!-- @if ($errors->has('email'))
                     <span class="help-block">
                         <strong>{{ $errors->first('email') }}</strong>
                     </span>
-                @endif
+                @endif -->
             </div>
         </div>
         <div class="form-group">
@@ -114,11 +132,11 @@
             <div class="input-icon">
               {!! NoCaptcha::display() !!}
               {{ csrf_field() }}
-              @if ($errors->has('g-recaptcha-response'))
+              <!-- @if ($errors->has('g-recaptcha-response'))
               <span class="help-block">
               <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
               </span>
-              @endif
+              @endif -->
             </div>
         </div>
         <div class="row">
