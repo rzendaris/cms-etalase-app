@@ -20,7 +20,7 @@ class AppsController extends Controller
         if (isset($request)){
             $apps = $this->searchEngine($request);
         } else {
-            $apps = Apps::where('is_active', 1)->get();
+            $apps = Apps::where('is_active', 1)->where('is_approve', 1)->get();
         }
 
         foreach($apps as $key => $data){
@@ -60,7 +60,7 @@ class AppsController extends Controller
     public function AppsAction(Request $request, $action, $apps_id)
     {
         $data = "Action > ".$action." --- "."Apps Id > ".$apps_id;
-        $apps = Apps::where('id', $apps_id)->first();
+        $apps = Apps::where('id', $apps_id)->where('is_active', 1)->where('is_approve', 1)->first();
         if(isset($apps)){
             $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->first();
             if($action == "DOWNLOAD"){
@@ -104,13 +104,13 @@ class AppsController extends Controller
 
     public function GetAppsCategory()
     {
-        $select_apps_category = Apps::select(['category_id'])->where('is_active', 1)->groupBy('category_id')->get();
+        $select_apps_category = Apps::select(['category_id'])->where('is_active', 1)->where('is_approve', 1)->groupBy('category_id')->get();
         $apps_category = MstCategories::whereIn('id', $select_apps_category)->get();
         return $this->appResponse(100, 200, $apps_category);
     }
 
     protected function searchEngine($request){
-        $apps = Apps::where('is_active', 1);
+        $apps = Apps::where('is_active', 1)->where('is_approve', 1);
         if (isset($request->category_id)){
             $apps = $apps->where('category_id', $request->category_id);
         }

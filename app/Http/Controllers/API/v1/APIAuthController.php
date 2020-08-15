@@ -28,7 +28,7 @@ class APIAuthController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email',
-            'password' => 'required|string|confirmed',
+            'password' => 'required|string',
             'sdk_version' => 'required|string',
         ]);
         $check_user = User::where('email', $request->email)->where('role_id', 3)->first();
