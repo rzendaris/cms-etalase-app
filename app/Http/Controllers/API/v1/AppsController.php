@@ -24,20 +24,24 @@ class AppsController extends Controller
         }
 
         foreach($apps as $key => $data){
-            $apk_manifest = $this->CheckApkPackage($data->apk_file);
-            if((int)$request->sdk_version < $apk_manifest['min_sdk_level']){
+            if(is_file($this->MapPublicPath().'apk/'.$data->apk_file)){
+                $apk_manifest = $this->CheckApkPackage($data->apk_file);
+                if((int)$request->sdk_version < $apk_manifest['min_sdk_level']){
+                    unset($apps[$key]);
+                }
+                $apps_status = 'DOWNLOAD';
+                $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $data->id)->first();
+                if(isset($installed_apps)){
+                    if($apk_manifest['version_code'] != (int)$data->version){
+                        $apps_status = "UPDATE";
+                    } else {
+                        $apps_status = "INSTALLED";
+                    }
+                }
+                $data->apps_status = $apps_status;
+            } else {
                 unset($apps[$key]);
             }
-            $apps_status = 'DOWNLOAD';
-            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $data->id)->first();
-            if(isset($installed_apps)){
-                if($apk_manifest['version_code'] != (int)$data->version){
-                    $apps_status = "UPDATE";
-                } else {
-                    $apps_status = "INSTALLED";
-                }
-            }
-            $data->apps_status = $apps_status;
 
         }
         return $this->appResponse(100, 200, $apps);

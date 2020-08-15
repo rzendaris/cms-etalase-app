@@ -58,7 +58,7 @@ class Controller extends BaseController
             // 'memory_usage' => memory_get_usage()/1048576 . " mb"
         ];
 
-        return response()->json($response, $httpCode);
+        return response()->json($response, $httpCode)->header('Cache-Control', 'no-cache, must-revalidate');
     }
 
     /**

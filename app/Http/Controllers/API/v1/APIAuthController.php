@@ -112,7 +112,7 @@ class APIAuthController extends Controller
      */
     public function user(Request $request)
     {
-        $user = User::where('email', $request->user_email)->where('role_id', 2)->first();
+        $user = User::where('email', $request->user_email)->where('role_id', 3)->first();
         return $this->appResponse(100, 200, $user);
     }
   

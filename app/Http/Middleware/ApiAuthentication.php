@@ -26,6 +26,12 @@ class ApiAuthentication
                 'error' => "API Key is Missing"
             ], 403);
         }
+        $tks = explode('.', $token);
+        if (count($tks) != 3) {
+            return response()->json([
+                'message' => "Signature verification failed"
+            ], 403);
+        }
 
         try {
             $credentials = JWT::decode($token, env('JWT_SECRET'), ['HS256']);
