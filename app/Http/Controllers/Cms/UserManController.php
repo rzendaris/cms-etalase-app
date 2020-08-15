@@ -19,12 +19,12 @@ class UserManController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            if (Auth::user()->role_id != 1){
-                return redirect('/')->with('access_message', 'Akses untuk Menu User Management Ditolak!');
-            }
-            return $next($request);
-        });
+        // $this->middleware(function ($request, $next) {
+        //     if (Auth::user()->role_id != 1){
+        //         return redirect('/')->with('access_message', 'Akses untuk Menu User Management Ditolak!');
+        //     }
+        //     return $next($request);
+        // });
 
     }
 
@@ -53,6 +53,17 @@ class UserManController extends Controller
             'country' => $country
         );
         return view('auth/profile')->with($data);
+    }
+    public function UserMgmtProfileAdmin()
+    {
+        $country = MstCountry::get();
+        $user = User::where('id', Auth::user()->id)->first();
+
+        $data = array(
+            'user' => $user,
+            'country' => $country
+        );
+        return view('auth/profile-admin')->with($data);
     }
     public function UserMgmtProfilePassword()
     {

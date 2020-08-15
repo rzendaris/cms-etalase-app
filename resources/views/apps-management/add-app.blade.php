@@ -86,7 +86,11 @@
                                             <select name="developer" id="developer" class="custom-select form-control" required>
                                                 <option selected disabled>Pilih Developer</option>
                                                 @foreach($data['dev'] as $get)
+                                                @if($data['devid'] == $get->id)
+                                                        <option value="{{ $get->id}}" selected>{{ $get->name}}</option>
+                                                @else
                                                         <option value="{{ $get->id}}">{{ $get->name}}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </div>

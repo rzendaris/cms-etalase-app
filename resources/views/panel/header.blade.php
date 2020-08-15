@@ -5,10 +5,10 @@
             <img src="{{ asset('assets/global/img/logo.png') }}" alt="" width="100" class="logo-default" />
         </a>
         <div class="menu-toggler sidebar-toggler">
-           
+
         </div>
     </div>
-    
+
     <a class="logout-on-mobile hidden-md hidden-lg" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="icon-key"></i> Logout</a>
     <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
 
@@ -60,9 +60,16 @@
                         <div class="card">
                             <div class="card-body">
                                 <ul class="list-group text-center" style=" margin-bottom: 0; ">
+                                    @if(env('ENV') == 'ADMIN')
+                                    <li class="list-group-item">
+                                      <a href="{{ url('profile-admin') }}">Profile</a>
+                                    </li>
+                                    @elseif(env('ENV') == 'DEVELOPER')
                                     <li class="list-group-item">
                                         <a href="{{ url('profile') }}">Profile</a>
                                     </li>
+                                    @endif
+
                                     <li class="list-group-item">
                                         <a href="{{ url('profile-password') }}">Change Passowrd</a>
                                     </li>
@@ -76,6 +83,7 @@
                             </div>
                         </div>
                     </div>
+
                 </li>
             </ul>
         </div>

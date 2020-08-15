@@ -94,6 +94,7 @@ Route::middleware('auth')->group(function() {
 
         //user setting
         Route::get('profile', 'Cms\UserManController@UserMgmtProfile');
+        Route::get('profile-admin', 'Cms\UserManController@UserMgmtProfileAdmin');
         Route::get('profile-password', 'Cms\UserManController@UserMgmtProfilePassword');
         Route::post('update-profile-user', 'Cms\UserManController@UserMgmtUpdateProfile');
         //end user
@@ -111,6 +112,7 @@ Route::middleware('auth')->group(function() {
         //dev management
         Route::get('developer-management', 'Cms\DeveloperController@DeveloperInit');
         Route::get('add-developer-management', 'Cms\DeveloperController@DeveloperAdd');
+        Route::get('save-add-apps', 'Cms\DeveloperController@SaveAddApps');
         Route::get('edit-developer-management/{id}', 'Cms\DeveloperController@DeveloperChangeInfo');
         Route::get('detail-developer-management/{id}', 'Cms\DeveloperController@DeveloperDetailInfo');
         Route::post('insert-developer-management', 'Cms\DeveloperController@DeveloperInsert');
@@ -124,6 +126,7 @@ Route::middleware('auth')->group(function() {
         Route::get('review-info/{id}', 'Cms\RatingController@RatingInit');
         Route::get('edit-apps-management/{id}', 'Cms\AppsManController@AppsManEdit');
         Route::post('update-apps-management', 'Cms\AppsManController@AppsManUpdate');
+        Route::get('download-app/{id}', 'Cms\AppsManController@getDownload');
         //create app
         Route::get('add-app', 'Cms\AppsManController@AddApps');
 
@@ -159,8 +162,14 @@ Route::middleware('auth')->group(function() {
         /**
          * PUT endpoint for CMS of developer here
          */
+         Route::get('profile', 'Cms\UserManController@UserMgmtProfile');
+         Route::get('profile-password', 'Cms\UserManController@UserMgmtProfilePassword');
+         Route::post('change-pass-user', 'Cms\UserManController@UserMgmtChangePass'); // change pass by user login
+         Route::post('update-profile-user', 'Cms\UserManController@UserMgmtUpdateProfile');
 
          Route::get('register-dev', 'Auth\RegisterController@getRegister');
+         Route::get('download-app/{id}', 'DevInterface\AppsDeveloperController@getDownload');
+         Route::get('apps-developer', 'DevInterface\AppsDeveloperController@AppsDevInit');
 
     }
 });

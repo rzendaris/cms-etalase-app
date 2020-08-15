@@ -93,7 +93,7 @@
                                       </div>
                                       <div class="form-group">
                                           <label class="form-control-label">Last Update :</label>
-                                          <input type="text" name="updated_at" value="{{ $data['apps']->updated_at }}" class="form-control"/>
+                                          <input type="text" name="updated_at" value="{{ $data['apps']->updated_at }}" class="form-control" readonly />
                                       </div>
                                   </div>
                                   <div class="col-md-12 col-xl-12 m-b-10px">
