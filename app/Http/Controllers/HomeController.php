@@ -27,7 +27,7 @@ class HomeController extends Controller
         if (env('ENV') == 'ADMIN' && $role=='1'){
           return redirect('user-management');
         }else if(env('ENV') == 'DEVELOPER' && $role=='2'){
-          return redirect('developer-management');
+          return redirect('apps-developer');
         }else{
           Auth::logout();
           return redirect('/')->with('err_message', 'Error Ga Boleh Masuk!');
@@ -45,7 +45,7 @@ class HomeController extends Controller
       if (env('ENV') == 'ADMIN' && $role=='1'){
         return redirect('user-management');
       }else if(env('ENV') == 'DEVELOPER' && $role=='2'){
-        return redirect('developer-management');
+        return redirect('apps-developer');
       }else{
         Auth::logout();
         return redirect('/')->with('err_message', 'Error Ga Boleh Masuk!');

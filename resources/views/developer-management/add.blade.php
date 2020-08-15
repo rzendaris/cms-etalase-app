@@ -88,8 +88,10 @@
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
                     <a href="{{ url('developer-management') }}" class="btn btn-danger pull-left">Cancel</a>
-                    <button type="submit" class="btn btn-primary">Save & Add Apps</button>
-                    <input type="submit" class="btn btn-primary" value="Save">
+                    <!-- <input type="submit" name="save" class="btn btn-primary" value="saveadd"> -->
+                    <button type="submit"  name="save" value="saveadd" class="btn btn-primary">Save & Add Apps</button>
+                    <button type="submit"  name="save" value="saveonly" class="btn btn-primary">Save</button>
+                    <!-- <input type="submit" name="save" class="btn btn-primary" value="saveonly"> -->
                 </div>
             </div>
         </div>

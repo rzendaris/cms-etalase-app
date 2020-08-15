@@ -141,7 +141,7 @@
                 <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
             </div>
             <div class="form-group">
-                <a href="{{ url('profile') }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-user"></i> Profile</a>
+                <a href="{{ url('detail-developer-management/'.$data['user']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-user"></i> Profile</a>
             </div>
         </div>
         <div class="col-xl-5 col-md-5 m-b-10px">

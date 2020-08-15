@@ -3,6 +3,8 @@
         <li class="heading">
             <h3 class="uppercase">Menu</h3>
         </li>
+        @if(env('ENV') == 'ADMIN')
+
         <li class="nav-item {{ Request::is('user-management') || Request::is('user-management/*') ? 'active' : '' }}">
             <a href="{{ url('user-management') }}" class="nav-link nav-toggle">
                 <i class="fa fa-users"></i>
@@ -39,6 +41,21 @@
                 <span class="title">Report </span>
             </a>
         </li>
+        @elseif(env('ENV') == 'DEVELOPER')
+        <li class="nav-item {{ Request::is('apps-developer') || Request::is('apps-developer/*') ? 'active' : '' }}">
+            <a href="{{ url('apps-developer') }}" class="nav-link nav-toggle">
+                <i class="fa fa-android"></i>
+                <span class="title">Apps Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
+            <a href="{{ url('#') }}" class="nav-link nav-toggle">
+                <i class="fa fa-user-secret"></i>
+                <span class="title">Feedback And Reply </span>
+            </a>
+        </li>
+        @else
+        @endif
     </ul>
 </div>
 <!-- <div class="page-sidebar navbar-collapse collapse">
