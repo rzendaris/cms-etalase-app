@@ -49,9 +49,9 @@
                               <div class="row">
                                   <div class="col-xl-6 col-md-6 m-b-10px">
                                       <div class="form-group">
-                                          <label class="form-control-label">Nama :</label>
+                                          <label class="form-control-label">Nama :*</label>
                                           <input type="hidden" name="id" value="{{ $data['apps']->id }}">
-                                          <input type="text" name="name"  value="{{ $data['apps']->name }}" class="form-control"/>
+                                          <input type="text" name="name"  value="{{ $data['apps']->name }}" class="form-control" required/>
                                       </div>
                                       <div class="form-group">
                                           <label class="form-control-label">Category :</label>
@@ -88,8 +88,8 @@
                                           </select>
                                       </div>
                                       <div class="form-group">
-                                          <label class="form-control-label">Rate :</label>
-                                          <input type="text" name="rate" value="{{ $data['apps']->rate }}" class="form-control"/>
+                                          <label class="form-control-label">Rate :*</label>
+                                          <input type="text" name="rate" value="{{ $data['apps']->rate }}" class="form-control" required/>
                                       </div>
                                       <div class="form-group">
                                           <label class="form-control-label">Last Update :</label>

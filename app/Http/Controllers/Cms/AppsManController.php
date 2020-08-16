@@ -419,9 +419,9 @@ class AppsManController extends Controller
               $file_extention = $request->exp_file->getClientOriginalExtension();
               $expfile_name = 'exp_file_'.$apps->name.'_'.$request->id.'.'.$file_extention;
               $fileSize = $request->exp_file->getSize();
-              $valid_extension = array("apk");
+              $valid_extension = array("obb");
               $maxFileSize = 100097152;
-              // if(in_array(strtolower($file_extention),$valid_extension)){
+              if(in_array(strtolower($file_extention),$valid_extension)){
                 // Check file size
                 if($fileSize <= $maxFileSize){
                   $file_path = $request->exp_file->move($this->MapPublicPath().'exp_file',$expfile_name);
@@ -429,9 +429,9 @@ class AppsManController extends Controller
                 }else{
                   return redirect()->back()->with('err_message', 'File too large. File must be less than 100MB.');
                 }
-              // }else{
-              //   return redirect()->back()->with('err_message', 'Invalid File Extension.');
-              // }
+              }else{
+                return redirect()->back()->with('err_message', 'Invalid File Extension.');
+              }
               // call function from Controller.php to get sdk package
 
           }else{
