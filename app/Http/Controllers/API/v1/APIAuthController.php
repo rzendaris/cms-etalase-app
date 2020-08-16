@@ -30,17 +30,28 @@ class APIAuthController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
             'sdk_version' => 'required|string',
+            'birthday' => 'required|date_format:Y-m-d',
+            'photo' => 'mimes:jpeg,jpg,png|required|max:10000',
         ]);
-        $check_user = User::where('email', $request->email)->where('role_id', 3)->first();
+        $check_user = User::where('email', $request->email)->first();
         if ($check_user){
             return $this->appResponse(505, 200);
         } else {
+            $file_name = "Picture doesn't exist";
+            if($request->photo){
+                $file_extention = $request->photo->getClientOriginalExtension();
+                $file_name = $request->email.'image_profile.'.$file_extention;
+                $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
+            }
             $user = new User([
                 'name' => $request->name,
                 'email' => $request->email,
                 'role_id' => 3,
                 'password' => bcrypt($request->password),
-                'eu_sdk_version' => $request->sdk_version
+                'eu_sdk_version' => $request->sdk_version,
+                'eu_birthday' => $request->birthday,
+                'is_blocked' => 1,
+                'picture' => $file_name
             ]);
             $user->save();
             return $this->appResponse(500, 200);
@@ -66,7 +77,7 @@ class APIAuthController extends Controller
                 'password' => 'required',
                 'sdk_version' => 'required'
             ]);
-            $user = User::where('email', $request->email)->where('role_id', 3)->first();
+            $user = User::where('email', $request->email)->where('role_id', 3)->where('is_blocked', 1)->first();
             if(isset($user)){
                 if($hasher->check($request->input('password'), $user->password)){
                     $apikey = $this->jwt($user);
@@ -112,7 +123,8 @@ class APIAuthController extends Controller
      */
     public function user(Request $request)
     {
-        $user = User::where('email', $request->user_email)->where('role_id', 3)->first();
+        $user = User::where('email', $request->user_email)->where('role_id', 3)->where('is_blocked', 1)->first();
+        $user->picture = "pictures/".$user->picture;
         return $this->appResponse(100, 200, $user);
     }
   
