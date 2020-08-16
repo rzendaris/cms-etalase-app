@@ -8,6 +8,10 @@
 
 @section('content')
 
+<div class="loader" style="display:none;">
+    <div class="loader-main"><i class="fa fa-spinner fa-pulse"></i></div>
+</div>
+
 <div class="content-body-white">
     <form method="post" action="{{url('create-apps')}}" enctype="multipart/form-data">
           {{csrf_field()}}
@@ -44,20 +48,20 @@
                                 <div class="row">
                                     <div class="col-xl-6 col-md-6 m-b-10px">
                                       <div class="form-group">
-                                          <label class="form-control-label">Nama :</label>
-                                          <input type="text" name="name"  class="form-control"/>
+                                          <label class="form-control-label">Nama : *</label>
+                                          <input type="text" name="name"  class="form-control" required/>
                                       </div>
                                       <div class="form-group">
-                                          <label class="form-control-label">Category :</label>
-                                          <select class="form-control" name="category">
+                                          <label class="form-control-label">Category : *</label>
+                                          <select class="form-control" name="category" required>
                                             @foreach($data['category'] as $get)
                                                     <option value="{{ $get->id}}">{{ $get->name}}</option>
                                             @endforeach
                                           </select>
                                       </div>
                                       <div class="form-group">
-                                          <label class="form-control-label">Type :</label>
-                                          <select class="form-control" name="type">
+                                          <label class="form-control-label">Type : *</label>
+                                          <select class="form-control" name="type" required>
                                               <option value="Games">Games</option>
                                               <option value="Hiburan">Hiburan</option>
                                               <option value="Musik">Musik</option>
@@ -78,8 +82,8 @@
                                     </div>
                                     <div class="col-xl-6 col-md-6 m-b-10px">
                                         <div class="form-group">
-                                            <label class="form-control-label">Rate :</label>
-                                            <input type="text" name="rate" class="form-control"/>
+                                            <label class="form-control-label">Rate : *</label>
+                                            <input type="text" name="rate" class="form-control" required/>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-control-label">Developer : *</label>
@@ -136,6 +140,10 @@
         $('[type=tel]').on('keypress', function(e) {
             keys = ['0','1','2','3','4','5','6','7','8','9','.']
             return keys.indexOf(event.key) > -1
+        });
+
+        $(document).on('submit', 'form', function() {
+            $(".loader").attr("style","display:block;");
         });
     </script>
 @endsection

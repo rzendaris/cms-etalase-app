@@ -98,8 +98,8 @@
                     </div>
                     <input type="hidden" name="id" value=""/>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
-                        <button type="submit" class="btn btn-danger">Yes</button>
+                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-success">Yes</button>
                     </div>
                 </div>
             </div>
@@ -122,12 +122,12 @@
                         </div>
                         <div class="form-group text-left">
                             <label class="form-control-label">Email: *</label>
-                            <input type="text" name="email" class="form-control" value="{{ $user->email }}" required="">
+                            <input type="text" name="email" class="form-control" value="{{ $user->email }}" required="" readonly>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
-                        <button type="submit" class="btn btn-danger">Yes</button>
+                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-success">Yes</button>
                     </div>
                 </div>
             </div>
@@ -153,8 +153,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
-                        <button type="submit" class="btn btn-danger">Yes</button>
+                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-success">Yes</button>
                     </div>
                 </div>
             </div>
@@ -172,8 +172,8 @@
                     </div>
                     <input type="hidden" name="id" value="{{ $user->id }}"/>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success pull-left" data-dismiss="modal">No</button>
-                        <button type="submit" class="btn btn-danger">Yes</button>
+                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-success">Yes</button>
                     </div>
                 </div>
             </div>

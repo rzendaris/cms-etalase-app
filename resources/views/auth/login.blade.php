@@ -47,6 +47,23 @@
     .login .content .form-actions {
         padding: 0 30px 15px;
     }
+    .loader {
+        position: fixed;
+        top: 0;
+        background: rgb(255 255 255 / .5);
+        bottom: 0;
+        left: 0;
+        z-index: 99999;
+        height: 100%;
+        width: 100%;
+    }
+    .loader-main {
+        color: #da8788;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        font-size: 33px;
+    }
     @media (max-width:767px){
         .login .content {
             width:90%;
@@ -58,12 +75,15 @@
     }
 </style>
 
+<div class="loader" style="display:none;">
+    <div class="loader-main"><i class="fa fa-spinner fa-pulse"></i></div>
+</div>
 
 <div class="content login-box--">
   {!! NoCaptcha::renderJs() !!}
 
 
-    <form class="login-form" method="POST" action="{{ route('login') }}">
+    <form class="login-form" method="POST" action="{{ route('login') }}" onsubmit="onsubmitform()">
     @csrf
         <div class="row">
             <div class="col-md-12 text-center">
@@ -173,4 +193,10 @@
     <script src="{{ asset('assets/global/plugins/backstretch/jquery.backstretch.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/pages/scripts/login-4.min.js') }}" type="text/javascript"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <script>
+    function onsubmitform() {
+        $(".loader").attr("style","display:block;");
+    }
+    </script>
 @endsection
