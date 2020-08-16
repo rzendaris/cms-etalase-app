@@ -106,8 +106,12 @@ class ForgotPasswordController extends Controller
 
     public function changePassword(Request $request)
     {
-        User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
-        return redirect('login')->with('succ_message', 'Selamat, kata sandi telah diperbarui');
+        if ($request->password != $request->re_password) {
+          return redirect()->back()->with('err_message', 'Re-Type Password Not Match!');
+        }else{
+          User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
+          return redirect('login')->with('succ_message', 'Selamat, kata sandi telah diperbarui');
+        }
     }
 
 }

@@ -95,12 +95,12 @@
                         {{ $errors->first('email') }}
                     </div>
                 @endif
-                @if(session()->has('err_message'))
+                <!-- @if(session()->has('err_message'))
                     <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         {{ session()->get('err_message') }}
                     </div>
-                @endif
+                @endif -->
             </div>
         </div>
         <div class="alert alert-danger display-hide">
@@ -145,9 +145,11 @@
                     <button type="submit" class="btn green w-100 btn-login"> <i class="fa fa-sign-in"></i> Login </button>
                 </div>
             </div>
-            <div class="col-xs-12 col-md-12 hidden">
+            @if(env('ENV') == 'DEVELOPER')
+            <div class="col-xs-12 col-md-12">
                 <a href="{{ url('register-dev') }}" class="btn green w-100 btn-registration"> <i class="fa fa-user-plus"></i> Registration </a>
             </div>
+            @endif
             <div class="col-xs-12 col-md-12">
                 <div class="forget-password text-center">
                     <a href="{{ url('forgot-password') }}"><b> <i class="fa fa-unlock-alt"></i> Lupa Password ? </b></a>
