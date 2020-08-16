@@ -41,6 +41,23 @@
     #CaptchaCode {
         padding-left: 10px;
     }
+    .loader {
+        position: fixed;
+        top: 0;
+        background: rgb(255 255 255 / .5);
+        bottom: 0;
+        left: 0;
+        z-index: 99999;
+        height: 100%;
+        width: 100%;
+    }
+    .loader-main {
+        color: #da8788;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        font-size: 33px;
+    }
     @media (max-width:767px){
         .login .content {
             width:90%;
@@ -52,10 +69,14 @@
     }
 </style>
 
+<div class="loader" style="display:none;">
+    <div class="loader-main"><i class="fa fa-spinner fa-pulse"></i></div>
+</div>
+
 <div class="content login-box--">
   {!! NoCaptcha::renderJs() !!}
     <!-- BEGIN FORGOT PASSWORD FORM -->
-    <form class="login-form" method="post" action="{{ url('forgot-password-send-email') }}" enctype="multipart/form-data">
+    <form class="login-form" method="post" action="{{ url('forgot-password-send-email') }}" enctype="multipart/form-data" onsubmit="onsubmitform()">
     {{csrf_field()}}
         <h3>Lupa Password ?</h3>
         <p> Masukan alamat email anda dibawah ini untuk memperbarui kata sandi akun anda. </p>
@@ -106,4 +127,10 @@
     <script src="{{ asset('assets/global/plugins/backstretch/jquery.backstretch.min.js') }}" type="text/javascript"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="{{ asset('assets/pages/scripts/login-4.min.js') }}" type="text/javascript"></script>
+
+    <script>
+    function onsubmitform() {
+        $(".loader").attr("style","display:block;");
+    }
+    </script>
 @endsection
