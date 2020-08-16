@@ -325,7 +325,7 @@ class AppsManController extends Controller
               $fileSize = $request->apk_file->getSize();
               $valid_extension = array("apk");
               $maxFileSize = 100097152;
-              // if(in_array(strtolower($file_extention),$valid_extension)){
+              if(in_array(strtolower($file_extention),$valid_extension)){
                 // Check file size
                 if($fileSize <= $maxFileSize){
                   $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
@@ -336,9 +336,9 @@ class AppsManController extends Controller
                 }else{
                   return redirect()->back()->with('err_message', 'File too large. File must be less than 100MB.');
                 }
-              // }else{
-              //   return redirect()->back()->with('err_message', 'Invalid File Extension.');
-              // }
+              }else{
+                return redirect()->back()->with('err_message', 'Invalid File Extension.');
+              }
               // call function from Controller.php to get sdk package
 
           }else{
@@ -373,7 +373,7 @@ class AppsManController extends Controller
               $fileSize = $request->apk_file->getSize();
               $valid_extension = array("apk");
               $maxFileSize = 100097152;
-              // if(in_array(strtolower($file_extention),$valid_extension)){
+              if(in_array(strtolower($file_extention),$valid_extension)){
                 // Check file size
                 if($fileSize <= $maxFileSize){
                   $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
@@ -384,9 +384,9 @@ class AppsManController extends Controller
                 }else{
                   return redirect()->back()->with('err_message', 'File too large. File must be less than 100MB.');
                 }
-              // }else{
-              //   return redirect()->back()->with('err_message', 'Invalid File Extension.');
-              // }
+              }else{
+                return redirect()->back()->with('err_message', 'Invalid File Extension.');
+              }
               // call function from Controller.php to get sdk package
 
           }else{
