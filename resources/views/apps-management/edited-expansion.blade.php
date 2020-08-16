@@ -40,7 +40,7 @@
                             <div class="col-xl-12 col-md-12 m-b-10px">
                                 <div class="form-group">
                                   <input type="hidden" name="id" value="{{ $data['apps']->id }}">
-                                    <input type="file" name="exp_file" class="form-control" />
+                                    <input type="file" name="exp_file" class="form-control" required/>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
-                    <a href="{{ url('upload-app') }}" class="btn btn-danger pull-left">Cancel</a>
+                    <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Cancel</a>
                     <input type="submit" class="btn btn-primary" value="Save">
                 </div>
             </div>

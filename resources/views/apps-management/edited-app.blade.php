@@ -40,7 +40,7 @@
                             <div class="col-xl-12 col-md-12 m-b-10px">
                                 <div class="form-group">
                                   <input type="hidden" name="id" value="{{ $data['apps']->id }}">
-                                    <input type="file" name="apk_file" class="form-control" />
+                                    <input type="file" name="apk_file" class="form-control" required/>
                                 </div>
                             </div>
                         </div>

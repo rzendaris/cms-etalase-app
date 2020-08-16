@@ -62,7 +62,7 @@
                     <div class="col-xl-2 col-md-2 m-b-10px">
                         <div class="form-group">
                             <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="100%" height="150" src="{{ url('/apps/'.$data['apps']->app_icon) }}" /><br>
-                            <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
+                            <!-- <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; "> -->
                         </div>
                         <div class="form-group text-center">
                             <h2>Rating {{ $data['apps']->avg_ratings }} <i class="fa fa-star"></i></h2>
@@ -138,10 +138,10 @@
         <div class="col-xl-2 col-md-2 m-b-10px">
             <div class="form-group">
                 <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="100%" height="150" src="{{ url('/pictures/'.$data['user']->picture) }}" /><br>
-                <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
+                <!-- <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; "> -->
             </div>
             <div class="form-group">
-                <a href="{{ url('detail-developer-management/'.$data['user']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-user"></i> Profile</a>
+                <a target="_blank" rel="noopener noreferrer" href="{{ url('detail-developer-management/'.$data['user']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-user"></i> Profile</a>
             </div>
         </div>
         <div class="col-xl-5 col-md-5 m-b-10px">

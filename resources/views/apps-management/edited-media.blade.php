@@ -83,7 +83,7 @@ button.btn.btn-success {
                                 <div class="col-md-4 increment">
                                   <input type="hidden" name="id" value="{{ $data['apps']->id }}">
                                   <input type="hidden" name="name" value="{{ $data['apps']->name }}">
-                                  <input type="file" name="filename[]" class="form-control">
+                                  <input type="file" name="filename[]" class="form-control" required/>
                                   <div class="input-group-btn">
                                     <button class="btn btn-success" type="button"><i class="glyphicon glyphicon-plus"></i>Add</button>
                                   </div>

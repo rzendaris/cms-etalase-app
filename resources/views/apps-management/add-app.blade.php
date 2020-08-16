@@ -40,7 +40,7 @@
                             <div class="col-xl-2 col-md-2 m-b-10px">
                                 <div class="form-group">
                                     <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg" /><br>
-                                    <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
+                                    <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; " required>
                                     <p class="text-danger text-center">Max. file size 2 MB</p>
                                 </div>
                             </div>
@@ -88,13 +88,13 @@
                                         <div class="form-group">
                                             <label class="form-control-label">Developer : *</label>
                                             <select name="developer" id="developer" class="custom-select form-control" required>
-                                                <option selected disabled>Pilih Developer</option>
+                                                <option value="">Pilih Developer</option>
                                                 @foreach($data['dev'] as $get)
-                                                @if($data['devid'] == $get->id)
-                                                        <option value="{{ $get->id}}" selected>{{ $get->name}}</option>
-                                                @else
-                                                        <option value="{{ $get->id}}">{{ $get->name}}</option>
-                                                @endif
+                                                    @if($data['devid'] == $get->id)
+                                                            <option value="{{ $get->id}}" selected>{{ $get->name}}</option>
+                                                    @else
+                                                            <option value="{{ $get->id}}">{{ $get->name}}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
