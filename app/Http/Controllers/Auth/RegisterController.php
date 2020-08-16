@@ -66,12 +66,16 @@ class RegisterController extends Controller
      */
      public function getRegister()
      {
+        if (env('ENV') == 'DEVELOPER'){
          $country = MstCountry::all();
          $data = [
              'country' => $country
          ];
 
          return view('auth.register')->with($data);
+       }else{
+         return redirect('/');
+       }
      }
     protected function create(array $data)
     {

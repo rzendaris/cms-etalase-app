@@ -167,7 +167,6 @@ Route::middleware('auth')->group(function() {
          Route::post('change-pass-user', 'Cms\UserManController@UserMgmtChangePass'); // change pass by user login
          Route::post('update-profile-user', 'Cms\UserManController@UserMgmtUpdateProfile');
 
-         Route::get('register-dev', 'Auth\RegisterController@getRegister');
          Route::get('download-app/{id}', 'DevInterface\AppsDeveloperController@getDownload');
          Route::get('apps-developer', 'DevInterface\AppsDeveloperController@AppsDevInit');
 
@@ -182,5 +181,6 @@ Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 // Route::get('user-management-cms', 'Cms\UserManController@UserMgmtInit');
 // Route::post('user-management-cms/reset', 'Cms\UserManController@UserMgmtResetPass');
 // Route::get('user-management-cms/profile', 'Cms\UserManController@UserMgmtProfile');
+Route::get('register-dev', 'Auth\RegisterController@getRegister');
 // FE Route Dummy
-Route::get('register-page', 'FeController@Register');
+// Route::get('register-page', 'FeController@Register');

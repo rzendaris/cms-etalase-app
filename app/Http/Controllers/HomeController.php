@@ -30,7 +30,7 @@ class HomeController extends Controller
           return redirect('apps-developer');
         }else{
           Auth::logout();
-          return redirect('/')->with('err_message', 'Error Ga Boleh Masuk!');
+          return redirect('login')->with('err_message', 'Akun anda tidak memiliki akses kesini');
         }
     }
 
@@ -48,7 +48,7 @@ class HomeController extends Controller
         return redirect('apps-developer');
       }else{
         Auth::logout();
-        return redirect('/')->with('err_message', 'Error Ga Boleh Masuk!');
+        return redirect('login')->with('err_message', 'Akun anda tidak memiliki akses kesini');
       }
     }
 

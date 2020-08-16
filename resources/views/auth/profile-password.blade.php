@@ -36,7 +36,7 @@
                             <div class="col-xl-6 col-md-6 m-b-10px">
                                 <div class="form-group">
                                     <label class="form-control-label">Old Password :*</label>
-                                    <input type="text" name="old_password" class="form-control" required/>
+                                    <input type="password" name="old_password" class="form-control" required/>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                             <div class="col-xl-6 col-md-6 m-b-10px">
                                 <div class="form-group">
                                     <label class="form-control-label">New Password :*</label>
-                                    <input type="text" name="new_password" class="form-control" required/>
+                                    <input type="password" name="new_password" class="form-control" required/>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                             <div class="col-xl-6 col-md-6 m-b-10px">
                                 <div class="form-group">
                                     <label class="form-control-label">Re-type Password :*</label>
-                                    <input type="text" name="re_password" class="form-control" required/>
+                                    <input type="password" name="re_password" class="form-control" required/>
                                 </div>
                             </div>
                         </div>

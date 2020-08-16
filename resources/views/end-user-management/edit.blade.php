@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Email :*</label>
-                                    <input type="text" name="email" value="{{ $data->email }}"  class="form-control"/>
+                                    <input type="text" name="email" value="{{ $data->email }}"  class="form-control" readonly/>
                                 </div>
                             </div>
                         </div>

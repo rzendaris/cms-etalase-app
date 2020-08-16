@@ -9,7 +9,7 @@
 @section('content')
 <style>
     .login .content .forget-password {margin-top: 10px;}
-    div#LoginCaptcha_CaptchaDiv { 
+    div#LoginCaptcha_CaptchaDiv {
         background: white;
         width: 100%!important;
         padding: 10px!important;
@@ -38,18 +38,31 @@
 </style>
 <div class="logo">
     <!-- <a href="#">
-        <img src="{{ asset('assets/global/img/logo.png') }}" alt="logo-mina-indonesia" width="100"/> 
+        <img src="{{ asset('assets/global/img/logo.png') }}" alt="logo-mina-indonesia" width="100"/>
     </a> -->
 </div>
 <div class="content login-box--">
     <form class="login-form" method="POST" action="{{ url('change-password') }}">
     @csrf
         <div class="row">
+
             <div class="col-md-12 text-center">
                 <a href="/" >
                     <img src="{{ asset('assets/global/img/logo.png') }}" alt="" width="100" class="logo-default-login" />
                 </a>
                 <h3 class="form-title">Perbarui Password</h3>
+                @if(session()->has('err_message'))
+                    <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ session()->get('err_message') }}
+                    </div>
+                @endif
+                @if(session()->has('suc_message'))
+                    <div class="alert alert-success alert-dismissible" role="alert" auto-close="10000">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ session()->get('suc_message') }}
+                    </div>
+                @endif
             </div>
         </div>
         <div class="form-group">
@@ -65,7 +78,14 @@
             <label class="control-label visible-ie8 visible-ie9">Password</label>
             <div class="input-icon">
                 <i class="fa fa-lock"></i>
-                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" required autofocus/> 
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" required autofocus/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">Re-Type Password</label>
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Re-Type Password" name="re_password" required autofocus/>
             </div>
         </div>
         <div class="row">
