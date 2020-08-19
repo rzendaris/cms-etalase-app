@@ -47,21 +47,21 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Email :*</label>
-                                    <input type="text" name="email" class="form-control"/>
+                                    <input type="text" name="email" class="form-control" required/>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Birthday :*</label>
-                                    <input type="date" name="eu_birthday" class="form-control date"/>
+                                    <input type="date" name="eu_birthday" class="form-control date" required/>
                                 </div>
                             </div>
                             <div class="col-xl-5 col-md-5 m-b-10px">
                                 <div class="form-group">
                                     <label class="form-control-label">Password :*</label>
-                                    <input type="password" name="password" class="form-control date"/>
+                                    <input type="password" name="password" class="form-control date" required/>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Re-type Password :*</label>
-                                    <input type="password" name="re_password" class="form-control date"/>
+                                    <input type="password" name="re_password" class="form-control date" required/>
                                 </div>
                             </div>
                         </div>
