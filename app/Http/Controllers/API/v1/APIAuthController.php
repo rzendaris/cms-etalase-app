@@ -31,7 +31,7 @@ class APIAuthController extends Controller
             'password' => 'required|string',
             'sdk_version' => 'required|string',
             'birthday' => 'required|date_format:Y-m-d',
-            'photo' => 'mimes:jpeg,jpg,png|required|max:10000',
+            'photo' => 'mimes:jpeg,jpg,png|max:10000',
         ]);
         $check_user = User::where('email', $request->email)->first();
         if ($check_user){
