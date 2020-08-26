@@ -182,5 +182,8 @@ Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
 // Route::post('user-management-cms/reset', 'Cms\UserManController@UserMgmtResetPass');
 // Route::get('user-management-cms/profile', 'Cms\UserManController@UserMgmtProfile');
 Route::get('register-dev', 'Auth\RegisterController@getRegister');
-// FE Route Dummy
-// Route::get('register-page', 'FeController@Register');
+// FE Route Dummy Route::get('register-page', 'FeController@Register');
+Route::get('feedbacks-and-reply', 'FeController@Feedbacks');
+Route::get('add-application-developer', 'FeController@DevAdd');
+Route::get('edit-application-developer', 'FeController@DevEdit');
+Route::get('detail-application-developer', 'FeController@DevDetail');
