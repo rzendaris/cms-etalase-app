@@ -49,7 +49,7 @@
             </a>
         </li>
         <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
-            <a href="{{ url('#') }}" class="nav-link nav-toggle">
+            <a href="{{ url('feedbacks-and-reply') }}" class="nav-link nav-toggle">
                 <i class="fa fa-user-secret"></i>
                 <span class="title">Feedback And Reply </span>
             </a>
