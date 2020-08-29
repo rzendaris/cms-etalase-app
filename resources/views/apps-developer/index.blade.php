@@ -75,8 +75,8 @@
                                   {{"Actived"}}
                                 @endif </td>
                           <td class="text-center">
-                              <a href="{{ url('detail-application-developer') }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
-                              <a href="{{ url('edit-application-developer') }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
+                              <a href="{{ url('detail-apps-dev/'.$apps->id) }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
+                              <a href="{{ url('edit-apps-dev/'.$apps->id) }}"><i class="fa fa-pencil fa-lg custom--1"></i></a>
                               @if($apps->is_active==0)
                                 <a href="#" data-toggle="modal" data-target="#modal-unbanned-{{$apps->id}}"><i class="fa fa-folder-open fa-lg custom--1"></i></a>
                               @else
@@ -120,7 +120,7 @@
 </div>
 <!-- Modal Banned -->
 <div id="modal-banned-{{$apps->id}}" class="modal fade">
-    <form method="post" action="{{url('block-apps')}}" enctype="multipart/form-data">
+    <form method="post" action="{{url('block-apps-dev')}}" enctype="multipart/form-data">
       {{csrf_field()}}
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -138,7 +138,7 @@
     </form>
 </div>
 <div id="modal-unbanned-{{$apps->id}}" class="modal fade">
-    <form method="post" action="{{url('unblock-apps')}}" enctype="multipart/form-data">
+    <form method="post" action="{{url('unblock-apps-dev')}}" enctype="multipart/form-data">
       {{csrf_field()}}
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -180,7 +180,7 @@
             "searching":     false,
         } );
 
-        $("div.toolbar").html('<a class="float-right btn btn-success" href="{{ url('add-application-developer') }}">Tambah</a>');
+        $("div.toolbar").html('<a class="float-right btn btn-success" href="{{ url('add-apps-dev') }}">Tambah</a>');
     });
     </script>
 @endsection

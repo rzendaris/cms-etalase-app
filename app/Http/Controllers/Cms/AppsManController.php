@@ -256,7 +256,7 @@ class AppsManController extends Controller
               $data["media".$no] = $name;
             }
         }else{
-          return redirect()->back()->with('err_message', 'File too large. File must be less than 10MB.'.$SumSize);
+          return redirect()->back()->with('err_message', 'File too large. File must be less than 10MB.');
         }
         $updated = Apps::where('id', $request->id)->update([
               'media' => json_encode($data),
@@ -569,7 +569,7 @@ class AppsManController extends Controller
                   ]
                 );
 
-            return redirect()->back()->with('suc_message', 'Apps telah diblock!');
+            return redirect()->back()->with('suc_message', 'Apps telah diunblock!');
         } else {
             return redirect()->back()->with('err_message', 'Apps tidak ditemukan!');
         }
