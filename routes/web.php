@@ -168,8 +168,37 @@ Route::middleware('auth')->group(function() {
          Route::post('update-profile-user', 'Cms\UserManController@UserMgmtUpdateProfile');
 
          Route::get('download-app/{id}', 'DevInterface\AppsDeveloperController@getDownload');
-         Route::get('apps-developer', 'DevInterface\AppsDeveloperController@AppsDevInit');
 
+         Route::get('apps-developer', 'DevInterface\AppsDeveloperController@AppsDevInit');
+         Route::get('detail-apps-dev/{id}', 'DevInterface\AppsDeveloperController@AppsDevDetailInfo');
+         Route::get('edit-apps-dev/{id}', 'DevInterface\AppsDeveloperController@AppsDevEdit');
+         Route::post('update-apps-dev', 'DevInterface\AppsDeveloperController@AppsDevUpdate');
+         Route::get('add-apps-dev', 'DevInterface\AppsDeveloperController@AddApps');
+
+         Route::post('create-apps-dev', 'DevInterface\AppsDeveloperController@CreateApps');
+         //view upload file
+         Route::get('upload-media-dev/{id}', 'DevInterface\AppsDeveloperController@UploadMedia');
+         Route::get('upload-app-dev/{id}', 'DevInterface\AppsDeveloperController@UploadApp');
+         Route::get('upload-expansion-dev/{id}', 'DevInterface\AppsDeveloperController@UploadExpansion');
+         // upload file
+         Route::post('create-media-dev', 'DevInterface\AppsDeveloperController@CreateMedia');
+         Route::post('created-app-dev', 'DevInterface\AppsDeveloperController@CreatedApp');
+         Route::post('create-expansion-dev', 'DevInterface\AppsDeveloperController@CreateExpansion');
+         //view updated file
+         Route::get('edit-media-dev/{id}', 'DevInterface\AppsDeveloperController@EditMedia');
+         Route::get('edit-app-dev/{id}', 'DevInterface\AppsDeveloperController@EditApp');
+         Route::get('edit-expansion-dev/{id}', 'DevInterface\AppsDeveloperController@EditExpansion');
+         // updated file
+         Route::post('update-media-dev', 'DevInterface\AppsDeveloperController@UpdateMedia');
+         Route::post('update-app-dev', 'DevInterface\AppsDeveloperController@UpdateApp');
+         Route::post('update-expansion-dev', 'DevInterface\AppsDeveloperController@UpdateExpansion');
+         Route::post('block-apps-dev', 'DevInterface\AppsDeveloperController@AppsDevBlock');
+         Route::post('unblock-apps-dev', 'DevInterface\AppsDeveloperController@AppsDevUnBlock');
+         Route::post('delete-apps', 'DevInterface\AppsDeveloperController@AppsDevDelete');\
+
+         Route::get('review-info/{id}', 'DevInterface\FeedbacksController@RatingInit');
+         Route::get('feedbacks-and-reply', 'DevInterface\FeedbacksController@FeedbacksInit');
+         Route::post('reply-feedbacks', 'DevInterface\FeedbacksController@ReplyFeedbacks');
     }
 });
 Route::get('under-construction', 'HomeController@underConstruction');
@@ -177,10 +206,14 @@ Route::get('forgot-password', 'Auth\ForgotPasswordController@forgotPasswordInit'
 Route::post('forgot-password-send-email', 'Auth\ForgotPasswordController@forgotPassword');
 Route::get('forgot-password-verify/{token}', 'Auth\ForgotPasswordController@forgotPasswordVerify');
 Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
+Route::get('verify-account/{token}', 'HomeController@VerifyEmail');
 
 // Route::get('user-management-cms', 'Cms\UserManController@UserMgmtInit');
 // Route::post('user-management-cms/reset', 'Cms\UserManController@UserMgmtResetPass');
 // Route::get('user-management-cms/profile', 'Cms\UserManController@UserMgmtProfile');
 Route::get('register-dev', 'Auth\RegisterController@getRegister');
-// FE Route Dummy
-// Route::get('register-page', 'FeController@Register');
+// FE Route Dummy Route::get('register-page', 'FeController@Register');
+// Route::get('feedbacks-and-reply', 'FeController@Feedbacks');
+// Route::get('add-application-developer', 'FeController@DevAdd');
+// Route::get('edit-application-developer', 'FeController@DevEdit');
+// Route::get('detail-application-developer', 'FeController@DevDetail');

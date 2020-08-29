@@ -120,4 +120,21 @@ class FeController extends Controller
     {
         return view('apps-management/upload-expansion');
     }
+
+    public function Feedbacks()
+    {
+        return view('developer-feedbacks/index');
+    }
+    public function DevAdd()
+    {
+        return view('apps-developer/add-apps');
+    }
+    public function DevEdit()
+    {
+        return view('apps-developer/edit-apps');
+    }
+    public function DevDetail()
+    {
+        return view('apps-developer/detail');
+    }
 }
