@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Mail;
 use App\Mail\SendMailResetPassword;
+use App\Mail\SendMailVerifyEmail;
 use App\Model\Tables\ResetPasswordToken;
 
 use App\User;
@@ -79,22 +80,40 @@ class APIAuthController extends Controller
             ]);
             $user = User::where('email', $request->email)->where('role_id', 3)->where('is_blocked', 1)->first();
             if(isset($user)){
-                if($hasher->check($request->input('password'), $user->password)){
-                    $apikey = $this->jwt($user);
-                    $decode = JWT::decode($apikey, env('JWT_SECRET'), ['HS256']);
-    
-                    $data['user_email'] = $user->email;
-                    $returnData = [
-                        "user_id" => $user->id,
-                        "email" => $user->email,
-                        "name" => $user->name,
-                        "role_id" => $user->role_id,
-                        "token" => $apikey,
-                    ];
-                    User::where('id', $user->id)->update(['eu_sdk_version' => $request->sdk_version]);
-                    return $this->appResponse(201, 200, $returnData);
-                }else{
-                    return $this->appResponse(105, 401);
+                if($user->is_verified == 1){
+                    if($hasher->check($request->input('password'), $user->password)){
+                        $apikey = $this->jwt($user);
+                        $decode = JWT::decode($apikey, env('JWT_SECRET'), ['HS256']);
+        
+                        $data['user_email'] = $user->email;
+                        $returnData = [
+                            "user_id" => $user->id,
+                            "email" => $user->email,
+                            "name" => $user->name,
+                            "role_id" => $user->role_id,
+                            "token" => $apikey,
+                        ];
+                        User::where('id', $user->id)->update(['eu_sdk_version' => $request->sdk_version]);
+                        return $this->appResponse(201, 200, $returnData);
+                    }else{
+                        return $this->appResponse(105, 401);
+                    }
+                } else {
+                    $token = md5(rand(1, 50) . microtime());
+                    $now_time = Carbon::now();
+                    $expired = Carbon::parse($now_time->toDateTimeString())->addHour();
+                    $data = array(
+                        'email' => $request->email,
+                        'name' => $user->name,
+                        'reset_url' => url('verify-account/'.$token),
+                    );
+                    Mail::send(new SendMailVerifyEmail($data));
+                    ResetPasswordToken::create([
+                        'email' => $request->email,
+                        'token' => $token,
+                        'expired_at' => $expired
+                    ]);
+                    return $this->appResponse(107, 401);
                 }
             }else{
                 return $this->appResponse(105, 401);
