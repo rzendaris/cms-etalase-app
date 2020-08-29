@@ -132,6 +132,9 @@ class Controller extends BaseController
             case "106":
                 $message = "Email not Registered";
             break;
+            case "107":
+                $message = "Account not verify, please check your email";
+            break;
             case "1995":
                 $message = "Access Denied";
             break;

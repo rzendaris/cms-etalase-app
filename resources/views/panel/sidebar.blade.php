@@ -48,7 +48,7 @@
                 <span class="title">Apps Management </span>
             </a>
         </li>
-        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('feedbacks-and-reply') || Request::is('feedbacks-and-reply/*') ? 'active' : '' }}">
             <a href="{{ url('feedbacks-and-reply') }}" class="nav-link nav-toggle">
                 <i class="fa fa-user-secret"></i>
                 <span class="title">Feedback And Reply </span>

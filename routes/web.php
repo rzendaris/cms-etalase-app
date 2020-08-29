@@ -206,6 +206,7 @@ Route::get('forgot-password', 'Auth\ForgotPasswordController@forgotPasswordInit'
 Route::post('forgot-password-send-email', 'Auth\ForgotPasswordController@forgotPassword');
 Route::get('forgot-password-verify/{token}', 'Auth\ForgotPasswordController@forgotPasswordVerify');
 Route::post('change-password', 'Auth\ForgotPasswordController@changePassword');
+Route::get('verify-account/{token}', 'HomeController@VerifyEmail');
 
 // Route::get('user-management-cms', 'Cms\UserManController@UserMgmtInit');
 // Route::post('user-management-cms/reset', 'Cms\UserManController@UserMgmtResetPass');
