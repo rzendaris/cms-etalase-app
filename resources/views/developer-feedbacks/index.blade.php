@@ -9,13 +9,26 @@
 @section('content')
 
 <div class="content-body-white">
-    <div class="page-head">
-        <div class="text-center">
-            <h2>Feedbacks & Reply</h2>
-            <h2>4.5 <i class="fa fa-star"></i></h2>
-            <h4>1024 - Feedbacks</h4>
+  <div class="page-head">
+    @if(session()->has('err_message'))
+        <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ session()->get('err_message') }}
         </div>
-    </div>
+    @endif
+    @if(session()->has('succ_message'))
+        <div class="alert alert-success alert-dismissible" role="alert" auto-close="10000">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ session()->get('succ_message') }}
+        </div>
+    @endif
+      <div class="text-center">
+          <!-- <h2>{{ count($data['ratingsall']) }}</h2>
+          <h4>{{ $data['apps']->type }} - Feedbacks</h4> -->
+          <h2>{{ $data['avgrating'] }} <i class="fa fa-star"></i></h2>
+          <h4>{{ count($data['ratings']) }} Feedbacks</h4>
+      </div>
+  </div>
     <hr>
     <div class="row">
         <div class="col-md-12">
@@ -50,32 +63,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td><a href="#">fulan1@gmail.com</a></td>
-                            <td>4</td>
-                            <td>Bagus</td>
-                            <td>12/12/2020 12:12</td>
-                            <td>Good</td>
-                            <td>12/12/2020 20:00</td>
-                            <td>1.0.0</td>
-                            <td>
-                            <a href="#" class="btn" data-toggle="modal" data-target="#modal-reply"><i class="fa fa-reply fa-2x custom--1"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><a href="#">fulan2@gmail.com</a></td>
-                            <td>5</td>
-                            <td>Tanoe</td>
-                            <td>12/12/2020 12:12</td>
-                            <td>Keren nih aplikasi</td>
-                            <td>12/12/2020 20:00</td>
-                            <td>1.0.0</td>
-                            <td>
-                            <a href="#" class="btn" ><i class="fa fa-edit fa-2x custom--1"></i></a>
-                            </td>
-                        </tr>
+                      @foreach($data['ratings'] as $ratings)
+                      <tr>
+                          <td>{{ $ratings->no }}</td>
+                          <td><a href="#">{{ $ratings->endusers->email }}</a></td>
+                          <td>{{ $ratings->ratings }}</td>
+                          <td>{{ $ratings->comment }}</td>
+                          <td>{{ $ratings->comment_at }}</td>
+                          <td>{{ $ratings->reply }}</td>
+                          <td>{{ $ratings->reply_at }}</td>
+                          <td>{{ $ratings->apps->version }}</td><td>
+                          <a href="#" class="btn" data-toggle="modal" data-target="#modal-reply-{{ $ratings->id }}"><i class="fa fa-reply fa-2x custom--1"></i></a>
+                          </td>
+                      </tr>
+                      @endforeach
+
                     </tbody>
                 </table>
             </div>
@@ -84,16 +86,18 @@
     </div>
 
 </div>
+@foreach($data['ratings'] as $ratings)
 
-<div id="modal-reply" class="modal fade">
-    <form method="post" action="#" enctype="multipart/form-data">
+<div id="modal-reply-{{ $ratings->id }}" class="modal fade">
+    <form method="post" action="{{ url('reply-feedbacks')}}" enctype="multipart/form-data">
       {{csrf_field()}}
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <h2 style=" margin: auto; "><i class="fa fa-reply"></i> Reply</h2>
                     <p class="text-left">Message :</p>
-                    <textarea class="form-control" rows="4"></textarea>
+                    <input type="hidden" name="id" value="{{ $ratings->id }}">
+                    <textarea class="form-control" rows="4" name="reply">{{ $ratings->reply }}</textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">No</button>
@@ -103,6 +107,7 @@
         </div>
     </form>
 </div>
+@endforeach
 
 @endsection
 
