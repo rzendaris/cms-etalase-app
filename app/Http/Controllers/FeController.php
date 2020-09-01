@@ -137,4 +137,13 @@ class FeController extends Controller
     {
         return view('apps-developer/detail');
     }
+    
+    public function AdsManagement()
+    {
+        return view('ads-management/index');   
+    }
+    public function Report()
+    {
+        return view('report/index');   
+    }
 }
