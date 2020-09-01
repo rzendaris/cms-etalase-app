@@ -29,14 +29,14 @@
                 <span class="title">End User Management </span>
             </a>
         </li>
-        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
-            <a href="{{ url('#') }}" class="nav-link nav-toggle">
+        <li class="nav-item {{ Request::is('ads-management') || Request::is('ads-management/*') ? 'active' : '' }}">
+            <a href="{{ url('ads-management') }}" class="nav-link nav-toggle">
                 <i class="fa fa-pie-chart"></i>
                 <span class="title">Ads Management </span>
             </a>
         </li>
-        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
-            <a href="{{ url('#') }}" class="nav-link nav-toggle">
+        <li class="nav-item {{ Request::is('report') || Request::is('report/*') ? 'active' : '' }}">
+            <a href="{{ url('report') }}" class="nav-link nav-toggle">
                 <i class="fa fa-file"></i>
                 <span class="title">Report </span>
             </a>
