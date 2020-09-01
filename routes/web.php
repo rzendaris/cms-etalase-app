@@ -158,6 +158,11 @@ Route::middleware('auth')->group(function() {
         Route::get('approval-apps/{id}', 'Cms\AppsManController@ApprovalApps');
         Route::post('approved-apps', 'Cms\AppsManController@Approved');
         Route::post('rejected-apps', 'Cms\AppsManController@Rejected');
+
+        Route::get('ads-management', 'Cms\AdsManController@AdsMgmtInit');
+        Route::post('insert-ads', 'Cms\AdsManController@AdsMgmtInsert');
+        Route::post('update-ads', 'Cms\AdsManController@AdsMgmtUpdate');
+        Route::post('delete-ads', 'Cms\AdsManController@AdsMgmtDelete');
     } else if (env('ENV') == 'DEVELOPER'){
         /**
          * PUT endpoint for CMS of developer here
