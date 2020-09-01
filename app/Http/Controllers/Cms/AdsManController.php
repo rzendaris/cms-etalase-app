@@ -30,26 +30,38 @@ class AdsManController extends Controller
 
     public function AdsMgmtInit()
     {
-        $user = MstAds::with(['countrys'])->where('role_id', 3)->get();
+        $ads = MstAds::get();
         $no = 1;
-        foreach($user as $data){
+        foreach($ads as $data){
             $data->no = $no;
             $no++;
         }
         $data = array(
-            'user' => $user
+            'ads' => $ads
         );
         return view('ads-management/index')->with('data', $data);
     }
     public function AdsMgmtInsert(Request $request)
     {
-        // $user = MstAds::where('email', $request->email)->first();
 
-            // if(empty($user)){
               if($request->photo){
                   $file_extention = $request->photo->getClientOriginalExtension();
-                  $file_name = $request->email.'image_ads.'.$file_extention;
-                  $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
+                  $file_name = 'image_ads_'.$request->name.'_'.$request->id.'.'.$file_extention;
+                  $fileSize = $request->photo->getSize();
+                  $valid_extension = array("jpg","jpeg","png");
+                  $maxFileSize = 2097152;
+                  if(in_array(strtolower($file_extention),$valid_extension)){
+                    // Check file size
+                    if($fileSize <= $maxFileSize){
+                      $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
+                    }else{
+                      return redirect()->back()->with('err_message', 'File too large. File must be less than 2MB.');
+                    }
+                  }else{
+                    return redirect()->back()->with('err_message', 'Invalid File Extension.');
+                  }
+              }else{
+                $file_name="Photo not exists";
               }
               MstAds::create([
                   'name' => $request->name,
@@ -57,7 +69,7 @@ class AdsManController extends Controller
                   'orders' => $request->orders,
                   'picture' => $file_name,
                   'status' => 1,
-                  'create_by' => Auth::user()->id,
+                  'created_by' => Auth::user()->id,
                   // 'token' => Str::random(60),
               ]);
               return redirect('ads-management')->with('suc_message', 'Ads berhasil ditambahkan!');
@@ -72,13 +84,25 @@ class AdsManController extends Controller
           $ads = MstAds::where('id', $request->id)->first();
           $ads = MstAds::where('id', $request->id)->first();
           if(!empty($ads)){
-          if($request->photo){
-            $file_extention = $request->photo->getClientOriginalExtension();
-            $file_name = $request->email.'image_ads.'.$file_extention;
-            $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
-          }else{
-            $file_name=$ads->picture;
-          }
+            if($request->photo){
+                $file_extention = $request->photo->getClientOriginalExtension();
+                $file_name = 'image_ads_'.$request->name.'_'.$request->id.'.'.$file_extention;
+                $fileSize = $request->photo->getSize();
+                $valid_extension = array("jpg","jpeg","png");
+                $maxFileSize = 2097152;
+                if(in_array(strtolower($file_extention),$valid_extension)){
+                  // Check file size
+                  if($fileSize <= $maxFileSize){
+                    $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
+                  }else{
+                    return redirect()->back()->with('err_message', 'File too large. File must be less than 2MB.');
+                  }
+                }else{
+                  return redirect()->back()->with('err_message', 'Invalid File Extension.');
+                }
+            }else{
+              $file_name=$ads->picture;
+            }
             MstAds::where('id', $request->id)
               ->update([
                 'name' => $request->name,
@@ -86,7 +110,7 @@ class AdsManController extends Controller
                 'orders' => $request->orders,
                 'picture' => $file_name,
                 'status' => 1,
-                'create_by' => Auth::user()->id,
+                'updated_by' => Auth::user()->id,
                   ]
                 );
             return redirect('ads-management')->with('suc_message', 'Data telah diperbarui!');
