@@ -82,7 +82,6 @@ class AdsManController extends Controller
     public function AdsMgmtUpdate(Request $request)
     {
           $ads = MstAds::where('id', $request->id)->first();
-          $ads = MstAds::where('id', $request->id)->first();
           if(!empty($ads)){
             if($request->photo){
                 $file_extention = $request->photo->getClientOriginalExtension();

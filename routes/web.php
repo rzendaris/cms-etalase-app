@@ -222,5 +222,5 @@ Route::get('register-dev', 'Auth\RegisterController@getRegister');
 // Route::get('add-application-developer', 'FeController@DevAdd');
 // Route::get('edit-application-developer', 'FeController@DevEdit');
 // Route::get('detail-application-developer', 'FeController@DevDetail');
-Route::get('ads-management', 'FeController@AdsManagement');
+// Route::get('ads-management', 'FeController@AdsManagement');
 Route::get('report', 'FeController@Report');

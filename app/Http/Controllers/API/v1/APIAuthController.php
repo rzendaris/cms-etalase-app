@@ -33,6 +33,10 @@ class APIAuthController extends Controller
             'sdk_version' => 'required|string',
             'birthday' => 'required|date_format:Y-m-d',
             'photo' => 'mimes:jpeg,jpg,png|max:10000',
+            'imei_1' => 'required|string',
+            'imei_2' => 'required|string',
+            'device_brand' => 'required|string',
+            'device_model' => 'required|string',
         ]);
         $check_user = User::where('email', $request->email)->first();
         if ($check_user){
@@ -51,6 +55,10 @@ class APIAuthController extends Controller
                 'password' => bcrypt($request->password),
                 'eu_sdk_version' => $request->sdk_version,
                 'eu_birthday' => $request->birthday,
+                'eu_device_brand' => $request->device_brand,
+                'eu_device_model' => $request->device_model,
+                'eu_imei1' => $request->imei_1,
+                'eu_imei2' => $request->imei_2,
                 'is_blocked' => 1,
                 'picture' => $file_name
             ]);
@@ -76,7 +84,11 @@ class APIAuthController extends Controller
             $this->validate($request, [
                 'email' => 'required',
                 'password' => 'required',
-                'sdk_version' => 'required'
+                'sdk_version' => 'required',
+                'imei_1' => 'required|string',
+                'imei_2' => 'required|string',
+                'device_brand' => 'required|string',
+                'device_model' => 'required|string',
             ]);
             $user = User::where('email', $request->email)->where('role_id', 3)->where('is_blocked', 1)->first();
             if(isset($user)){
@@ -93,7 +105,13 @@ class APIAuthController extends Controller
                             "role_id" => $user->role_id,
                             "token" => $apikey,
                         ];
-                        User::where('id', $user->id)->update(['eu_sdk_version' => $request->sdk_version]);
+                        User::where('id', $user->id)->update([
+                            'eu_sdk_version' => $request->sdk_version,
+                            'eu_device_brand' => $request->device_brand,
+                            'eu_device_model' => $request->device_model,
+                            'eu_imei1' => $request->imei_1,
+                            'eu_imei2' => $request->imei_2,
+                        ]);
                         return $this->appResponse(201, 200, $returnData);
                     }else{
                         return $this->appResponse(105, 401);

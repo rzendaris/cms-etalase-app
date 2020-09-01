@@ -33,10 +33,10 @@ Route::group(['middleware' => 'auth.api'], function() {
         Route::get('apps/action/{action}/{apps_id}', 'API\v1\AppsController@AppsAction');
         Route::get('apps/list-category', 'API\v1\AppsController@GetAppsCategory');
 
-        Route::get('apps/installed', 'API\v1\AppsController@user');
-        Route::get('apps/download', 'API\v1\AppsController@user');
-        Route::get('apps/update', 'API\v1\AppsController@user');
-        Route::get('apps/category/{id}', 'API\v1\AppsController@user');
+        /**
+         * Ads Management
+         */
+        Route::get('ads', 'API\v1\AdsController@GetAllAds');
     });
 });
 Route::any('{path}', function() {

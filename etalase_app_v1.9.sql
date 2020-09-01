@@ -257,6 +257,8 @@ CREATE TABLE `users` (
   `eu_device_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `eu_imei1` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `eu_imei2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `eu_device_brand` varchar(255) DEFAULT NULL,
+  `eu_device_model` varchar(255) DEFAULT NULL,
   `eu_sdk_version` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_verified` tinyint(4) DEFAULT NULL,
   `is_blocked` tinyint(4) DEFAULT NULL,
@@ -335,7 +337,7 @@ CREATE TABLE `view_avg_ratings` (
 --
 DROP TABLE IF EXISTS `view_avg_ratings`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_avg_ratings`  AS  select avg(`a`.`ratings`) AS `avg_ratings`,`b`.`id` AS `id`,`b`.`name` AS `name`,`b`.`type` AS `type`,`b`.`app_icon` AS `app_icon`,`b`.`category_id` AS `category_id`,`b`.`eu_sdk_version` AS `eu_sdk_version`,`b`.`package_name` AS `package_name`,`b`.`rate` AS `rate`,`b`.`version` AS `version`,`b`.`file_size` AS `file_size`,`b`.`description` AS `description`,`b`.`updates_description` AS `updates_description`,`b`.`link` AS `link`,`b`.`apk_file` AS `apk_file`,`b`.`expansion_file` AS `expansion_file`,`b`.`media` AS `media`,`b`.`developer_id` AS `developer_id`,`b`.`is_approve` AS `is_approve`,`b`.`reject_reason` AS `reject_reason`,`b`.`is_active` AS `is_active`,`b`.`is_partnership` AS `is_partnership`,`b`.`created_at` AS `created_at`,`b`.`created_by` AS `created_by`,`b`.`updated_at` AS `updated_at`,`b`.`updated_by` AS `updated_by` from (`apps` `b` left join `ratings` `a` on(`a`.`apps_id` = `b`.`id`)) group by `b`.`id` ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_avg_ratings`  AS  select avg(`a`.`ratings`) AS `avg_ratings`,`b`.`id` AS `id`,`b`.`name` AS `name`,`b`.`type` AS `type`,`b`.`app_icon` AS `app_icon`,`b`.`category_id` AS `category_id`,`b`.`eu_sdk_version` AS `eu_sdk_version`,`b`.`package_name` AS `package_name`,`b`.`rate` AS `rate`,`b`.`version` AS `version`,`b`.`file_size` AS `file_size`,`b`.`description` AS `description`,`b`.`updates_description` AS `updates_description`,`b`.`link` AS `link`,`b`.`apk_file` AS `apk_file`,`b`.`expansion_file` AS `expansion_file`,`b`.`media` AS `media`,`b`.`developer_id` AS `developer_id`,`b`.`is_approve` AS `is_approve`,`b`.`reject_reason` AS `reject_reason`,`b`.`is_active` AS `is_active`,`b`.`is_partnership` AS `is_partnership`,`b`.`created_at` AS `created_at`,`b`.`created_by` AS `created_by`,`b`.`updated_at` AS `updated_at`,`b`.`updated_by` AS `updated_by` from (`apps` `b` left join `ratings` `a` on(`a`.`apps_id` = `b`.`id`)) group by `b`.`id` ;
 
 --
 -- Indexes for dumped tables
