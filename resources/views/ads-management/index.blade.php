@@ -147,7 +147,7 @@
                         <div class="col-md-8 m-b-10px">
                             <div class="form-group text-left">
                                 <label class="form-control-label">Name: *</label>
-                                <input type="text" name="id" class="form-control"  value="{{ $ads->id }}" required="">
+                                <input type="hidden" name="id" class="form-control"  value="{{ $ads->id }}" required="">
                                 <input type="text" name="name" class="form-control"  value="{{ $ads->name }}" required="">
                             </div>
                             <div class="form-group text-left">

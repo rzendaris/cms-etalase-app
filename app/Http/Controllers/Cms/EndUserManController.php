@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Hash;
 
 use App\User;
 use App\Model\Table\MstCountry;
+use App\Model\Table\Ratings;
+use App\Model\Table\MstCategory;
+use App\Model\Table\Apps;
 
 class EndUserManController extends Controller
 {
@@ -55,7 +58,17 @@ class EndUserManController extends Controller
     public function UserMgmtDetailEndUser($id)
     {
         $user = User::where('id', $id)->first();
-        return view('end-user-management/detail')->with('data', $user);
+        $ratings = Ratings::with(['apps'])->where('end_users_id',$id)->get();
+        $no = 1;
+        foreach($ratings as $data){
+            $data->no = $no;
+            $no++;
+        }
+        $data = array(
+            'user' => $user,
+            'ratings' => $ratings
+        );
+        return view('end-user-management/detail')->with('data', $data);
     }
     public function UserMgmtInsert(Request $request)
     {
@@ -116,6 +129,6 @@ class EndUserManController extends Controller
             return redirect()->back()->with('err_message', 'Data tidak ditemukan!');
         }
     }
-    
+
 
 }
