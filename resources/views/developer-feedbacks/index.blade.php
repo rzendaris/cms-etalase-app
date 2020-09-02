@@ -23,8 +23,6 @@
         </div>
     @endif
       <div class="text-center">
-          <!-- <h2>{{ count($data['ratingsall']) }}</h2>
-          <h4>{{ $data['apps']->type }} - Feedbacks</h4> -->
           <h2>{{ $data['avgrating'] }} <i class="fa fa-star"></i></h2>
           <h4>{{ count($data['ratings']) }} Feedbacks</h4>
       </div>
