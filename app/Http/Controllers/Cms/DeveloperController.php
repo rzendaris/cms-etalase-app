@@ -21,18 +21,26 @@ class DeveloperController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            if (Auth::user()->role_id != 1){
-                return redirect('/')->with('access_message', 'Akses untuk Menu User Management Ditolak!');
-            }
-            return $next($request);
-        });
+        // $this->middleware(function ($request, $next) {
+        //     if (Auth::user()->role_id != 1){
+        //         return redirect('/')->with('access_message', 'Akses untuk Menu User Management Ditolak!');
+        //     }
+        //     return $next($request);
+        // });
 
     }
 
-    public function DeveloperInit()
+    public function DeveloperInit(Request $request)
     {
-        $user = User::with(['countrys'])->where('role_id', 2)->get();
+        $paginate = 15;
+        if (isset($request->query()['search'])){
+            $search = $request->query()['search'];
+            $user = User::with(['countrys'])->where('name', 'like', "%" . $search. "%")->where('role_id', 2)->orderBy('name', 'asc')->simplePaginate($paginate);
+            $user->appends(['search' => $search]);
+        } else {
+            $user = User::with(['countrys'])->where('role_id', 2)->orderBy('name', 'asc')->simplePaginate($paginate);
+        }
+        // $user = User::with(['countrys'])->where('role_id', 2)->get();
         $country = MstCountry::get();
         $no = 1;
         foreach($user as $data){
@@ -119,16 +127,24 @@ class DeveloperController extends Controller
         );
         return view('developer-management/edit')->with('data', $data);
     }
-    public function DeveloperDetailInfo($id)
+    public function DeveloperDetailInfo($id,Request $request)
     {
+        $paginate = 15;
+        if (isset($request->query()['search'])){
+            $search = $request->query()['search'];
+            $apps = Apps::with(['categories'])->where('name', 'like', "%" . $search. "%")->where('developer_id', $id)->orderBy('name', 'asc')->simplePaginate($paginate);
+            $apps->appends(['search' => $search]);
+        } else {
+            $apps = Apps::with(['categories'])->where('developer_id', $id)->orderBy('name', 'asc')->simplePaginate($paginate);
+        }
         $user = User::where('id', $id)->first();
-        $apps = Apps::with(['categories'])->where('developer_id', $id)->get();
         $no = 1;
         foreach($apps as $data){
             $data->no = $no;
             $no++;
         }
         $data = array(
+            'id'=> $id,
             'user' => $user,
             'apps' => $apps
         );

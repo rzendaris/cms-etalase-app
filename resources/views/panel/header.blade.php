@@ -36,14 +36,13 @@
                         <div class="card">
                             <div class="card-body">
                             <ul class="list-group">
+                              @foreach($data as $value)
                                 <li class="list-group-item">
-                                    <b>2048</b> Anda mendapatkan feedback dari fulan@gmail.com<br>
-                                    <small><i class="fa fa-clock-o"></i> 10/10/2020</small>
+                                    <b>2048</b> Anda mendapatkan feedback dari {{ $value->endusers->email }}<br>
+                                    <small><i class="fa fa-clock-o"></i> {{ $value->comment_at }}</small>
                                 </li>
-                                <li class="list-group-item">
-                                    <b>2049</b> Anda mendapatkan feedback dari bin@gmail.com<br>
-                                    <small><i class="fa fa-clock-o"></i> 10/10/2020</small>
-                                </li>
+                              @endforeach
+
                             </ul>
                             </div>
                             <div class="card-footer text-center">

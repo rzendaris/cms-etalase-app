@@ -147,7 +147,7 @@
                         <div class="col-md-8 m-b-10px">
                             <div class="form-group text-left">
                                 <label class="form-control-label">Name: *</label>
-                                <input type="text" name="id" class="form-control"  value="{{ $ads->id }}" required="">
+                                <input type="hidden" name="id" class="form-control"  value="{{ $ads->id }}" required="">
                                 <input type="text" name="name" class="form-control"  value="{{ $ads->name }}" required="">
                             </div>
                             <div class="form-group text-left">
@@ -206,9 +206,9 @@
         $('#search-button').click(function(){
             var search = $('#search-value').val();
             if (search == null || search == ""){
-                window.location.href="family-management";
+                window.location.href="ads-management";
             } else {
-                window.location.href="family-management?search="+search;
+                window.location.href="ads-management?search="+search;
             }
         });
         $('#sorting-table').DataTable( {

@@ -37,9 +37,19 @@
                         <input name="name" id="search-value" type="search" value="" placeholder="Search" class="form-control">
                     </div>
                     <div class="float-left col-xl-2 col-md-2 col-xs-12 m-b-10px">
-                        <select class="form-control">
-                            <option value="2048">2048</option>
-                            <option value="2029">2049</option>
+                        <select class="form-control" name="apps" id="apps-value">
+                          <option value="">Semua Apps</option>
+                          @foreach($data['apps'] as $get)
+                                  <option value="{{ $get->id}}">{{ $get->name}}</option>
+                          @endforeach
+                        </select>
+                    </div>
+                    <div class="float-left col-xl-2 col-md-2 col-xs-12 m-b-10px">
+                        <select class="form-control" name="rating" id="ratings-value">
+                          <option value="">Semua Rating</option>
+                          @for($i=1; $i<=5; $i++)
+                                  <option value="{{ $i}}">{{ $i }}</option>
+                          @endfor
                         </select>
                     </div>
                     <div class="float-left col-xl-3 col-md-3 col-xs-12 m-b-10px">
@@ -51,6 +61,7 @@
                         <tr>
                             <th>No</th>
                             <th>User Name</th>
+                            <th>App Name</th>
                             <th>Rating</th>
                             <th>Comment</th>
                             <th>Comment At</th>
@@ -65,6 +76,7 @@
                       <tr>
                           <td>{{ $ratings->no }}</td>
                           <td><a href="#">{{ $ratings->endusers->email }}</a></td>
+                          <td><a href="#">{{ $ratings->apps->name }}</a></td>
                           <td>{{ $ratings->ratings }}</td>
                           <td>{{ $ratings->comment }}</td>
                           <td>{{ $ratings->comment_at }}</td>
@@ -116,10 +128,24 @@
     $(function () {
         $('#search-button').click(function(){
             var search = $('#search-value').val();
-            if (search == null || search == ""){
-                window.location.href="family-management";
+            var apps = $('#apps-value').val();
+            var ratings = $('#ratings-value').val();
+            if ( search == "" &&  apps == "" &&  ratings == ""){
+                window.location.href="feedbacks-and-reply";
+            }else if (ratings == "" && apps == ""){
+              window.location.href="feedbacks-and-reply?search="+search;
+            }else if (ratings == "" && search == ""){
+              window.location.href="feedbacks-and-reply?apps="+apps;
+            }else if (search == "" && apps == ""){
+              window.location.href="feedbacks-and-reply?ratings="+ratings;
+            }else if (ratings == "" ){
+              window.location.href="feedbacks-and-reply?search="+search+"&?apps="+apps;
+            }else if (apps == "" ){
+              window.location.href="feedbacks-and-reply?search="+search+"&?ratings="+ratings;
+            }else if (search == "" ){
+              window.location.href="feedbacks-and-reply?ratings="+ratings+"&?apps="+apps;
             } else {
-                window.location.href="family-management?search="+search;
+              window.location.href="feedbacks-and-reply?search="+search+"&?apps="+apps+"&?ratings="+ratings;
             }
         });
         $('#sorting-table').DataTable( {
@@ -130,7 +156,7 @@
             "searching":     false,
         } );
 
-        $("div.toolbar").html('<select class="form-control"><option value="all">Semua Rating</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>');
+        $("div.toolbar").html('<br>');
     });
     </script>
 @endsection

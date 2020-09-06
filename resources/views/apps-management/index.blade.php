@@ -106,10 +106,10 @@
                     <div class="table-responsive custom--2">
                         <div class="row">
                             <div class="float-left col-xl-3 col-md-3 col-xs-8 m-b-10px">
-                                <input name="name" id="search-value" type="search" value="" placeholder="Search" class="form-control">
+                                <input name="name" id="search-values" type="search" value="" placeholder="Search" class="form-control">
                             </div>
                             <div class="float-left col-xl-3 col-md-3 col-xs-4 m-b-10px">
-                                <button type="button" id="search-button" class="btn btn-primary">Cari</button>
+                                <button type="button" id="search-buttons" class="btn btn-primary">Cari</button>
                             </div>
                         </div>
                         <br>
@@ -244,9 +244,17 @@
         $('#search-button').click(function(){
             var search = $('#search-value').val();
             if (search == null || search == ""){
-                window.location.href="family-management";
+                window.location.href="apps-management";
             } else {
-                window.location.href="family-management?search="+search;
+                window.location.href="apps-management?search="+search;
+            }
+        });
+        $('#search-buttons').click(function(){
+            var search = $('#search-values').val();
+            if (search == null || search == ""){
+                window.location.href="apps-management";
+            } else {
+                window.location.href="apps-management?search="+search;
             }
         });
         $('#sorting-table').DataTable( {
