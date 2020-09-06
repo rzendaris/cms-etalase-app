@@ -206,9 +206,9 @@
         $('#search-button').click(function(){
             var search = $('#search-value').val();
             if (search == null || search == ""){
-                window.location.href="family-management";
+                window.location.href="ads-management";
             } else {
-                window.location.href="family-management?search="+search;
+                window.location.href="ads-management?search="+search;
             }
         });
         $('#sorting-table').DataTable( {

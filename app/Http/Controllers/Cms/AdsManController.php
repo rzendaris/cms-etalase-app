@@ -19,18 +19,25 @@ class AdsManController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            if (Auth::user()->role_id != 1){
-                return redirect('/')->with('access_message', 'Akses untuk Menu Ads Management Ditolak!');
-            }
-            return $next($request);
-        });
+        // $this->middleware(function ($request, $next) {
+        //     if (Auth::user()->role_id != 1){
+        //         return redirect('/')->with('access_message', 'Akses untuk Menu Ads Management Ditolak!');
+        //     }
+        //     return $next($request);
+        // });
 
     }
 
-    public function AdsMgmtInit()
+    public function AdsMgmtInit(Request $request)
     {
-        $ads = MstAds::get();
+        $paginate = 15;
+        if (isset($request->query()['search'])){
+            $search = $request->query()['search'];
+            $ads = MstAds::where('name', 'like', "%" . $search. "%")->orderBy('name', 'asc')->simplePaginate($paginate);
+            $ads->appends(['search' => $search]);
+        } else {
+            $ads = MstAds::orderBy('name', 'asc')->simplePaginate($paginate);
+        }
         $no = 1;
         foreach($ads as $data){
             $data->no = $no;

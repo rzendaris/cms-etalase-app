@@ -33,10 +33,22 @@ class AppsManController extends Controller
 
     }
 
-    public function AppsManInit()
+    public function AppsManInit(Request $request)
     {
-        $appsapprove = AvgRatings::with(['categories'])->where('is_approve', 1)->get();
-        $apps = AvgRatings::with(['categories'])->get();
+        $paginate = 15;
+        if (isset($request->query()['search'])){
+            $search = $request->query()['search'];
+            $appsapprove = AvgRatings::with(['categories'])->where('name', 'like', "%" . $search. "%")->where('is_approve', 1)->orderBy('name', 'asc')->simplePaginate($paginate);
+            $apps = AvgRatings::with(['categories'])->where('name', 'like', "%" . $search. "%")->orderBy('name', 'asc')->simplePaginate($paginate);
+            $apps->appends(['search' => $search]);
+            $appsapprove->appends(['search' => $search]);
+        } else {
+          $appsapprove = AvgRatings::with(['categories'])->where('is_approve', 1)->orderBy('name', 'asc')->simplePaginate($paginate);
+          $apps = AvgRatings::with(['categories'])->orderBy('name', 'asc')->simplePaginate($paginate);
+        }
+
+        // $appsapprove = AvgRatings::with(['categories'])->where('is_approve', 1)->get();
+        // $apps = AvgRatings::with(['categories'])->get();
         $no = 1;
         foreach($apps as $data){
             $data->no = $no;

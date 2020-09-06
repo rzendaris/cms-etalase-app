@@ -167,9 +167,9 @@
         $('#search-button').click(function(){
             var search = $('#search-value').val();
             if (search == null || search == ""){
-                window.location.href="family-management";
+                window.location.href="apps-developer";
             } else {
-                window.location.href="family-management?search="+search;
+                window.location.href="apps-developer?search="+search;
             }
         });
         $('#sorting-table').DataTable( {

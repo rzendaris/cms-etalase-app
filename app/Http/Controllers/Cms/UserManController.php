@@ -28,9 +28,17 @@ class UserManController extends Controller
 
     }
 
-    public function UserMgmtInit()
+    public function UserMgmtInit(Request $request)
     {
-        $user = User::with(['countrys'])->where('role_id', 1)->get();
+        $paginate = 15;
+        if (isset($request->query()['search'])){
+            $search = $request->query()['search'];
+            $user = User::with(['countrys'])->where('name', 'like', "%" . $search. "%")->where('role_id', 1)->orderBy('name', 'asc')->simplePaginate($paginate);
+            $user->appends(['search' => $search]);
+        } else {
+            $user = User::with(['countrys'])->where('role_id', 1)->orderBy('name', 'asc')->simplePaginate($paginate);
+        }
+        // $user = User::with(['countrys'])->where('role_id', 1)->get();
         $country = MstCountry::get();
         $no = 1;
         foreach($user as $data){

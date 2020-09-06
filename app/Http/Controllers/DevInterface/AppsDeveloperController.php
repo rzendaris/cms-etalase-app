@@ -29,10 +29,19 @@ class AppsDeveloperController extends Controller
 
     }
 
-    public function AppsDevInit()
+    public function AppsDevInit(Request $request)
     {
-        $appsapprove = AvgRatings::with(['categories'])->where('developer_id', Auth::user()->id)->get();
-        $apps = AvgRatings::with(['categories'])->where('developer_id', Auth::user()->id)->get();
+        $paginate = 15;
+        if (isset($request->query()['search'])){
+            $search = $request->query()['search'];
+            $appsapprove = AvgRatings::with(['categories'])->where('name', 'like', "%" . $search. "%")->where('developer_id', Auth::user()->id)->where('is_approve', 1)->orderBy('name', 'asc')->simplePaginate($paginate);
+            $apps = AvgRatings::with(['categories'])->where('name', 'like', "%" . $search. "%")->where('developer_id', Auth::user()->id)->orderBy('name', 'asc')->simplePaginate($paginate);
+            $apps->appends(['search' => $search]);
+            $appsapprove->appends(['search' => $search]);
+        } else {
+          $appsapprove = AvgRatings::with(['categories'])->where('is_approve', 1)->where('developer_id', Auth::user()->id)->orderBy('name', 'asc')->simplePaginate($paginate);
+          $apps = AvgRatings::with(['categories'])->where('developer_id', Auth::user()->id)->orderBy('name', 'asc')->simplePaginate($paginate);
+        }
         $no = 1;
         foreach($apps as $data){
             $data->no = $no;
