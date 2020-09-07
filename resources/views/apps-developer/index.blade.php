@@ -60,7 +60,7 @@
                       <tr>
                           <td>{{ $apps->no }}</td>
                           <td>
-                                <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100"/>
+                                <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100" onerror="this.src='{{ env('ADMIN_URL') }}/apps/{{ $apps->app_icon}}';"/>
                           </td>
                           <td>{{ $apps->name }}</td>
                           <td>{{ $apps->type }}</td>

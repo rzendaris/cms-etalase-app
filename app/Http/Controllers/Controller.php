@@ -81,6 +81,9 @@ class Controller extends BaseController
             case "156":
                 $message = "User not found";
             break;
+            case "157":
+                $message = "Old Password is not Valid!";
+            break;
             case "200":
                 $message = "Request Success";
             break;

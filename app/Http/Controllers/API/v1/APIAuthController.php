@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Mail;
+use Hash;
 use App\Mail\SendMailResetPassword;
 use App\Mail\SendMailVerifyEmail;
 use App\Model\Tables\ResetPasswordToken;
@@ -63,6 +64,20 @@ class APIAuthController extends Controller
                 'picture' => $file_name
             ]);
             $user->save();
+            $token = md5(rand(1, 50) . microtime());
+                    $now_time = Carbon::now();
+                    $expired = Carbon::parse($now_time->toDateTimeString())->addHour();
+                    $data = array(
+                        'email' => $request->email,
+                        'name' => $user->name,
+                        'reset_url' => url('verify-account/'.$token),
+                    );
+                    Mail::send(new SendMailVerifyEmail($data));
+                    ResetPasswordToken::create([
+                        'email' => $request->email,
+                        'token' => $token,
+                        'expired_at' => $expired
+                    ]);
             return $this->appResponse(500, 200);
         }
     }
@@ -152,7 +167,59 @@ class APIAuthController extends Controller
         $request->user()->token()->revoke();
         return $this->appResponse(202, 200);
     }
-  
+
+    /**
+     * Update Profile
+     */
+    public function updateProfile(Request $request){
+        $request->validate([
+            'email' => 'required|string|email',
+            'birthday' => 'required|date_format:Y-m-d',
+            'photo' => 'mimes:jpeg,jpg,png|max:10000',
+        ]);
+        $check_user = User::where('email', $request->email)->first();
+        if ($check_user){
+            $file_name = $check_user->picture;
+            if($request->photo){
+                $file_extention = $request->photo->getClientOriginalExtension();
+                $file_name = $request->email.'image_profile.'.$file_extention;
+                $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
+            }
+            User::where('id', $check_user->id)->update([
+                'name' => $request->name,
+                'eu_birthday' => $request->birthday,
+                'picture' => $file_name
+            ]);
+            return $this->appResponse(501, 200);
+        } else {
+            return $this->appResponse(156, 200);
+        }
+    }
+
+    /**
+     * Function to Change User's Password
+     */
+    public function changePassword(Request $request){
+        $request->validate([
+            'email' => 'required|string',
+            'old_password' => 'required|string',
+            'new_password' => 'required|string',
+        ]);
+        $check_user = User::where('email', $request->email)->first();
+        if ($check_user){
+            if(Hash::check($request->old_password, $check_user->password, [])){
+                User::where('id', $check_user->id)->update([
+                    'password' => bcrypt($request->new_password)
+                ]);
+                return $this->appResponse(501, 200);
+            } else {
+                return $this->appResponse(157, 200);
+            }
+        } else {
+            return $this->appResponse(156, 200);
+        }
+    }
+
     /**
      * Get the authenticated User
      *

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Firebase\JWT\JWT;
+use Request;
 
 class ApiAuthentication
 {
@@ -19,6 +20,21 @@ class ApiAuthentication
     {
         $start_time = microtime(true);
         $token = $request->header('jwt');
+
+        $list_endpoint = array('/api/v1/apps', '/api/v1/apps/regex:[0-9]/detail', '/api/v1/apps/list-category');
+        $check_url = explode('?', Request::getRequestUri());
+        $local_status = env('LOCAL_STATUS', false);
+        if($local_status){
+            $check_url[0] = str_replace('/cms-etalase-app/public', '', $check_url[0]);
+        }
+        $search_details = explode('/', $check_url[0]);
+        if(in_array($check_url[0], $list_endpoint) || $search_details[count($search_details) - 1] == 'detail'){
+            if($token == null){
+                $request->sdk_version = "20";
+                $request->user_id = 0;
+                return $next($request)->header('Cache-Control', 'no-cache, must-revalidate');
+            }
+        }
         
         if($token == null) {
             // Unauthorized response if token not there
