@@ -32,12 +32,20 @@ class RatingController extends Controller
     public function RatingInit($id,Request $request)
     {
         $paginate = 15;
-        if (isset($request->query()['search'])){
+        if (isset($request->query()['search'], $request->query()['ratings'])){ // filter search and ratings
+            $search = $request->query()['search'];
+            $rate = $request->query()['ratings'];
+            $ratings = Ratings::join('users','ratings.end_users_id','users.id')->where('users.email', 'like', "%" . $search. "%")->where('ratings',$rate)->orderBy('comment_at', 'asc')->simplePaginate($paginate);
+            $ratings->appends(['search' => $search]);
+        }else if (isset($request->query()['search'])){
             $search = $request->query()['search'];
             $ratings = Ratings::join('users','ratings.end_users_id','users.id')->where('users.email', 'like', "%" . $search. "%")->where('apps_id',$id)->orderBy('comment_at', 'asc')->simplePaginate($paginate);
             $ratings->appends(['search' => $search]);
-        } else {
-          $ratings = Ratings::with(['endusers','apps'])->where('apps_id',$id)->orderBy('comment_at', 'asc')->simplePaginate($paginate);
+        }else if (isset($request->query()['ratings'])){ // filter ratings
+            $rate = $request->query()['ratings'];
+            $ratings = Ratings::join('users','ratings.end_users_id','users.id')->where('ratings',$rate)->orderBy('comment_at', 'asc')->simplePaginate($paginate);
+        }else {
+          $ratings = Ratings::join('users','ratings.end_users_id','users.id')->where('apps_id',$id)->orderBy('comment_at', 'asc')->simplePaginate($paginate);
         }
         $ratingsall = Ratings::with(['endusers','apps'])->get();
         $avgrating = Ratings::where('apps_id',$id)->avg('ratings');

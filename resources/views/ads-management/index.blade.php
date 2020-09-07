@@ -53,7 +53,7 @@
 
                         @foreach($data['ads'] as $ads)
                         <tr>
-                            <td>{{ $ads->no }}</td>
+                            <td>{{ $ads->orders }}</td>
                             <td>{{ $ads->name }}</td>
                             <td>
                                   <img src="{{ url('/pictures/'.$ads->picture) }}" width="100"/>
@@ -86,7 +86,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body text-center">
-                    <h2 style=" margin: auto; ">Create Ads</h2>
+                    <h2 style=" margin: auto; ">Create Ads </h2>
                     <hr>
                     <div class="row">
                         <div class="col-md-4 m-b-10px">
@@ -108,11 +108,9 @@
                             <div class="form-group text-left">
                                 <label class="form-control-label">Orders: *</label>
                                 <select class="form-control" name="orders">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                              @for($i=1;$i<$data['count'];$i++)
+                              <option value="{{ $i}}">{{$i}}</option>
+                              @endfor
                                 </select>
                             </div>
                         </div>

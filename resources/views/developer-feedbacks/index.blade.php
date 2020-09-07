@@ -139,13 +139,13 @@
             }else if (search == "" && apps == ""){
               window.location.href="feedbacks-and-reply?ratings="+ratings;
             }else if (ratings == "" ){
-              window.location.href="feedbacks-and-reply?search="+search+"&?apps="+apps;
+              window.location.href="feedbacks-and-reply?search="+search+"&apps="+apps;
             }else if (apps == "" ){
-              window.location.href="feedbacks-and-reply?search="+search+"&?ratings="+ratings;
+              window.location.href="feedbacks-and-reply?search="+search+"&ratings="+ratings;
             }else if (search == "" ){
-              window.location.href="feedbacks-and-reply?ratings="+ratings+"&?apps="+apps;
+              window.location.href="feedbacks-and-reply?ratings="+ratings+"&apps="+apps;
             } else {
-              window.location.href="feedbacks-and-reply?search="+search+"&?apps="+apps+"&?ratings="+ratings;
+              window.location.href="feedbacks-and-reply?search="+search+"&apps="+apps+"&ratings="+ratings;
             }
         });
         $('#sorting-table').DataTable( {

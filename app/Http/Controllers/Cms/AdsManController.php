@@ -38,12 +38,16 @@ class AdsManController extends Controller
         } else {
             $ads = MstAds::orderBy('name', 'asc')->simplePaginate($paginate);
         }
+        $count = count(MstAds::orderBy('orders', 'asc')->get())+2;
+        $cek = MstAds::where('orders', '<=', $count)->orderBy('orders', 'asc')->get();
         $no = 1;
         foreach($ads as $data){
             $data->no = $no;
             $no++;
         }
         $data = array(
+          'cek' => $cek,
+          'count' => $count,
             'ads' => $ads
         );
         return view('ads-management/index')->with('data', $data);
