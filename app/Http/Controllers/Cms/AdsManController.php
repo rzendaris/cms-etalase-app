@@ -33,24 +33,36 @@ class AdsManController extends Controller
         $paginate = 15;
         if (isset($request->query()['search'])){
             $search = $request->query()['search'];
-            $ads = MstAds::where('name', 'like', "%" . $search. "%")->orderBy('name', 'asc')->simplePaginate($paginate);
+            $ads = MstAds::where('name', 'like', "%" . $search. "%")->orderBy('orders', 'asc')->simplePaginate($paginate);
             $ads->appends(['search' => $search]);
         } else {
-            $ads = MstAds::orderBy('name', 'asc')->simplePaginate($paginate);
+            $ads = MstAds::orderBy('orders', 'asc')->simplePaginate($paginate);
         }
         $count = count(MstAds::orderBy('orders', 'asc')->get())+2;
         $cek = MstAds::where('orders', '<=', $count)->orderBy('orders', 'asc')->get();
+        $arry = MstAds::select('orders')->orderBy('orders', 'asc')->get();
+        $result = array();
+        foreach ($arry as $value => $res) {
+          $result[$value] = $res->orders;
+        }
+        $count_range = range(1,$count);
+        $orders = array_diff($count_range,$result);
+        // print_r( $result);
+        // print_r( $arr1);
+        // print_r( $arr2);
         $no = 1;
         foreach($ads as $data){
             $data->no = $no;
             $no++;
         }
         $data = array(
-          'cek' => $cek,
           'count' => $count,
-            'ads' => $ads
+          'orders' => $orders,
+          'ads' => $ads
         );
+
         return view('ads-management/index')->with('data', $data);
+
     }
     public function AdsMgmtInsert(Request $request)
     {

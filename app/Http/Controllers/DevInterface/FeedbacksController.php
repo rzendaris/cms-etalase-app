@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 use App\User;
 use App\Model\Table\Ratings;
+use App\Model\Table\Notifikasi;
 use App\Model\Table\Apps;
 
 class FeedbacksController extends Controller
@@ -128,13 +129,26 @@ class FeedbacksController extends Controller
                   'reply_at' => date('Y-m-d H:i:s'),
                 ]
               );
+          $created = Notifikasi::create([
+              'to_users_id' => $request->to_users_id,
+              'from_users_id' => Auth::user()->id,
+              'content' => "Reply",
+              'apps_id' => $request->apps,
+              // 'token' => Str::random(60),
+          ]);
           if ($updated==1) {
               return redirect('feedbacks-and-reply')->with('succ_message', 'Reply telah diperbarui!');
 
           }else {
               return redirect()->back()->with('err_message', 'Reply gagal diperbarui!');
           }
-
     }
-
+    public function NotifRead()
+    {
+      $updated = Notifikasi::where('to_users_id', Auth::user()->id)->where('read_at',NULL)
+        ->update([
+            'read_at' => date('Y-m-d H:i:s')
+            ]
+          );
+    }
 }

@@ -29,8 +29,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::withoutDoubleEncoding();
         view()->composer(['panel.header'], function ($view) {
+          
           $ratings = Notifikasi::with(['fromusers','apps'])->where('to_users_id',Auth::user()->id)->get();
-          $view->with('data', $ratings);
- });
+          $count = count(Notifikasi::with(['fromusers','apps'])->where('to_users_id',Auth::user()->id)->where('read_at',NULL)->get());
+          $data = array(
+              'ratings' => $ratings,
+              'count' => $count
+          );
+          $view->with('data', $data);
+        });
     }
 }

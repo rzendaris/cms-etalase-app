@@ -11,7 +11,7 @@ class Notifikasi extends Model
   protected $table = 'notifikasi';
 
   protected $fillable = [
-      'id', 'to_users_id','from_users_id',  'content','read_at','created_at','updated_at'
+      'id', 'to_users_id','from_users_id',  'content','apps_id','read_at','created_at','updated_at'
   ];
   public function tousers()
   {

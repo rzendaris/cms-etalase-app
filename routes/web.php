@@ -203,6 +203,7 @@ Route::middleware('auth')->group(function() {
 
          Route::get('review-info/{id}', 'DevInterface\FeedbacksController@RatingInit');
          Route::get('feedbacks-and-reply', 'DevInterface\FeedbacksController@FeedbacksInit');
+         Route::get('notif-read', 'DevInterface\FeedbacksController@NotifRead');
          Route::post('reply-feedbacks', 'DevInterface\FeedbacksController@ReplyFeedbacks');
     }
 });

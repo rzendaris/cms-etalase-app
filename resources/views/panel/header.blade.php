@@ -31,15 +31,20 @@
                 <li>
                     <a class="nav-link dropdown-toggle" href="#" id="notification-menu-navbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell-o fa-lg"></i>
+                        @if($data['count']>0)
+                          <span class="badge badge-pill badge-danger">
+                            {{ $data['count'] }}
+                          </span>
+                        @endif
                     </a>
                     <div class="dropdown-menu" aria-labelledby="notification-menu-navbar" style="min-width: 250px;">
                         <div class="card">
                             <div class="card-body">
                             <ul class="list-group">
-                              @foreach($data as $value)
+                              @foreach($data['ratings'] as $value)
                                 <li class="list-group-item">
-                                    <b>2048</b> Anda mendapatkan feedback dari {{ $value->endusers->email }}<br>
-                                    <small><i class="fa fa-clock-o"></i> {{ $value->comment_at }}</small>
+                                    <b>{{ $value->apps->name }}</b> Anda mendapatkan feedback dari {{ $value->fromusers->email }}<br>
+                                    <small><i class="fa fa-clock-o"></i> {{ $value->created_at }}</small>
                                 </li>
                               @endforeach
 

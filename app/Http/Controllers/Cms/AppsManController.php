@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 use App\User;
 use App\Model\Table\Apps;
+use App\Model\Table\Notifikasi;
 use App\Model\Table\MstCategories;
 use App\Model\Table\Ratings;
 use App\Model\View\AvgRatings;
@@ -595,6 +596,13 @@ class AppsManController extends Controller
                     'is_approve' => 1,
                   ]
                 );
+                $created = Notifikasi::create([
+                    'to_users_id' => $apps->developer_id,
+                    'from_users_id' => Auth::user()->id,
+                    'content' => "Approval Apps",
+                    'apps_id' => $request->id,
+                    // 'token' => Str::random(60),
+                ]);
 
             return redirect('apps-management')->with('suc_message', 'Apps Approved !');
         } else {
@@ -611,6 +619,13 @@ class AppsManController extends Controller
                     'reject_reason' => $request->reaseon
                   ]
                 );
+            $created = Notifikasi::create([
+                'to_users_id' => $apps->developer_id,
+                'from_users_id' => Auth::user()->id,
+                'content' => "Rejected Apps",
+                'apps_id' => $request->id,
+                // 'token' => Str::random(60),
+            ]);
 
             return redirect('apps-management')->with('suc_message', 'Apps Rejected!');
         } else {
@@ -622,6 +637,13 @@ class AppsManController extends Controller
         $apps = Apps::where('id', $request->id)->first();
         if(!empty($apps)){
             Apps::where('id', $request->id)->delete();
+            $created = Notifikasi::create([
+                'to_users_id' => $apps->developer_id,
+                'from_users_id' => Auth::user()->id,
+                'content' => "Delete Apps",
+                'apps_id' => $request->id,
+                // 'token' => Str::random(60),
+            ]);
             return redirect()->back()->with('suc_message', 'Apps telah dihapus!');
         } else {
             return redirect()->back()->with('err_message', 'Apps tidak ditemukan!');
