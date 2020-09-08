@@ -132,7 +132,7 @@ class FeedbacksController extends Controller
           $created = Notifikasi::create([
               'to_users_id' => $request->to_users_id,
               'from_users_id' => Auth::user()->id,
-              'content' => "Reply",
+              'content' => $request->apps_name." di Reply oleh",
               'apps_id' => $request->apps,
               // 'token' => Str::random(60),
           ]);
@@ -145,10 +145,45 @@ class FeedbacksController extends Controller
     }
     public function NotifRead()
     {
-      $updated = Notifikasi::where('to_users_id', Auth::user()->id)->where('read_at',NULL)
-        ->update([
-            'read_at' => date('Y-m-d H:i:s')
-            ]
-          );
+      if(isset($_GET['view'])){
+
+      // $con = mysqli_connect("localhost", "root", "", "notif");
+
+      if($_GET["view"] != '')
+      {
+            $updated = Notifikasi::where('to_users_id', Auth::user()->id)->update([
+                  'read_at' => date('Y-m-d H:i:s')
+                ]);
+              }
+            $ratings = Notifikasi::where('to_users_id',Auth::user()->id)->orderBy('created_at', 'desc')->get();
+            $output = '';
+            if(count($ratings) > 0)
+            {
+              foreach ($ratings as $row) {
+                  $output .= '
+                  <li class="list-group-item">
+                      '.$row->content.'<br>
+                      <small><i class="fa fa-clock-o"></i> '.$row->created_at.'</small>
+                  </li>
+                  <li>';
+
+
+             }
+            }
+            else{
+                 $output .= '
+                 <li><a href="#" class="text-bold text-italic">No Noti Found</a></li>';
+            }
+            $output .='<br> <div class="card-footer text-center">
+                  <a href="#" style=" padding-bottom: 15px; display: block; ">More</a>
+              </div>';
+            $notify = Notifikasi::with(['fromusers','apps'])->where('to_users_id',Auth::user()->id)->where('read_at',NULL)->get();
+            $count = count($notify);
+            $data = array(
+                'notification' => $output,
+                'unseen_notification'  => $count
+            );
+            echo json_encode($data);
+          }
     }
 }

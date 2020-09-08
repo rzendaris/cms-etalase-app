@@ -107,8 +107,9 @@
                     <h2 style=" margin: auto; "><i class="fa fa-reply"></i> Reply</h2>
                     <p class="text-left">Message :</p>
                     <input type="hidden" name="id" value="{{ $ratings->id }}">
-                    <input type="text" value="{{ $ratings->apps_id}}" name="apps">
-                    <input type="text" value="{{ $ratings->end_users_id}}" name="to_users_id">
+                    <input type="hidden" value="{{ $ratings->apps_id}}" name="apps">
+                    <input type="hidden" value="{{ $ratings->apps->name}}" name="apps_name">
+                    <input type="hidden" value="{{ $ratings->end_users_id}}" name="to_users_id">
                     <textarea class="form-control" rows="4" name="reply">{{ $ratings->reply }}</textarea>
                 </div>
                 <div class="modal-footer">

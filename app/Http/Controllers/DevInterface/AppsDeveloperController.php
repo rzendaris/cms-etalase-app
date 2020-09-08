@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 
 use App\User;
 use App\Model\Table\Apps;
+use App\Model\Table\Notifikasi;
 use App\Model\Table\MstCategories;
 use App\Model\Table\Ratings;
 use App\Model\View\AvgRatings;
@@ -514,6 +515,12 @@ class AppsDeveloperController extends Controller
         $apps = Apps::where('id', $request->id)->first();
         if(!empty($apps)){
             Apps::where('id', $request->id)->delete();
+            $created = Notifikasi::create([
+                'to_users_id' => $apps->developer_id,
+                'from_users_id' => Auth::user()->id,
+                'content' =>$apps->name." Deleted oleh ".Auth::user()->email,
+                // 'token' => Str::random(60),
+            ]);
             return redirect()->back()->with('suc_message', 'Apps telah dihapus!');
         } else {
             return redirect()->back()->with('err_message', 'Apps tidak ditemukan!');

@@ -599,7 +599,7 @@ class AppsManController extends Controller
                 $created = Notifikasi::create([
                     'to_users_id' => $apps->developer_id,
                     'from_users_id' => Auth::user()->id,
-                    'content' => "Approval Apps",
+                    'content' => $apps->name." Approved oleh ".Auth::user()->email,
                     'apps_id' => $request->id,
                     // 'token' => Str::random(60),
                 ]);
@@ -622,7 +622,7 @@ class AppsManController extends Controller
             $created = Notifikasi::create([
                 'to_users_id' => $apps->developer_id,
                 'from_users_id' => Auth::user()->id,
-                'content' => "Rejected Apps",
+                'content' => $apps->name." Rejected oleh ".Auth::user()->email,
                 'apps_id' => $request->id,
                 // 'token' => Str::random(60),
             ]);
@@ -640,8 +640,7 @@ class AppsManController extends Controller
             $created = Notifikasi::create([
                 'to_users_id' => $apps->developer_id,
                 'from_users_id' => Auth::user()->id,
-                'content' => "Delete Apps",
-                'apps_id' => $request->id,
+                'content' => $apps->name." Deleted oleh ".Auth::user()->email,
                 // 'token' => Str::random(60),
             ]);
             return redirect()->back()->with('suc_message', 'Apps telah dihapus!');
