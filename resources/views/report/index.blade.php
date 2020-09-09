@@ -10,7 +10,7 @@
 @section('content')
 
 <div class="content-body-white">
-    <form method="post" action="{{url('insert-end-user')}}" enctype="multipart/form-data">
+    <form method="post" action="{{url('export-excel')}}" enctype="multipart/form-data">
           {{csrf_field()}}
         <div class="page-head">
             <div class="page-title">
@@ -37,13 +37,13 @@
                             <div class="col-xl-12 col-md-5 m-b-10px">
                                 <div class="form-group">
                                     <label class="form-control-label">Tanggal Awal :</label>
-                                    <input type="date" name="tgl_awal" class="form-control date" required/>
+                                    <input type="date" name="from_date" class="form-control date" required/>
                                 </div>
                             </div>
                             <div class="col-xl-12 col-md-5 m-b-10px">
                                 <div class="form-group">
                                     <label class="form-control-label">Tanggal Akhir :</label>
-                                    <input type="date" name="tgl_akhir" class="form-control date" required/>
+                                    <input type="date" name="to_date" class="form-control date" required/>
                                 </div>
                             </div>
                             <div class="col-xl-12 col-md-2 m-b-10px">
