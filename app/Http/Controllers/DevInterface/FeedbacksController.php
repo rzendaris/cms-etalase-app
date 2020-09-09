@@ -155,7 +155,7 @@ class FeedbacksController extends Controller
                   'read_at' => date('Y-m-d H:i:s')
                 ]);
               }
-            $ratings = Notifikasi::where('to_users_id',Auth::user()->id)->orderBy('created_at', 'desc')->get();
+            $ratings = Notifikasi::where('to_users_id',Auth::user()->id)->orderBy('created_at', 'desc')->limit( 5 )->get();
             $output = '';
             if(count($ratings) > 0)
             {
@@ -164,19 +164,44 @@ class FeedbacksController extends Controller
                   <li class="list-group-item">
                       '.$row->content.'<br>
                       <small><i class="fa fa-clock-o"></i> '.$row->created_at.'</small>
-                  </li>
-                  <li>';
-
-
+                  </li>';
              }
             }
             else{
                  $output .= '
-                 <li><a href="#" class="text-bold text-italic">No Noti Found</a></li>';
+                 <li><a href="#" class="text-bold text-italic">Notification Not Found</a></li>';
             }
-            $output .='<br> <div class="card-footer text-center">
-                  <a href="#" style=" padding-bottom: 15px; display: block; ">More</a>
+            $output .='<div class="card text-center">
+                  <a href="#" style="padding: 20px;display:block;" id="load-more-btn" onmouseover="loadmorebutton()">More</a>
               </div>';
+            $notify = Notifikasi::with(['fromusers','apps'])->where('to_users_id',Auth::user()->id)->where('read_at',NULL)->get();
+            $count = count($notify);
+            $data = array(
+                'notification' => $output,
+                'unseen_notification'  => $count
+            );
+            echo json_encode($data);
+          }
+    }
+    public function NotifReadAll()
+    {
+      if(isset($_GET['view'])){
+
+      if($_GET["view"] != '')
+      {
+            $updated = Notifikasi::where('to_users_id', Auth::user()->id)->update([
+                  'read_at' => date('Y-m-d H:i:s')
+                ]);
+              }
+            $ratings = Notifikasi::where('to_users_id',Auth::user()->id)->orderBy('created_at', 'desc')->limit( 20 )->get();
+            $output = '';
+            foreach ($ratings as $row) {
+                $output .= '
+                <li class="list-group-item">
+                    '.$row->content.'<br>
+                    <small><i class="fa fa-clock-o"></i> '.$row->created_at.'</small>
+                </li>';
+            }
             $notify = Notifikasi::with(['fromusers','apps'])->where('to_users_id',Auth::user()->id)->where('read_at',NULL)->get();
             $count = count($notify);
             $data = array(

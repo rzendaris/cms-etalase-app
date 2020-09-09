@@ -1,6 +1,6 @@
 <div class="page-header-inner ">
     <div class="page-logo">
-        <a href="index.html">
+        <a href="/">
             <!-- <h4 class="logo-default">IWS</h4> -->
             <img src="{{ asset('assets/global/img/logo.png') }}" alt="" width="100" class="logo-default" />
         </a>
@@ -32,18 +32,17 @@
                   <ul class="nav navbar-nav navbar-right">
                    <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-pill label-danger count" ></span> <span class="glyphicon glyphicon-bell" style="font-size:18px;"></span></a>
-                    <div class="dropdown-menu notif-data" aria-labelledby="notification-menu-navbar" style="min-width: 250px;">
+                    <div class="dropdown-menu notif-data" aria-labelledby="notification-menu-navbar" style="min-width: 250px;max-height: 340px;overflow: scroll;box-shadow: 0 0 10px 2px #efefef;">
                         <div class="card">
                             <div class="card-body">
-                            <ul class="list-group">
-                              <ul class="dropdown-menu notif-data"></ul>
+                                <div class="list-group">
+                                <ul class="dropdown-menu notif-data"></ul>
+                                </div>
                             </div>
-
                         </div>
                     </div>
                    </li>
                   </ul>
-
                 </li>
                 <li>
                     <a class="nav-link dropdown-toggle" href="#" id="user-menu-navbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
