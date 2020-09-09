@@ -107,6 +107,9 @@
                     <h2 style=" margin: auto; "><i class="fa fa-reply"></i> Reply</h2>
                     <p class="text-left">Message :</p>
                     <input type="hidden" name="id" value="{{ $ratings->id }}">
+                    <input type="hidden" value="{{ $ratings->apps_id}}" name="apps">
+                    <input type="hidden" value="{{ $ratings->apps->name}}" name="apps_name">
+                    <input type="hidden" value="{{ $ratings->end_users_id}}" name="to_users_id">
                     <textarea class="form-control" rows="4" name="reply">{{ $ratings->reply }}</textarea>
                 </div>
                 <div class="modal-footer">
@@ -139,13 +142,13 @@
             }else if (search == "" && apps == ""){
               window.location.href="feedbacks-and-reply?ratings="+ratings;
             }else if (ratings == "" ){
-              window.location.href="feedbacks-and-reply?search="+search+"&?apps="+apps;
+              window.location.href="feedbacks-and-reply?search="+search+"&apps="+apps;
             }else if (apps == "" ){
-              window.location.href="feedbacks-and-reply?search="+search+"&?ratings="+ratings;
+              window.location.href="feedbacks-and-reply?search="+search+"&ratings="+ratings;
             }else if (search == "" ){
-              window.location.href="feedbacks-and-reply?ratings="+ratings+"&?apps="+apps;
+              window.location.href="feedbacks-and-reply?ratings="+ratings+"&apps="+apps;
             } else {
-              window.location.href="feedbacks-and-reply?search="+search+"&?apps="+apps+"&?ratings="+ratings;
+              window.location.href="feedbacks-and-reply?search="+search+"&apps="+apps+"&ratings="+ratings;
             }
         });
         $('#sorting-table').DataTable( {

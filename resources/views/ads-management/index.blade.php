@@ -38,6 +38,7 @@
                         <button type="button" id="search-button" class="btn btn-primary">Cari</button>
                     </div>
                 </div>
+
                 <table id="sorting-table" class="table">
                     <thead>
                         <tr>
@@ -53,7 +54,7 @@
 
                         @foreach($data['ads'] as $ads)
                         <tr>
-                            <td>{{ $ads->no }}</td>
+                            <td>{{ $ads->orders }} </td>
                             <td>{{ $ads->name }}</td>
                             <td>
                                   <img src="{{ url('/pictures/'.$ads->picture) }}" width="100"/>
@@ -86,7 +87,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body text-center">
-                    <h2 style=" margin: auto; ">Create Ads</h2>
+                    <h2 style=" margin: auto; ">Create Ads </h2>
                     <hr>
                     <div class="row">
                         <div class="col-md-4 m-b-10px">
@@ -108,11 +109,9 @@
                             <div class="form-group text-left">
                                 <label class="form-control-label">Orders: *</label>
                                 <select class="form-control" name="orders">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                              @foreach ($data['orders'] as $key )
+                              <option value="{{ $key }}">{{ $key }}</option>
+                              @endforeach
                                 </select>
                             </div>
                         </div>
@@ -140,7 +139,7 @@
                         <div class="col-md-4 m-b-10px">
                             <div class="form-group">
                                 <img id="blah-{{ $ads->id }}" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="100%" height="150" src="{{ url('/pictures/'.$ads->picture) }}" /><br>
-                                <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah-{{ $ads->id }}').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; " required>
+                                <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah-{{ $ads->id }}').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
                                 <p class="text-danger">Max. file size 2 MB</p>
                             </div>
                         </div>
@@ -157,11 +156,12 @@
                             <div class="form-group text-left">
                                 <label class="form-control-label">Orders: *</label>
                                 <select class="form-control" name="orders">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+
+                                  <option value="{{ $ads->orders }}" selected>{{ $ads->orders }}</option>
+
+                                  @foreach ($data['orders'] as $key )
+                                  <option value="{{ $key }}">{{ $key }}</option>
+                                  @endforeach
                                 </select>
                             </div>
                         </div>

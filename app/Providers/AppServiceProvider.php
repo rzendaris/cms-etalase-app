@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use App\Model\Table\Ratings;
+use App\Model\Table\Notifikasi;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -29,8 +29,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::withoutDoubleEncoding();
         view()->composer(['panel.header'], function ($view) {
-          $ratings = Ratings::with(['endusers','apps'])->where('users_dev_id',Auth::user()->id)->get();
-          $view->with('data', $ratings);
- });
+          
+          $ratings = Notifikasi::with(['fromusers','apps'])->where('to_users_id',Auth::user()->id)->get();
+          $count = count(Notifikasi::with(['fromusers','apps'])->where('to_users_id',Auth::user()->id)->where('read_at',NULL)->get());
+          $data = array(
+              'ratings' => $ratings,
+              'count' => $count
+          );
+          $view->with('data', $data);
+        });
     }
 }

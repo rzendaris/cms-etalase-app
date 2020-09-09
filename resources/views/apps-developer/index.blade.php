@@ -72,7 +72,13 @@
                           <td>@if($apps->is_active==0)
                                   {{"Blocked"}}
                                 @else
-                                  {{"Actived"}}
+                                  @if($apps->is_approve==0)
+                                        {{"Actived Need Approved"}}
+                                  @elseif($apps->is_approve==2)
+                                        {{"Actived Rejected"}}
+                                  @else
+                                    {{"Actived"}}
+                                  @endif
                                 @endif </td>
                           <td class="text-center">
                               <a href="{{ url('detail-apps-dev/'.$apps->id) }}"><i class="fa fa-eye fa-lg custom--1"></i></a>

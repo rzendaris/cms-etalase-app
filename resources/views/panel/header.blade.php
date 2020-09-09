@@ -29,27 +29,21 @@
                 <li class="separator hide"></li>
                 <li class="separator hide"></li>
                 <li>
-                    <a class="nav-link dropdown-toggle" href="#" id="notification-menu-navbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-bell-o fa-lg"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="notification-menu-navbar" style="min-width: 250px;">
+                  <ul class="nav navbar-nav navbar-right">
+                   <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-pill label-danger count" ></span> <span class="glyphicon glyphicon-bell" style="font-size:18px;"></span></a>
+                    <div class="dropdown-menu notif-data" aria-labelledby="notification-menu-navbar" style="min-width: 250px;">
                         <div class="card">
                             <div class="card-body">
                             <ul class="list-group">
-                              @foreach($data as $value)
-                                <li class="list-group-item">
-                                    <b>2048</b> Anda mendapatkan feedback dari {{ $value->endusers->email }}<br>
-                                    <small><i class="fa fa-clock-o"></i> {{ $value->comment_at }}</small>
-                                </li>
-                              @endforeach
+                              <ul class="dropdown-menu notif-data"></ul>
+                            </div>
 
-                            </ul>
-                            </div>
-                            <div class="card-footer text-center">
-                                <a href="#" style=" padding-bottom: 15px; display: block; ">More</a>
-                            </div>
                         </div>
                     </div>
+                   </li>
+                  </ul>
+
                 </li>
                 <li>
                     <a class="nav-link dropdown-toggle" href="#" id="user-menu-navbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

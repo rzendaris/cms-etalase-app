@@ -163,6 +163,10 @@ Route::middleware('auth')->group(function() {
         Route::post('insert-ads', 'Cms\AdsManController@AdsMgmtInsert');
         Route::post('update-ads', 'Cms\AdsManController@AdsMgmtUpdate');
         Route::post('delete-ads', 'Cms\AdsManController@AdsMgmtDelete');
+
+        Route::get('report', 'Cms\ReportingController@Report');
+        Route::post('export-excel', 'Cms\ReportingController@exportExcel');
+
     } else if (env('ENV') == 'DEVELOPER'){
         /**
          * PUT endpoint for CMS of developer here
@@ -203,6 +207,7 @@ Route::middleware('auth')->group(function() {
 
          Route::get('review-info/{id}', 'DevInterface\FeedbacksController@RatingInit');
          Route::get('feedbacks-and-reply', 'DevInterface\FeedbacksController@FeedbacksInit');
+         Route::get('notif-read', 'DevInterface\FeedbacksController@NotifRead');
          Route::post('reply-feedbacks', 'DevInterface\FeedbacksController@ReplyFeedbacks');
     }
 });
@@ -223,4 +228,3 @@ Route::get('register-dev', 'Auth\RegisterController@getRegister');
 // Route::get('edit-application-developer', 'FeController@DevEdit');
 // Route::get('detail-application-developer', 'FeController@DevDetail');
 // Route::get('ads-management', 'FeController@AdsManagement');
-Route::get('report', 'FeController@Report');
