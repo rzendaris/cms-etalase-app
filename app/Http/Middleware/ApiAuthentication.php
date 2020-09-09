@@ -29,10 +29,17 @@ class ApiAuthentication
         }
         $search_details = explode('/', $check_url[0]);
         if(in_array($check_url[0], $list_endpoint) || $search_details[count($search_details) - 1] == 'detail'){
+            $public_token = $request->header('signature');
             if($token == null){
-                $request->sdk_version = "20";
-                $request->user_id = 0;
-                return $next($request)->header('Cache-Control', 'no-cache, must-revalidate');
+                if($public_token == env('PUBLIC_TOKEN')){
+                    $request->sdk_version = "20";
+                    $request->user_id = 0;
+                    return $next($request)->header('Cache-Control', 'no-cache, must-revalidate');
+                } else {
+                    return response()->json([
+                        'message' => "Signature verification failed"
+                    ], 403);
+                }
             }
         }
         
