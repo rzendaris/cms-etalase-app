@@ -208,6 +208,7 @@ Route::middleware('auth')->group(function() {
          Route::get('review-info/{id}', 'DevInterface\FeedbacksController@RatingInit');
          Route::get('feedbacks-and-reply', 'DevInterface\FeedbacksController@FeedbacksInit');
          Route::get('notif-read', 'DevInterface\FeedbacksController@NotifRead');
+         Route::get('notif-read-all', 'DevInterface\FeedbacksController@NotifReadAll');
          Route::post('reply-feedbacks', 'DevInterface\FeedbacksController@ReplyFeedbacks');
     }
 });
