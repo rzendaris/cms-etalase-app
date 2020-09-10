@@ -20,7 +20,7 @@ class DownloadExport implements FromView
     {
 
       return view('report/export', [
-          'datas' => DownloadApps::with(['endusers'])->whereBetween('created_at',[ $this->from_date,$this->to_date])->get()
+          'datas' => DownloadApps::with(['endusers','apps'])->whereBetween('created_at',[ $this->from_date,$this->to_date])->get()
       ]);
     }
 }
