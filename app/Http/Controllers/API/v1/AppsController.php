@@ -64,22 +64,17 @@ class AppsController extends Controller
         if(isset($apps)){
             $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->first();
             if($action == "DOWNLOAD"){
-
-                if(empty($installed_apps)){
-                    $apk_manifest = $this->CheckApkPackage($apps->apk_file);
-                    $apps_download = new DownloadApps([
-                        'end_users_id' => $request->user_id,
-                        'apps_id' => $apps->id,
-                        'version' => $apk_manifest['version_code']
-                    ]);
-                    $apps_download->save();
-                    $return = array(
-                        'path_file' => "apk/".$apps->apk_file
-                    );
-                    return $this->appResponse(200, 200, $return);
-                } else {
-                    return $this->appResponse(505, 200);
-                }
+                $apk_manifest = $this->CheckApkPackage($apps->apk_file);
+                $apps_download = new DownloadApps([
+                    'end_users_id' => $request->user_id,
+                    'apps_id' => $apps->id,
+                    'version' => $apk_manifest['version_code']
+                ]);
+                $apps_download->save();
+                $return = array(
+                    'path_file' => "apk/".$apps->apk_file
+                );
+                return $this->appResponse(200, 200, $return);
 
             } else if($action == "UPDATE"){
 
