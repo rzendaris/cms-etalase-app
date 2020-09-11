@@ -117,6 +117,7 @@ class AppsManController extends Controller
     {
         $apps = Apps::where('id', $id)->first();
         //PDF file is stored under project/public/download/info.pdf
+        $this->CheckApkPackage($$apps->apk_file);
         $file= $this->MapPublicPath(). "apk/".$apps->apk_file;
 
         $headers = array(
