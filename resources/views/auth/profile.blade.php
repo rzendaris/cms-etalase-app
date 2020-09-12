@@ -13,7 +13,7 @@
         {{csrf_field()}}
         <div class="page-head">
             <div class="page-title">
-                <h1>Profiles D</h1>
+                <h1>Profiles</h1>
             </div>
         </div>
         <div class="wrapper">
