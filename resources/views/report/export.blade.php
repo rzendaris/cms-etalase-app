@@ -15,7 +15,6 @@
         <th width="40" style="background-color: #3adcfc;">Nama Aplikasi</th>
         <th width="20" style="background-color: #3adcfc;">Versi</th>
         <th width="20" style="background-color: #3adcfc;">Waktu Download</th>
-        <th width="20" style="background-color: #3adcfc;">Waktu Install</th>
     </tr>
     </thead>
     <tbody>
@@ -35,7 +34,6 @@
             <td>{{ $user->apps->name }}</td>
             <td>{{ $user->apps->version }}</td>
             <td>{{ $user->apps->created_at }}</td>
-            <td>{{ $user->apps->installed_at }}</td>
         </tr>
     @endforeach
     </tbody>

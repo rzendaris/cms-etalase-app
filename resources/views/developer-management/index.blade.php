@@ -57,7 +57,7 @@
                         <tr>
                             <td>{{ $user->no }}</td>
                             <td>
-                                <img src="{{ url('/pictures/'.$user->picture) }}" width="100"/>
+                                <img src="{{ url('/pictures/'.$user->picture) }}" width="100" onerror="this.src='{{ env('DEVELOPER_URL') }}/pictures/{{$user->picture}}';"/>
                             </td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
