@@ -12,6 +12,8 @@ use App\User;
 use App\Model\Table\Apps;
 use App\Model\Table\DownloadApps;
 use App\Model\Table\MstCategories;
+use App\Model\View\AvgRatings;
+use App\Model\Table\Ratings;
 
 class AppsController extends Controller
 {
@@ -102,6 +104,85 @@ class AppsController extends Controller
         $select_apps_category = Apps::select(['category_id'])->where('is_active', 1)->where('is_approve', 1)->groupBy('category_id')->get();
         $apps_category = MstCategories::whereIn('id', $select_apps_category)->get();
         return $this->appResponse(100, 200, $apps_category);
+    }
+
+    public function GetAppReview($apps_id){
+        $apps = AvgRatings::where('id', $apps_id)->where('is_active', 1)->where('is_approve', 1)->first();
+        if(empty($apps)){
+            return $this->appResponse(104, 200, "App ID Not Found!");
+        }
+        if($apps->avg_ratings == NULL){
+            $apps->avg_ratings = 0;
+        }
+        $apps->review = Ratings::with(['endusers'=>function($query){
+            $query->select('id','name','email','picture');
+        }])->where('apps_id', $apps->id)->get();
+        foreach($apps->review as $app_review){
+            $app_review->endusers->picture = "pictures/".$app_review->endusers->picture;
+        }
+        return $this->appResponse(100, 200, $apps);
+    }
+
+    public function PostAppReview(Request $request){
+        $request->validate([
+            'app_id' => 'required|integer',
+            'comment' => 'required|string',
+            'ratings' => 'required|integer',
+        ]);
+        $apps = Apps::where('id', $request->app_id)->where('is_active', 1)->where('is_approve', 1)->first();
+        if(empty($apps)){
+            return $this->appResponse(104, 200, "App ID Not Found!");
+        }
+        $user_review = Ratings::where('apps_id', $apps->id)->where('end_users_id', $request->user_id)->first();
+        if(isset($user_review)){
+            return $this->appResponse(505, 200);
+        }
+        $apps_review = new Ratings([
+            'apps_id' => $request->app_id,
+            'end_users_id' => $request->user_id,
+            'ratings' => $request->ratings,
+            'comment' => $request->comment,
+            'users_dev_id' => $apps->developer_id,
+        ]);
+        $apps_review->save();
+        return $this->appResponse(500, 200);
+    }
+
+    public function PutAppReview(Request $request){
+        $request->validate([
+            'app_id' => 'required|integer',
+            'comment' => 'required|string',
+            'ratings' => 'required|integer',
+        ]);
+        $apps = Apps::where('id', $request->app_id)->where('is_active', 1)->where('is_approve', 1)->first();
+        if(empty($apps)){
+            return $this->appResponse(104, 200, "App ID Not Found!");
+        }
+        $user_review = Ratings::where('apps_id', $apps->id)->where('end_users_id', $request->user_id)->first();
+        if(empty($user_review)){
+            return $this->appResponse(104, 200, 'Please give your review first!');
+        }
+        Ratings::where('apps_id', $apps->id)->where('end_users_id', $request->user_id)->update([
+            'ratings' => $request->ratings,
+            'comment' => $request->comment,
+        ]);
+        return $this->appResponse(501, 200);
+    }
+
+    public function DeleteAppReview(Request $request){
+        $request->validate([
+            'app_id' => 'required|integer',
+        ]);
+        $apps = Apps::where('id', $request->app_id)->where('is_active', 1)->where('is_approve', 1)->first();
+        if(empty($apps)){
+            return $this->appResponse(104, 200, "App ID Not Found!");
+        }
+        $user_review = Ratings::where('apps_id', $apps->id)->where('end_users_id', $request->user_id)->first();
+        if(empty($user_review)){
+            return $this->appResponse(104, 200, 'Please give your review first!');
+        }
+        Ratings::where('apps_id', $apps->id)->where('end_users_id', $request->user_id)->delete();
+        return $this->appResponse(502, 200);
     }
 
     protected function searchEngine($request){

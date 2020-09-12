@@ -46,7 +46,7 @@ CREATE TABLE `apps` (
   `media` varchar(255) NOT NULL,
   `developer_id` int(20) DEFAULT NULL,
   `is_approve` tinyint(4) DEFAULT NULL,
-  `reject_reason` text NOT NULL,
+  `reject_reason` text DEFAULT NULL,
   `is_active` tinyint(4) DEFAULT NULL,
   `is_partnership` tinyint(4) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
@@ -100,9 +100,9 @@ INSERT INTO `download_apps` (`id`, `apps_id`, `end_users_id`, `clicked`, `instal
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `migrations`
@@ -169,8 +169,8 @@ INSERT INTO `mst_category` (`id`, `name`, `icon`) VALUES
 
 CREATE TABLE `mst_countries` (
   `id` int(11) NOT NULL,
-  `country` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `country` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `mst_countries`
@@ -266,12 +266,12 @@ INSERT INTO `ratings` (`id`, `apps_id`, `end_users_id`, `ratings`, `comment`, `u
 --
 
 CREATE TABLE `reset_password_token` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
   `expired_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT current_timestamp(),
   `created_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `reset_password_token`
@@ -291,32 +291,32 @@ INSERT INTO `reset_password_token` (`email`, `token`, `expired_at`, `updated_at`
 
 CREATE TABLE `users` (
   `id` int(20) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `picture` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `picture` varchar(255) DEFAULT NULL,
   `role_id` int(11) NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `dev_web` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `dev_web` varchar(255) DEFAULT NULL,
   `dev_country_id` int(11) DEFAULT NULL,
-  `dev_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `eu_birthday` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `eu_device_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `eu_imei1` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `eu_imei2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `eu_sdk_version` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `eu_device_brand` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `eu_device_model` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dev_address` varchar(255) DEFAULT NULL,
+  `eu_birthday` varchar(255) DEFAULT NULL,
+  `eu_device_id` varchar(255) DEFAULT NULL,
+  `eu_imei1` varchar(255) NOT NULL,
+  `eu_imei2` varchar(255) NOT NULL,
+  `eu_sdk_version` varchar(255) NOT NULL,
+  `eu_device_brand` varchar(255) NOT NULL,
+  `eu_device_model` varchar(255) NOT NULL,
   `is_verified` tinyint(4) DEFAULT NULL,
   `is_blocked` tinyint(4) DEFAULT NULL,
   `created_by` int(20) DEFAULT NULL,
   `updated_by` int(20) DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `notification_id` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `notification_id` longtext NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
 -- Dumping data for table `users`
@@ -338,10 +338,10 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `pi
 (65, 'arie winata', 'arie_winata@yahoo.com', NULL, '$2y$10$Vm.ntRyHDiwvsv80khLGd.2gDOmjk59hx3ZDWvYNNoQNcOJP7Idma', 'arie_winata@yahoo.comimage_profile.jpeg', 3, NULL, NULL, NULL, NULL, '1982-04-20', NULL, '', '', '28', '', '', NULL, 1, NULL, NULL, NULL, '0', '2020-08-18 10:43:14', '2020-08-18 10:43:29'),
 (66, 'Adam Sani', 'adam.sani@ymail.com', NULL, '$2y$10$8f2GZyHRoDJUi9Asta9hF.NLe7/nFYbOJBSLetV9/0E7WKiuh.7dK', 'adam.sani@ymail.comimage_profile.jpg', 3, NULL, NULL, NULL, NULL, '1984-01-25', NULL, '', '', '27', '', '', NULL, 1, NULL, NULL, NULL, '0', '2020-08-18 13:24:38', '2020-08-18 13:26:02'),
 (67, 'yudi', 'yudimufti@gmail.com', NULL, '$2y$10$jRq1tVawptcsdmlZuq7t5OCeso1NDSFhfJBzBAV3KDUAx/TOa7LnG', 'yudimufti@gmail.comimage_profile.jpg', 3, NULL, NULL, NULL, NULL, '2020-08-14', NULL, '', '', '28', '', '', NULL, 1, NULL, NULL, NULL, '0', '2020-08-19 15:31:13', '2020-08-19 15:31:28'),
-(68, 'Rafi Zendaris', 'rzendaris123@gmail.com', NULL, '$2y$10$D5M0cczDYJrc6OY0GUr93.AB9u72rQWg81fOpujT/.5GI1xxRC2z2', 'Picture doesn\'t exist', 3, NULL, NULL, NULL, NULL, '2020-01-01', NULL, '', '', '23', '', '', NULL, 1, NULL, NULL, NULL, '0', '2020-08-20 14:39:08', '2020-08-20 14:39:08'),
-(69, 'Yudi', 'yudi13@gmail.com', NULL, '$2y$10$naDxGYE1toe.BkQvwYWlV.k93PYG9Z/rG8fOEstjfu7NCKuKeZdce', 'Picture doesn\'t exist', 3, NULL, NULL, NULL, NULL, '2020-08-13', NULL, '', '', '28', '', '', NULL, 1, NULL, NULL, NULL, '0', '2020-08-20 14:43:08', '2020-08-20 14:43:30'),
-(70, 'dwi', 'dwi@yopmail.com', NULL, '$2y$10$DL13kMiE.ta9NSzu2tKHSu1hSDjRxUfWkMXxnnWxkSSILkse.eNka', 'Picture doesn\'t exist', 3, NULL, NULL, NULL, NULL, '2020-08-20', NULL, '', '', '24', '', '', NULL, 1, NULL, NULL, NULL, '0', '2020-08-20 15:03:54', '2020-08-20 15:04:05'),
-(71, 'dwi', 'dwi77@yopmail.com', NULL, '$2y$10$k9v2/amptyFxeEDb.d1BeuFS6RpSDFpVojyVILAunQFFvOSlYLi9.', 'Picture doesn\'t exist', 3, NULL, NULL, NULL, NULL, '2020-08-20', NULL, '', '', '24', '', '', NULL, 1, NULL, NULL, NULL, '0', '2020-08-20 15:05:57', '2020-08-20 15:06:09'),
+(68, 'Rafi Zendaris', 'rzendaris123@gmail.com', NULL, '$2y$10$D5M0cczDYJrc6OY0GUr93.AB9u72rQWg81fOpujT/.5GI1xxRC2z2', 'Picture doesnt exist', 3, NULL, NULL, NULL, NULL, '2020-01-01', NULL, '', '', '23', '', '', NULL, 1, NULL, NULL, NULL, '0', '2020-08-20 14:39:08', '2020-08-20 14:39:08'),
+(69, 'Yudi', 'yudi13@gmail.com', NULL, '$2y$10$naDxGYE1toe.BkQvwYWlV.k93PYG9Z/rG8fOEstjfu7NCKuKeZdce', 'Picture doesnt exist', 3, NULL, NULL, NULL, NULL, '2020-08-13', NULL, '', '', '28', '', '', NULL, 1, NULL, NULL, NULL, '0', '2020-08-20 14:43:08', '2020-08-20 14:43:30'),
+(70, 'dwi', 'dwi@yopmail.com', NULL, '$2y$10$DL13kMiE.ta9NSzu2tKHSu1hSDjRxUfWkMXxnnWxkSSILkse.eNka', 'Picture doesnt exist', 3, NULL, NULL, NULL, NULL, '2020-08-20', NULL, '', '', '24', '', '', NULL, 1, NULL, NULL, NULL, '0', '2020-08-20 15:03:54', '2020-08-20 15:04:05'),
+(71, 'dwi', 'dwi77@yopmail.com', NULL, '$2y$10$k9v2/amptyFxeEDb.d1BeuFS6RpSDFpVojyVILAunQFFvOSlYLi9.', 'Picture doesnt exist', 3, NULL, NULL, NULL, NULL, '2020-08-20', NULL, '', '', '24', '', '', NULL, 1, NULL, NULL, NULL, '0', '2020-08-20 15:05:57', '2020-08-20 15:06:09'),
 (72, 'bima', 'bima@gmail.com', NULL, '$2y$10$hHyHTtgBwuEgGus7wOsvtOWNCvGAFi7j6XJxy5lht88L/CguzfNCq', 'bima@gmail.comimage_profile.jpg', 2, NULL, 'bima.com', 1, 'test', NULL, NULL, '', '', '', '', '', NULL, 1, NULL, NULL, NULL, '', '2020-09-10 14:56:03', '2020-09-10 15:13:41'),
 (73, 'ikraith', 'info.semnas-ikraith.com', '2020-09-11 17:12:23', '$2y$10$DKNb2dn9Zu.HwG4at1o32.9IY33jV72aFr2GWHcoi/AjSwWIheNJq', 'info.semnas-ikraith.comimage_profile.jpg', 2, NULL, 'semnas-ikraith.com', 1, 'oko', NULL, NULL, '', '', '', '', '', NULL, 1, NULL, NULL, NULL, '', '2020-09-11 17:12:23', '2020-09-11 17:12:23');
 
@@ -387,7 +387,7 @@ CREATE TABLE `view_avg_ratings` (
 --
 DROP TABLE IF EXISTS `view_avg_ratings`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_avg_ratings`  AS  select avg(`a`.`ratings`) AS `avg_ratings`,`b`.`id` AS `id`,`b`.`name` AS `name`,`b`.`type` AS `type`,`b`.`app_icon` AS `app_icon`,`b`.`category_id` AS `category_id`,`b`.`eu_sdk_version` AS `eu_sdk_version`,`b`.`package_name` AS `package_name`,`b`.`rate` AS `rate`,`b`.`version` AS `version`,`b`.`file_size` AS `file_size`,`b`.`description` AS `description`,`b`.`updates_description` AS `updates_description`,`b`.`link` AS `link`,`b`.`apk_file` AS `apk_file`,`b`.`expansion_file` AS `expansion_file`,`b`.`media` AS `media`,`b`.`developer_id` AS `developer_id`,`b`.`is_approve` AS `is_approve`,`b`.`reject_reason` AS `reject_reason`,`b`.`is_active` AS `is_active`,`b`.`is_partnership` AS `is_partnership`,`b`.`created_at` AS `created_at`,`b`.`created_by` AS `created_by`,`b`.`updated_at` AS `updated_at`,`b`.`updated_by` AS `updated_by` from (`apps` `b` left join `ratings` `a` on(`a`.`apps_id` = `b`.`id`)) group by `b`.`id` ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `view_avg_ratings`  AS  select avg(`a`.`ratings`) AS `avg_ratings`,`b`.`id` AS `id`,`b`.`name` AS `name`,`b`.`type` AS `type`,`b`.`app_icon` AS `app_icon`,`b`.`category_id` AS `category_id`,`b`.`eu_sdk_version` AS `eu_sdk_version`,`b`.`package_name` AS `package_name`,`b`.`rate` AS `rate`,`b`.`version` AS `version`,`b`.`file_size` AS `file_size`,`b`.`description` AS `description`,`b`.`updates_description` AS `updates_description`,`b`.`link` AS `link`,`b`.`apk_file` AS `apk_file`,`b`.`expansion_file` AS `expansion_file`,`b`.`media` AS `media`,`b`.`developer_id` AS `developer_id`,`b`.`is_approve` AS `is_approve`,`b`.`reject_reason` AS `reject_reason`,`b`.`is_active` AS `is_active`,`b`.`is_partnership` AS `is_partnership`,`b`.`created_at` AS `created_at`,`b`.`created_by` AS `created_by`,`b`.`updated_at` AS `updated_at`,`b`.`updated_by` AS `updated_by` from (`apps` `b` left join `ratings` `a` on(`a`.`apps_id` = `b`.`id`)) group by `b`.`id` ;
 
 --
 -- Indexes for dumped tables
