@@ -68,7 +68,7 @@
                                 <tr>
                                     <td>{{ $apps->no }}</td>
                                     <td>
-                                          <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100"/>
+                                      <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100" onerror="this.src='{{ env('DEVELOPER_URL') }}/apps/{{ $apps->app_icon}}';"/>
                                     </td>
                                     <td>{{ $apps->name }}</td>
                                     <td>{{ $apps->type }}</td>
@@ -80,7 +80,13 @@
                                     <td>@if($apps->is_active==0)
                                             {{"Blocked"}}
                                           @else
-                                            {{"Actived"}}
+                                            @if($apps->is_approve==0)
+                                                  {{"Actived Need Approved"}}
+                                            @elseif($apps->is_approve==2)
+                                                  {{"Actived Rejected"}}
+                                            @else
+                                              {{"Actived"}}
+                                            @endif
                                           @endif </td>
                                     <td class="text-center">
                                       <a href="{{ url('detail-apps-management/'.$apps->id) }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
@@ -136,7 +142,7 @@
                                 <tr>
                                     <td>{{ $apps->no }}</td>
                                     <td>
-                                      <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100"/>
+                                      <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100" onerror="this.src='{{ env('DEVELOPER_URL') }}/apps/{{ $apps->app_icon}}';"/>
                                     </td>
                                     <td>{{ $apps->name }}</td>
                                     <td>{{ $apps->type }}</td>

@@ -117,6 +117,7 @@ class AppsManController extends Controller
     {
         $apps = Apps::where('id', $id)->first();
         //PDF file is stored under project/public/download/info.pdf
+        $this->CheckApkPackage($apps->apk_file);
         $file= $this->MapPublicPath(). "apk/".$apps->apk_file;
 
         $headers = array(
@@ -129,8 +130,9 @@ class AppsManController extends Controller
       $apps = Apps::where('id', $request->id)->first();
         if(empty($apps)){
           if($request->photo){
+              $named = str_replace(" ","_",$request->name);
               $file_extention = $request->photo->getClientOriginalExtension();
-              $file_name = 'app_icon_'.$request->id.'.'.$file_extention;
+              $file_name = 'app_icon_'.$named.'.'.$file_extention;
               $fileSize = $request->photo->getSize();
               $valid_extension = array("jpg","jpeg","png");
               $maxFileSize = 2097152;

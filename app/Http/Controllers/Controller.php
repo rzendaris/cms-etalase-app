@@ -27,17 +27,51 @@ class Controller extends BaseController
     }
     
     public static function CheckApkPackage($filename) {
-        $apk = new \ApkParser\Parser('apk/'.$filename);
-        $manifest = $apk->getManifest();
-        $permissions = $manifest->getPermissions();
-        $data = array(
-            "package_name" => $manifest->getPackageName(),
-            "version_name" => $manifest->getVersionName(),
-            "version_code" => $manifest->getVersionCode(),
-            "min_sdk_level" => $manifest->getMinSdkLevel(),
-            "min_sdk_platform" => $manifest->getMinSdk()->platform,
-        );
+        $status = TRUE;
+        $base_url = "";
+        if (!file_exists("apk/".$filename) && env('DEPLOYMENT_STATUS', 0) == 1){
+            if(env('ENV') == 'DEVELOPER'){
+                $base_url = env('ADMIN_URL');
+            }
+            if(env('ENV') == 'ADMIN'){
+                $base_url = env('DEVELOPER_URL');
+            }
+            $status = FALSE;
+        }
+        $apk_is_available = self::does_url_exists($base_url."/apk/".$filename);
+        try{
+            if (!$status){
+                file_put_contents('apk/'.$filename, file_get_contents($base_url."/apk/".$filename));
+            }
+            $apk = new \ApkParser\Parser('apk/'.$filename);
+            $manifest = $apk->getManifest();
+            $permissions = $manifest->getPermissions();
+            $data = array(
+                "package_name" => $manifest->getPackageName(),
+                "version_name" => $manifest->getVersionName(),
+                "version_code" => $manifest->getVersionCode(),
+                "min_sdk_level" => $manifest->getMinSdkLevel(),
+                "min_sdk_platform" => $manifest->getMinSdk()->platform,
+            );
+        } catch(\ApkParser\Exceptions\ApkException $e){
+            dd("Error");
+        }
         return $data;
+    }
+
+    public static function does_url_exists($url) {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    
+        if ($code == 200) {
+            $status = true;
+        } else {
+            $status = false;
+        }
+        curl_close($ch);
+        return $status;
     }
     
     public static function MapPublicPath() {

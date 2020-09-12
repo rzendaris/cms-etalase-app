@@ -21,7 +21,7 @@ class ApiAuthentication
         $start_time = microtime(true);
         $token = $request->header('jwt');
 
-        $list_endpoint = array('/api/v1/apps', '/api/v1/apps/regex:[0-9]/detail', '/api/v1/apps/list-category');
+        $list_endpoint = array('/api/v1/apps', '/api/v1/apps/regex:[0-9]/detail', '/api/v1/apps/list-category', '/api/v1/ads');
         $check_url = explode('?', Request::getRequestUri());
         $local_status = env('LOCAL_STATUS', false);
         if($local_status){

@@ -11,6 +11,10 @@
         <th width="50" style="background-color: #3adcfc;">IMEI 2</th>
         <th width="50" style="background-color: #3adcfc;">Merk Device</th>
         <th width="50" style="background-color: #3adcfc;">Model Device</th>
+        <th width="20" style="background-color: #3adcfc;">SDK Version</th>
+        <th width="40" style="background-color: #3adcfc;">Nama Aplikasi</th>
+        <th width="20" style="background-color: #3adcfc;">Versi</th>
+        <th width="20" style="background-color: #3adcfc;">Waktu Download</th>
     </tr>
     </thead>
     <tbody>
@@ -26,6 +30,10 @@
             <td>{{ $user->endusers->eu_emei2 }}</td>
             <td>{{ $user->endusers->eu_device_brand }}</td>
             <td>{{ $user->endusers->eu_device_model }}</td>
+            <td>{{ $user->apps->eu_sdk_version }}</td>
+            <td>{{ $user->apps->name }}</td>
+            <td>{{ $user->apps->version }}</td>
+            <td>{{ $user->apps->created_at }}</td>
         </tr>
     @endforeach
     </tbody>
