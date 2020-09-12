@@ -8,6 +8,10 @@
 
 @section('content')
 
+<div class="loader" style="display:none;">
+    <div class="loader-main"><i class="fa fa-spinner fa-pulse"></i></div>
+</div>
+
 <div class="content-body-white">
     <form method="post" action="{{url('create-apps-partnership')}}" enctype="multipart/form-data">
           {{csrf_field()}}
@@ -125,6 +129,9 @@
         $('[type=tel]').on('keypress', function(e) {
             keys = ['0','1','2','3','4','5','6','7','8','9','.']
             return keys.indexOf(event.key) > -1
+        });
+        $(document).on('submit', 'form', function() {
+            $(".loader").attr("style","display:block;");
         });
     </script>
 @endsection

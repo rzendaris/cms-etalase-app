@@ -260,7 +260,7 @@
             if (search == null || search == ""){
                 window.location.href="apps-management";
             } else {
-                window.location.href="apps-management?search="+search;
+                window.location.href="apps-management?search="+search+"&#unreleased";
             }
         });
         $('#sorting-table').DataTable( {
