@@ -18,9 +18,15 @@ class DownloadExport implements FromView
       }
     public function view(): View
     {
+      if ($this->from_date == $this->to_date) {
+        return view('report/export', [
+            'datas' => DownloadApps::with(['endusers','apps'])->where('created_at','like', "%" . $this->from_date. "%")->get()
+        ]);
+      }else{
+        return view('report/export', [
+            'datas' => DownloadApps::with(['endusers','apps'])->whereBetween('created_at',[ $this->from_date,$this->to_date])->get()
+        ]);
+      }
 
-      return view('report/export', [
-          'datas' => DownloadApps::with(['endusers','apps'])->whereBetween('created_at',[ $this->from_date,$this->to_date])->get()
-      ]);
     }
 }
