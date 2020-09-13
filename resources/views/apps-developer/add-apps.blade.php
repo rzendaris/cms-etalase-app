@@ -104,7 +104,7 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
-                    <a href="{{ url('apps-developer') }}" class="btn btn-danger pull-left">Cancel</a>
+                    <a href="javascript:history.back()" class="btn btn-danger pull-left">Cancel</a>
                     <input type="submit" class="btn btn-primary" value="Add">
                 </div>
             </div>
