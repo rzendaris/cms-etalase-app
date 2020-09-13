@@ -6,6 +6,7 @@ use App\Model\Table\DownloadApps;
 use App\User;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Carbon\Carbon;
 
 class DownloadExport implements FromView
 {
@@ -20,11 +21,12 @@ class DownloadExport implements FromView
     {
       if ($this->from_date == $this->to_date) {
         return view('report/export', [
-            'datas' => DownloadApps::with(['endusers','apps'])->where('created_at','like', "%" . $this->from_date. "%")->get()
+            'datas' => DownloadApps::with(['endusers','apps'])->whereDate('created_at', '=', $this->from_date)->get()
         ]);
       }else{
+        $to_date_parse = Carbon::createFromFormat('Y-m-d', $this->to_date);
         return view('report/export', [
-            'datas' => DownloadApps::with(['endusers','apps'])->whereBetween('created_at',[ $this->from_date,$this->to_date])->get()
+            'datas' => DownloadApps::with(['endusers','apps'])->whereBetween('created_at',[ $this->from_date,$to_date_parse->addDays(1)])->get()
         ]);
       }
 

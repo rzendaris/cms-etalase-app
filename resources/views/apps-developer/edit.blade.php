@@ -48,6 +48,9 @@
                                 <div class="form-group">
                                     <a href="{{ url('edit-app-dev/'.$data['apps']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-android"></i> Update App</a>
                                 </div>
+                                <div class="form-group">
+                                    <a href="{{ url('edit-expansion-dev/'.$data['apps']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-android"></i> Update OBB</a>
+                                </div>
                             </div>
                             <div class="col-xl-10 col-md-10 m-b-10px">
                               <div class="row">

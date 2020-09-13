@@ -62,7 +62,7 @@ class Controller extends BaseController
     public static function CheckExpFile($filename) {
         $status = TRUE;
         $base_url = "";
-        if (!file_exists("apk/".$filename) && env('DEPLOYMENT_STATUS', 0) == 1){
+        if (!file_exists("exp_file/".$filename) && env('DEPLOYMENT_STATUS', 0) == 1){
             if(env('ENV') == 'DEVELOPER'){
                 $base_url = env('ADMIN_URL');
             }
@@ -189,6 +189,9 @@ class Controller extends BaseController
             break;
             case "107":
                 $message = "Account not verify, please check your email";
+            break;
+            case "108":
+                $message = "Your Account Blocked!";
             break;
             case "1995":
                 $message = "Access Denied";
