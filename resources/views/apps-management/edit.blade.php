@@ -8,6 +8,10 @@
 
 @section('content')
 
+<div class="loader" style="display:none;">
+    <div class="loader-main"><i class="fa fa-spinner fa-pulse"></i></div>
+</div>
+
 <div class="content-body-white">
     <form method="post" action="{{url('update-apps-management')}}" enctype="multipart/form-data">
           {{csrf_field()}}
@@ -119,7 +123,7 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
-                    <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Cancel</a>
+                    <a href="javascript:history.back()" class="btn btn-danger pull-left">Cancel</a>
                     <input type="submit" class="btn btn-primary" value="Update">
                 </div>
             </div>
@@ -140,6 +144,9 @@
         $('[type=tel]').on('keypress', function(e) {
             keys = ['0','1','2','3','4','5','6','7','8','9','.']
             return keys.indexOf(event.key) > -1
+        });
+        $(document).on('submit', 'form', function() {
+            $(".loader").attr("style","display:block;");
         });
     </script>
 @endsection

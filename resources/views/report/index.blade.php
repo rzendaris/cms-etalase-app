@@ -37,13 +37,13 @@
                             <div class="col-xl-12 col-md-5 m-b-10px">
                                 <div class="form-group">
                                     <label class="form-control-label">Tanggal Awal :</label>
-                                    <input type="date" name="from_date" class="form-control date" required/>
+                                    <input id="date-start" type="date" name="from_date" class="form-control date" min="" max="" required/>
                                 </div>
                             </div>
                             <div class="col-xl-12 col-md-5 m-b-10px">
                                 <div class="form-group">
                                     <label class="form-control-label">Tanggal Akhir :</label>
-                                    <input type="date" name="to_date" class="form-control date" required/>
+                                    <input id="date-end" type="date" name="to_date" class="form-control date" min="" max="" required/>
                                 </div>
                             </div>
                             <div class="col-xl-12 col-md-2 m-b-10px">
@@ -74,6 +74,15 @@
         $('[type=tel]').on('keypress', function(e) {
             keys = ['0','1','2','3','4','5','6','7','8','9','.']
             return keys.indexOf(event.key) > -1
+        });
+
+        $("#date-start").change(function(){
+            $("#date-end").attr("min", $(this).val() );
+            $("#date-end").attr("max", "" );
+        });
+        $("#date-end").change(function(){
+            $("#date-start").attr("min", "" );
+            $("#date-start").attr("max", $(this).val() );
         });
     </script>
 @endsection
