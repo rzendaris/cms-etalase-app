@@ -86,9 +86,13 @@
                                       <div class="form-group">
                                           <label class="form-control-label">Type :</label>
                                           <select class="form-control" name="type">
-                                              <option value="Games">Games</option>
-                                              <option value="Hiburan">Hiburan</option>
-                                              <option value="Musik">Musik</option>
+                                            @if($data['apps']->type=="Games")
+                                              <option value="Games" selected>Games</option>
+                                                <option value="Application">Application</option>
+                                            @else
+                                              <option value="Games" >Games</option>
+                                              <option value="Application" selected>Application</option>
+                                            @endif
                                           </select>
                                       </div>
                                       <div class="form-group">

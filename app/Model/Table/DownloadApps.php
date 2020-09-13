@@ -11,7 +11,10 @@ class DownloadApps extends Model
   protected $table = 'download_apps';
 
   protected $fillable = [
-      'id', 'apps_id', 'end_users_id', 'clicked', 'installed', 'version', 'clicked_at',  'created_at'
+      'id', 'apps_id', 'end_users_id', 'clicked', 'installed', 'version'
+  ];
+  protected $hidden = [
+      'created_at', 'updated_at', 'clicked_at',
   ];
   public function endusers()
   {
