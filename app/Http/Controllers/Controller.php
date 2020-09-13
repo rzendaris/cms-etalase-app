@@ -58,6 +58,24 @@ class Controller extends BaseController
         }
         return $data;
     }
+    
+    public static function CheckExpFile($filename) {
+        $status = TRUE;
+        $base_url = "";
+        if (!file_exists("apk/".$filename) && env('DEPLOYMENT_STATUS', 0) == 1){
+            if(env('ENV') == 'DEVELOPER'){
+                $base_url = env('ADMIN_URL');
+            }
+            if(env('ENV') == 'ADMIN'){
+                $base_url = env('DEVELOPER_URL');
+            }
+            $status = FALSE;
+        }
+        $apk_is_available = self::does_url_exists($base_url."/exp_file/".$filename);
+        if (!$status){
+            file_put_contents('exp_file/'.$filename, file_get_contents($base_url."/exp_file/".$filename));
+        }
+    }
 
     public static function does_url_exists($url) {
         $ch = curl_init($url);

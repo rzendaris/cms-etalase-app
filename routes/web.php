@@ -68,6 +68,7 @@ Route::middleware('verified')->group(function() {
         Route::get('edit-apps-management/{id}', 'Cms\AppsManController@AppsManEdit');
         Route::post('update-apps-management', 'Cms\AppsManController@AppsManUpdate');
         Route::get('download-app/{id}', 'Cms\AppsManController@getDownload');
+        Route::get('download-expansion/{id}', 'Cms\AppsManController@getDownloadExpansion');
         //create app
         Route::get('add-app', 'Cms\AppsManController@AddApps');
 

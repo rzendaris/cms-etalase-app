@@ -76,6 +76,11 @@
                           <div class="form-group">
                               <a href="{{ url('download-app/'.$data['apps']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-android"></i> Download App</a>
                           </div>
+                          @if($data['apps']->expansion_file != NULL)
+                          <div class="form-group">
+                              <a href="{{ url('download-expansion/'.$data['apps']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-android"></i> Download Exp File</a>
+                          </div>
+                          @endif
                       </div>
                       <div class="col-xl-10 col-md-10 m-b-10px">
                         <div class="row">

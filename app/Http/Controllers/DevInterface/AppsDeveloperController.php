@@ -393,7 +393,11 @@ class AppsDeveloperController extends Controller
                   ]
                 );
 
-            return redirect('apps-developer')->with('suc_message', 'Apps telah diperbarui!');
+            if($request->submit_button == "save"){
+              return redirect('apps-developer')->with('suc_message', 'Apps telah diperbarui!');
+            } else {
+              return redirect('edit-expansion-dev/'.$apps->id)->with('suc_message', 'Apps telah diperbarui!');
+            }
         } else {
           return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan!');
         }

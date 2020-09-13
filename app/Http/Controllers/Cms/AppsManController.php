@@ -125,6 +125,20 @@ class AppsManController extends Controller
                 );
         return response()->download($file, $apps->apk_file, $headers);
     }
+
+    public function getDownloadExpansion($id)
+    {
+        $apps = Apps::where('id', $id)->first();
+        //PDF file is stored under project/public/download/info.pdf
+        $this->CheckExpFile($apps->expansion_file);
+        $file= $this->MapPublicPath(). "exp_file/".$apps->expansion_file;
+
+        $headers = array(
+                  'Content-Type: application/obb',
+                );
+        return response()->download($file, $apps->expansion_file, $headers);
+    }
+
     public function CreateApps(Request $request)
     {
       $apps = Apps::where('id', $request->id)->first();
@@ -419,8 +433,11 @@ class AppsManController extends Controller
                   'updated_by' => Auth::user()->email
                   ]
                 );
-
-            return redirect('apps-management')->with('suc_message', 'Apps telah diperbarui!');
+            if($request->submit_button == "save"){
+              return redirect('apps-management')->with('suc_message', 'Apps telah diperbarui!');
+            } else {
+              return redirect('edit-expansion/'.$apps->id)->with('suc_message', 'Apps telah diperbarui!');
+            }
         } else {
           return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan!');
         }

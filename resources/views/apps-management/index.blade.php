@@ -81,9 +81,9 @@
                                             {{"Blocked"}}
                                           @else
                                             @if($apps->is_approve==0)
-                                                  {{"Actived Need Approved"}}
+                                                  {{"Need Approved"}}
                                             @elseif($apps->is_approve==2)
-                                                  {{"Actived Rejected"}}
+                                                  {{"Rejected"}}
                                             @else
                                               {{"Actived"}}
                                             @endif
