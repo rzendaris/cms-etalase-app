@@ -102,7 +102,7 @@ button.btn.btn-success {
                             <hr>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="{{ url('apps-management') }}" class="btn btn-danger">Cancel</a>
+                                    <a href="{{ url('apps-developer') }}" class="btn btn-danger">Cancel</a>
                                     <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-check"></i> Save</button>
                                 </div>
                                 <div class="col-md-6">

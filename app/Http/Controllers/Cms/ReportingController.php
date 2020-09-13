@@ -40,8 +40,12 @@ class ReportingController extends Controller
 
         $from_date=$request->from_date;
         $to_date = $request->to_date;
-      $nama_file = 'Report_Etalase_Apps'.date('Y-m-d_H-i-s').'.xlsx';
-      return Excel::download(new DownloadExport($from_date,$to_date), $nama_file);
+        if ($from_date > $to_date) {
+            return redirect()->back()->with('err_message', 'Tanggal Awal Tidak boleh lebih besar dari Tanggal Akhir!');
+        }else{
+            $nama_file = 'Report_Etalase_Apps'.date('Y-m-d_H-i-s').'.xlsx';
+            return Excel::download(new DownloadExport($from_date,$to_date), $nama_file);
+        }
 
     }
 }
