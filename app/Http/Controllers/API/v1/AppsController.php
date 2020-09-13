@@ -67,11 +67,9 @@ class AppsController extends Controller
             if(isset($apps)){
                 if($list_app['version'] != $apps->version){
                     $apps_status = "UPDATE";
-                } else {
-                    $apps_status = "INSTALLED";
+                    $apps->apps_status = $apps_status;
+                    array_push($temp_array, $apps);
                 }
-                $apps->apps_status = $apps_status;
-                array_push($temp_array, $apps);
             }
         }
         // if (isset($request)){
