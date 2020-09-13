@@ -56,40 +56,58 @@ class AppsController extends Controller
 
     public function GetAppInstalled(Request $request)
     {
-        if (isset($request)){
-            $apps = $this->searchEngine($request);
-        } else {
-            $apps = Apps::where('is_active', 1)->where('is_approve', 1)->get();
-        }
-        $temp_array_unset = array();
-        foreach($apps as $key => $data){
-            $apk_manifest = $this->CheckApkPackage($data->apk_file);
-            if((int)$request->sdk_version < $apk_manifest['min_sdk_level']){
-                array_push($temp_array_unset, $key);
-            }
-            $download_at = '';
-            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $data->id)->first();
-            if(isset($installed_apps)){
-                if($apk_manifest['version_code'] != (int)$data->version){
+        $request->validate([
+            "data" => "required|array",
+            'data.*.package_name' => 'required|string',
+            'data.*.version' => 'required|string',
+        ]);
+        $temp_array = array();
+        foreach($request->data as $list_app){
+            $apps = Apps::where('package_name', $list_app['package_name'])->where('is_active', 1)->where('is_approve', 1)->first();
+            if(isset($apps)){
+                if($list_app['version'] != $apps->version){
                     $apps_status = "UPDATE";
                 } else {
                     $apps_status = "INSTALLED";
                 }
-                $download_at = $installed_apps->clicked_at;
-                $data->download_at = $download_at;
-                $data->apps_status = $apps_status;
-            } else {
-                array_push($temp_array_unset, $key);
+                $apps->apps_status = $apps_status;
+                array_push($temp_array, $apps);
             }
         }
-        foreach($temp_array_unset as $key){
-            $apps->forget($key);
-        }
-        $data = array();
-        foreach($apps as $app){
-            array_push($data, $app);
-        }
-        return $this->appResponse(100, 200, $data);
+        // if (isset($request)){
+        //     $apps = $this->searchEngine($request);
+        // } else {
+        //     $apps = Apps::where('is_active', 1)->where('is_approve', 1)->get();
+        // }
+        // $temp_array_unset = array();
+        // foreach($apps as $key => $data){
+        //     $apk_manifest = $this->CheckApkPackage($data->apk_file);
+        //     if((int)$request->sdk_version < $apk_manifest['min_sdk_level']){
+        //         array_push($temp_array_unset, $key);
+        //     }
+        //     $download_at = '';
+        //     $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $data->id)->first();
+        //     if(isset($installed_apps)){
+        //         if($apk_manifest['version_code'] != (int)$data->version){
+        //             $apps_status = "UPDATE";
+        //         } else {
+        //             $apps_status = "INSTALLED";
+        //         }
+        //         $download_at = $installed_apps->clicked_at;
+        //         $data->download_at = $download_at;
+        //         $data->apps_status = $apps_status;
+        //     } else {
+        //         array_push($temp_array_unset, $key);
+        //     }
+        // }
+        // foreach($temp_array_unset as $key){
+        //     $apps->forget($key);
+        // }
+        // $data = array();
+        // foreach($apps as $app){
+        //     array_push($data, $app);
+        // }
+        return $this->appResponse(100, 200, $temp_array);
     }
 
     public function AppDetail($id)

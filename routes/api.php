@@ -40,7 +40,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::put('apps/review', 'API\v1\AppsController@PutAppReview');
             Route::delete('apps/review', 'API\v1\AppsController@DeleteAppReview');
             Route::post('apps/downloaded', 'API\v1\AppsController@PostAppDownloaded');
-            Route::get('apps/installed', 'API\v1\AppsController@GetAppInstalled');
+            Route::post('apps/installed', 'API\v1\AppsController@GetAppInstalled');
 
             /**
              * Ads Management
