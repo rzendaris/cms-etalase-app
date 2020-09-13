@@ -54,6 +54,44 @@ class AppsController extends Controller
         return $this->appResponse(100, 200, $data);
     }
 
+    public function GetAppInstalled(Request $request)
+    {
+        if (isset($request)){
+            $apps = $this->searchEngine($request);
+        } else {
+            $apps = Apps::where('is_active', 1)->where('is_approve', 1)->get();
+        }
+        $temp_array_unset = array();
+        foreach($apps as $key => $data){
+            $apk_manifest = $this->CheckApkPackage($data->apk_file);
+            if((int)$request->sdk_version < $apk_manifest['min_sdk_level']){
+                array_push($temp_array_unset, $key);
+            }
+            $download_at = '';
+            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $data->id)->first();
+            if(isset($installed_apps)){
+                if($apk_manifest['version_code'] != (int)$data->version){
+                    $apps_status = "UPDATE";
+                } else {
+                    $apps_status = "INSTALLED";
+                }
+                $download_at = $installed_apps->clicked_at;
+                $data->download_at = $download_at;
+                $data->apps_status = $apps_status;
+            } else {
+                array_push($temp_array_unset, $key);
+            }
+        }
+        foreach($temp_array_unset as $key){
+            $apps->forget($key);
+        }
+        $data = array();
+        foreach($apps as $app){
+            array_push($data, $app);
+        }
+        return $this->appResponse(100, 200, $data);
+    }
+
     public function AppDetail($id)
     {
         $apps = Apps::where('id', $id)->first();
