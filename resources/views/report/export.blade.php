@@ -33,7 +33,7 @@
             <td>{{ $user->apps->eu_sdk_version }}</td>
             <td>{{ $user->apps->name }}</td>
             <td>{{ $user->apps->version }}</td>
-            <td>{{ $user->apps->created_at }}</td>
+            <td>{{ $user->created_at }}</td>
         </tr>
     @endforeach
     </tbody>
