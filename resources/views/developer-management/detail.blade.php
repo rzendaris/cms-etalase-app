@@ -81,7 +81,7 @@
                         <tr>
                             <td>{{ $apps->no }}</td>
                             <td><img src="{{ url('/apps/'.$apps->app_icon) }}" width="60"  onerror="this.src='{{ env('DEVELOPER_URL') }}/apps/{{$apps->app_icon}}';"/></td>
-                            <td><a href="#">{{ $apps->name }}</a></td>
+                            <td><a href="{{ url('detail-apps-management/'.$apps->id) }}">{{ $apps->name }}</a></td>
                             <td>{{ $apps->type }}</td>
                             <td>{{ $apps->categories->name }}</td>
                             <td>{{ $apps->rate }}</td>

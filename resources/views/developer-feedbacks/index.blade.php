@@ -76,7 +76,7 @@
                       <tr>
                           <td>{{ $ratings->no }}</td>
                           <td><a href="#">{{ $ratings->endusers->email }}</a></td>
-                          <td><a href="#">{{ $ratings->apps->name }}</a></td>
+                          <td><a href="{{ url('detail-apps-dev/'.$ratings->apps_id) }}">{{ $ratings->apps->name }}</a></td>
                           <td>{{ $ratings->ratings }}</td>
                           <td>{{ $ratings->comment }}</td>
                           <td>{{ $ratings->comment_at }}</td>
