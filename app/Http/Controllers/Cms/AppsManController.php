@@ -345,7 +345,7 @@ class AppsManController extends Controller
                 if($fileSize <= $maxFileSize){
                   $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
                   $cek_sdk = $this->CheckApkPackage($apk_name);
-                  if ($cek_sdk['version_name'] <= $apps->version) {
+                  if ($cek_sdk['version_code'] <= $apps->version) {
                      return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan, Mohon Update Version Apps Lebih Tinggi!');
                   }
                 }else{
@@ -366,7 +366,7 @@ class AppsManController extends Controller
                   'package_name' => $cek_sdk['package_name'],
                   'file_size' => $fileSize,
                   'apk_file' => $apk_name,
-                  'version' => $cek_sdk['version_name'],
+                  'version' => $cek_sdk['version_code'],
                   'updated_at' => date('Y-m-d H:i:s'),
                   'updated_by' => Auth::user()->email
                   ]
@@ -393,7 +393,7 @@ class AppsManController extends Controller
                 if($fileSize <= $maxFileSize){
                   $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
                   $cek_sdk = $this->CheckApkPackage($apk_name);
-                  if ($cek_sdk['version_name'] <= $apps->version) {
+                  if ($cek_sdk['version_code'] <= $apps->version) {
                      return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan, Mohon Update Version Apps Lebih Tinggi!');
                   }
                 }else{
@@ -414,7 +414,7 @@ class AppsManController extends Controller
                   'package_name' => $cek_sdk['package_name'],
                   'file_size' => $fileSize,
                   'apk_file' => $apk_name,
-                  'version' => $cek_sdk['version_name'],
+                  'version' => $cek_sdk['version_code'],
                   'updated_at' => date('Y-m-d H:i:s'),
                   'updated_by' => Auth::user()->email
                   ]
@@ -713,7 +713,7 @@ class AppsManController extends Controller
                   'package_name' => $cek_sdk['package_name'],
                   'category_id' => $request->category,
                   'rate' => $request->rate,
-                  'version' => $cek_sdk['version_name'],
+                  'version' => $cek_sdk['version_code'],
                   'file_size' => '',
                   'apk_file' => $apk_name,
                   'expansion_file' => $expfile_name,
@@ -769,8 +769,8 @@ class AppsManController extends Controller
               $cek_sdk = $this->CheckApkPackage($apk_name);
               $package_name = $cek_sdk['package_name'];
               $sdk_version = $cek_sdk['min_sdk_level'];
-              $version = $cek_sdk['version_name'];
-              if ($cek_sdk['version_name'] <= $request->version) {
+              $version = $cek_sdk['version_code'];
+              if ($cek_sdk['version_code'] <= $request->version) {
                  return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan, Mohon Update Version Apps Lebih Tinggi!');
               }
           }else{

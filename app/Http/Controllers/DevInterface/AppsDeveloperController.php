@@ -318,7 +318,7 @@ class AppsDeveloperController extends Controller
                 if($fileSize <= $maxFileSize){
                   $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
                   $cek_sdk = $this->CheckApkPackage($apk_name);
-                  if ($cek_sdk['version_name'] <= $apps->version) {
+                  if ($cek_sdk['version_code'] <= $apps->version) {
                      return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan, Mohon Update Version Apps Lebih Tinggi!');
                   }
                 }else{
@@ -339,7 +339,7 @@ class AppsDeveloperController extends Controller
                   'package_name' => $cek_sdk['package_name'],
                   'file_size' => $fileSize,
                   'apk_file' => $apk_name,
-                  'version' => $cek_sdk['version_name'],
+                  'version' => $cek_sdk['version_code'],
                   'updated_at' => date('Y-m-d H:i:s'),
                   'updated_by' => Auth::user()->email
                   ]
@@ -366,7 +366,7 @@ class AppsDeveloperController extends Controller
                 if($fileSize <= $maxFileSize){
                   $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
                   $cek_sdk = $this->CheckApkPackage($apk_name);
-                  if ($cek_sdk['version_name'] <= $apps->version) {
+                  if ($cek_sdk['version_code'] <= $apps->version) {
                      return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan, Mohon Update Version Apps Lebih Tinggi!');
                   }
                 }else{
@@ -387,7 +387,7 @@ class AppsDeveloperController extends Controller
                   'package_name' => $cek_sdk['package_name'],
                   'file_size' => $fileSize,
                   'apk_file' => $apk_name,
-                  'version' => $cek_sdk['version_name'],
+                  'version' => $cek_sdk['version_code'],
                   'updated_at' => date('Y-m-d H:i:s'),
                   'updated_by' => Auth::user()->email
                   ]
