@@ -55,10 +55,10 @@
                         @foreach($data['ads'] as $ads)
                         <tr>
                             <td>{{ $ads->orders }} </td>
-                            <td>{{ $ads->name }}</td>
                             <td>
                                   <img src="{{ url('/pictures/'.$ads->picture) }}" width="100"/>
-                              </td>
+                            </td>
+                            <td>{{ $ads->name }}</td>
                             <td class="text-center">{{ $ads->link }}</td>
                             <td>@if($ads->status==0)
                                     {{"Inactived"}}
