@@ -49,7 +49,19 @@ class AppsController extends Controller
         }
         $data = array();
         foreach($apps as $app){
-            array_push($data, $app);
+            if($app->media != NULL){
+                $media = (array)json_decode($app->media);
+                $temp_array_media = array();
+                for($i = 1; $i < 20; $i++){
+                    if(isset($media['media'.$i])){
+                        array_push($temp_array_media, "media/".$media['media'.$i]);
+                    } else {
+                        break;
+                    }
+                }
+                $app->media = $temp_array_media;
+                array_push($data, $app);
+            }
         }
         return $this->appResponse(100, 200, $data);
     }
@@ -68,6 +80,18 @@ class AppsController extends Controller
                 if($list_app['version'] != $apps->version){
                     $apps_status = "UPDATE";
                     $apps->apps_status = $apps_status;
+                    if($apps->media != NULL){
+                        $media = (array)json_decode($apps->media);
+                        $temp_array_media = array();
+                        for($i = 1; $i < 20; $i++){
+                            if(isset($media['media'.$i])){
+                                array_push($temp_array_media, "media/".$media['media'.$i]);
+                            } else {
+                                break;
+                            }
+                        }
+                        $apps->media = $temp_array_media;
+                    }
                     array_push($temp_array, $apps);
                 }
             }
@@ -112,6 +136,18 @@ class AppsController extends Controller
     {
         $apps = Apps::where('id', $id)->first();
         if(isset($apps)){
+            if($apps->media != NULL){
+                $media = (array)json_decode($apps->media);
+                $temp_array_media = array();
+                for($i = 1; $i < 20; $i++){
+                    if(isset($media['media'.$i])){
+                        array_push($temp_array_media, "media/".$media['media'.$i]);
+                    } else {
+                        break;
+                    }
+                }
+                $apps->media = $temp_array_media;
+            }
             return $this->appResponse(100, 200, $apps);
         } else {
             return $this->appResponse(104, 200);
