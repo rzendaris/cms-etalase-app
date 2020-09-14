@@ -60,7 +60,7 @@
                       <tr>
                           <td>{{ $apps->no }}</td>
                           <td>
-                                <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100"/>
+                                <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100" onerror="this.src='{{ env('ADMIN_URL') }}/apps/{{ $apps->app_icon}}';"/>
                           </td>
                           <td>{{ $apps->name }}</td>
                           <td>{{ $apps->type }}</td>
@@ -72,7 +72,13 @@
                           <td>@if($apps->is_active==0)
                                   {{"Blocked"}}
                                 @else
-                                  {{"Actived"}}
+                                  @if($apps->is_approve==0)
+                                        {{"Need Approved"}}
+                                  @elseif($apps->is_approve==2)
+                                        {{"Rejected"}}
+                                  @else
+                                    {{"Actived"}}
+                                  @endif
                                 @endif </td>
                           <td class="text-center">
                               <a href="{{ url('detail-apps-dev/'.$apps->id) }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
@@ -167,9 +173,9 @@
         $('#search-button').click(function(){
             var search = $('#search-value').val();
             if (search == null || search == ""){
-                window.location.href="family-management";
+                window.location.href="apps-developer";
             } else {
-                window.location.href="family-management?search="+search;
+                window.location.href="apps-developer?search="+search;
             }
         });
         $('#sorting-table').DataTable( {

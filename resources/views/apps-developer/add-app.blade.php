@@ -63,8 +63,7 @@
                                           <label class="form-control-label">Type : *</label>
                                           <select class="form-control" name="type" required>
                                               <option value="Games">Games</option>
-                                              <option value="Hiburan">Hiburan</option>
-                                              <option value="Musik">Musik</option>
+                                              <option value="Application">Application</option>
                                           </select>
                                       </div>
                                       <!-- <div class="form-group">
@@ -117,7 +116,7 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
-                    <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Cancel</a>
+                    <a href="{{ url('apps-developer') }}" class="btn btn-danger pull-left">Cancel</a>
                     <input type="submit" class="btn btn-primary" value="Next">
                     <!-- <a href="{{ url('upload-media') }}" class="btn btn-primary">Next</a> -->
                 </div>

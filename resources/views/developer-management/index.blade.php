@@ -57,7 +57,7 @@
                         <tr>
                             <td>{{ $user->no }}</td>
                             <td>
-                                <img src="{{ url('/pictures/'.$user->picture) }}" width="100"/>
+                                <img src="{{ url('/pictures/'.$user->picture) }}" width="100" onerror="this.src='{{ env('DEVELOPER_URL') }}/pictures/{{$user->picture}}';"/>
                             </td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
@@ -161,9 +161,9 @@
         $('#search-button').click(function(){
             var search = $('#search-value').val();
             if (search == null || search == ""){
-                window.location.href="family-management";
+                window.location.href="developer-management";
             } else {
-                window.location.href="family-management?search="+search;
+                window.location.href="developer-management?search="+search;
             }
         });
         $('#sorting-table').DataTable( {

@@ -1,6 +1,6 @@
 <div class="page-header-inner ">
     <div class="page-logo">
-        <a href="index.html">
+        <a href="/">
             <!-- <h4 class="logo-default">IWS</h4> -->
             <img src="{{ asset('assets/global/img/logo.png') }}" alt="" width="100" class="logo-default" />
         </a>
@@ -29,28 +29,20 @@
                 <li class="separator hide"></li>
                 <li class="separator hide"></li>
                 <li>
-                    <a class="nav-link dropdown-toggle" href="#" id="notification-menu-navbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-bell-o fa-lg"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="notification-menu-navbar" style="min-width: 250px;">
+                  <ul class="nav navbar-nav navbar-right">
+                   <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-pill label-danger count" ></span> <span class="glyphicon glyphicon-bell" style="font-size:18px;"></span></a>
+                    <div class="dropdown-menu notif-data" aria-labelledby="notification-menu-navbar" style="min-width: 250px;max-height: 340px;overflow: scroll;box-shadow: 0 0 10px 2px #efefef;">
                         <div class="card">
                             <div class="card-body">
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <b>2048</b> Anda mendapatkan feedback dari fulan@gmail.com<br>
-                                    <small><i class="fa fa-clock-o"></i> 10/10/2020</small>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>2049</b> Anda mendapatkan feedback dari bin@gmail.com<br>
-                                    <small><i class="fa fa-clock-o"></i> 10/10/2020</small>
-                                </li>
-                            </ul>
-                            </div>
-                            <div class="card-footer text-center">
-                                <a href="#" style=" padding-bottom: 15px; display: block; ">More</a>
+                                <div class="list-group">
+                                <ul class="dropdown-menu notif-data"></ul>
+                                </div>
                             </div>
                         </div>
                     </div>
+                   </li>
+                  </ul>
                 </li>
                 <li>
                     <a class="nav-link dropdown-toggle" href="#" id="user-menu-navbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

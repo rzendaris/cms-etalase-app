@@ -14,7 +14,7 @@ class VerifyEmailController extends Controller
         $now_time = Carbon::now();
         $token = ResetPasswordToken::where('token', $token)->where('expired_at', '>=', $now_time->toDateTimeString())->first();
         if(isset($token)){
-          User::where('email', $token->email)->update(['is_verified' => 1]);
+          User::where('email', $token->email)->update(['is_verified' => 1, 'email_verified_at' => date('Y-m-d H:i:s')]);
           ResetPasswordToken::where('token', $token)->delete();
           $message = "Terimakasih sudah mem-verifikasi akun anda!";
           return view('auth.verify-email')->with('message', $message);

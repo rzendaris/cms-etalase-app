@@ -62,9 +62,8 @@
                                       <div class="form-group">
                                           <label class="form-control-label">Type : *</label>
                                           <select class="form-control" name="type" required>
-                                              <option value="Games">Games</option>
-                                              <option value="Hiburan">Hiburan</option>
-                                              <option value="Musik">Musik</option>
+                                            <option value="Games">Games</option>
+                                            <option value="Application">Application</option>
                                           </select>
                                       </div>
                                       <!-- <div class="form-group">

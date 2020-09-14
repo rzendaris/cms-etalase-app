@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Mail;
+use Hash;
 use App\Mail\SendMailResetPassword;
 use App\Mail\SendMailVerifyEmail;
 use App\Model\Tables\ResetPasswordToken;
@@ -33,6 +34,10 @@ class APIAuthController extends Controller
             'sdk_version' => 'required|string',
             'birthday' => 'required|date_format:Y-m-d',
             'photo' => 'mimes:jpeg,jpg,png|max:10000',
+            'imei_1' => 'required|string',
+            'imei_2' => 'required|string',
+            'device_brand' => 'required|string',
+            'device_model' => 'required|string',
         ]);
         $check_user = User::where('email', $request->email)->first();
         if ($check_user){
@@ -51,10 +56,28 @@ class APIAuthController extends Controller
                 'password' => bcrypt($request->password),
                 'eu_sdk_version' => $request->sdk_version,
                 'eu_birthday' => $request->birthday,
+                'eu_device_brand' => $request->device_brand,
+                'eu_device_model' => $request->device_model,
+                'eu_imei1' => $request->imei_1,
+                'eu_imei2' => $request->imei_2,
                 'is_blocked' => 1,
                 'picture' => $file_name
             ]);
             $user->save();
+            $token = md5(rand(1, 50) . microtime());
+                    $now_time = Carbon::now();
+                    $expired = Carbon::parse($now_time->toDateTimeString())->addHour();
+                    $data = array(
+                        'email' => $request->email,
+                        'name' => $user->name,
+                        'reset_url' => url('verify-account/'.$token),
+                    );
+                    Mail::send(new SendMailVerifyEmail($data));
+                    ResetPasswordToken::create([
+                        'email' => $request->email,
+                        'token' => $token,
+                        'expired_at' => $expired
+                    ]);
             return $this->appResponse(500, 200);
         }
     }
@@ -76,44 +99,58 @@ class APIAuthController extends Controller
             $this->validate($request, [
                 'email' => 'required',
                 'password' => 'required',
-                'sdk_version' => 'required'
+                'sdk_version' => 'required',
+                'imei_1' => 'required|string',
+                'imei_2' => 'required|string',
+                'device_brand' => 'required|string',
+                'device_model' => 'required|string',
             ]);
-            $user = User::where('email', $request->email)->where('role_id', 3)->where('is_blocked', 1)->first();
+            $user = User::where('email', $request->email)->where('role_id', 3)->first();
             if(isset($user)){
-                if($user->is_verified == 1){
-                    if($hasher->check($request->input('password'), $user->password)){
-                        $apikey = $this->jwt($user);
-                        $decode = JWT::decode($apikey, env('JWT_SECRET'), ['HS256']);
-        
-                        $data['user_email'] = $user->email;
-                        $returnData = [
-                            "user_id" => $user->id,
-                            "email" => $user->email,
-                            "name" => $user->name,
-                            "role_id" => $user->role_id,
-                            "token" => $apikey,
-                        ];
-                        User::where('id', $user->id)->update(['eu_sdk_version' => $request->sdk_version]);
-                        return $this->appResponse(201, 200, $returnData);
-                    }else{
-                        return $this->appResponse(105, 401);
-                    }
+                if($user->is_blocked != 1){
+                    return $this->appResponse(108, 401);
                 } else {
-                    $token = md5(rand(1, 50) . microtime());
-                    $now_time = Carbon::now();
-                    $expired = Carbon::parse($now_time->toDateTimeString())->addHour();
-                    $data = array(
-                        'email' => $request->email,
-                        'name' => $user->name,
-                        'reset_url' => url('verify-account/'.$token),
-                    );
-                    Mail::send(new SendMailVerifyEmail($data));
-                    ResetPasswordToken::create([
-                        'email' => $request->email,
-                        'token' => $token,
-                        'expired_at' => $expired
-                    ]);
-                    return $this->appResponse(107, 401);
+                    if($user->is_verified == 1){
+                        if($hasher->check($request->input('password'), $user->password)){
+                            $apikey = $this->jwt($user);
+                            $decode = JWT::decode($apikey, env('JWT_SECRET'), ['HS256']);
+            
+                            $data['user_email'] = $user->email;
+                            $returnData = [
+                                "user_id" => $user->id,
+                                "email" => $user->email,
+                                "name" => $user->name,
+                                "role_id" => $user->role_id,
+                                "token" => $apikey,
+                            ];
+                            User::where('id', $user->id)->update([
+                                'eu_sdk_version' => $request->sdk_version,
+                                'eu_device_brand' => $request->device_brand,
+                                'eu_device_model' => $request->device_model,
+                                'eu_imei1' => $request->imei_1,
+                                'eu_imei2' => $request->imei_2,
+                            ]);
+                            return $this->appResponse(201, 200, $returnData);
+                        }else{
+                            return $this->appResponse(105, 401);
+                        }
+                    } else {
+                        $token = md5(rand(1, 50) . microtime());
+                        $now_time = Carbon::now();
+                        $expired = Carbon::parse($now_time->toDateTimeString())->addHour();
+                        $data = array(
+                            'email' => $request->email,
+                            'name' => $user->name,
+                            'reset_url' => url('verify-account/'.$token),
+                        );
+                        Mail::send(new SendMailVerifyEmail($data));
+                        ResetPasswordToken::create([
+                            'email' => $request->email,
+                            'token' => $token,
+                            'expired_at' => $expired
+                        ]);
+                        return $this->appResponse(107, 401);
+                    }
                 }
             }else{
                 return $this->appResponse(105, 401);
@@ -134,7 +171,59 @@ class APIAuthController extends Controller
         $request->user()->token()->revoke();
         return $this->appResponse(202, 200);
     }
-  
+
+    /**
+     * Update Profile
+     */
+    public function updateProfile(Request $request){
+        $request->validate([
+            'email' => 'required|string|email',
+            'birthday' => 'required|date_format:Y-m-d',
+            'photo' => 'mimes:jpeg,jpg,png|max:10000',
+        ]);
+        $check_user = User::where('email', $request->email)->first();
+        if ($check_user){
+            $file_name = $check_user->picture;
+            if($request->photo){
+                $file_extention = $request->photo->getClientOriginalExtension();
+                $file_name = $request->email.'image_profile.'.$file_extention;
+                $file_path = $request->photo->move($this->MapPublicPath().'pictures',$file_name);
+            }
+            User::where('id', $check_user->id)->update([
+                'name' => $request->name,
+                'eu_birthday' => $request->birthday,
+                'picture' => $file_name
+            ]);
+            return $this->appResponse(501, 200);
+        } else {
+            return $this->appResponse(156, 200);
+        }
+    }
+
+    /**
+     * Function to Change User's Password
+     */
+    public function changePassword(Request $request){
+        $request->validate([
+            'email' => 'required|string',
+            'old_password' => 'required|string',
+            'new_password' => 'required|string',
+        ]);
+        $check_user = User::where('email', $request->email)->first();
+        if ($check_user){
+            if(Hash::check($request->old_password, $check_user->password, [])){
+                User::where('id', $check_user->id)->update([
+                    'password' => bcrypt($request->new_password)
+                ]);
+                return $this->appResponse(501, 200);
+            } else {
+                return $this->appResponse(157, 200);
+            }
+        } else {
+            return $this->appResponse(156, 200);
+        }
+    }
+
     /**
      * Get the authenticated User
      *

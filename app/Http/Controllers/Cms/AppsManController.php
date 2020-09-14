@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 use App\User;
 use App\Model\Table\Apps;
+use App\Model\Table\Notifikasi;
 use App\Model\Table\MstCategories;
 use App\Model\Table\Ratings;
 use App\Model\View\AvgRatings;
@@ -33,10 +34,22 @@ class AppsManController extends Controller
 
     }
 
-    public function AppsManInit()
+    public function AppsManInit(Request $request)
     {
-        $appsapprove = AvgRatings::with(['categories'])->where('is_approve', 1)->get();
-        $apps = AvgRatings::with(['categories'])->get();
+        $paginate = 15;
+        if (isset($request->query()['search'])){
+            $search = $request->query()['search'];
+            $appsapprove = AvgRatings::with(['categories'])->where('name', 'like', "%" . $search. "%")->where('is_approve', 1)->orderBy('name', 'asc')->simplePaginate($paginate);
+            $apps = AvgRatings::with(['categories'])->where('name', 'like', "%" . $search. "%")->orderBy('name', 'asc')->simplePaginate($paginate);
+            $apps->appends(['search' => $search]);
+            $appsapprove->appends(['search' => $search]);
+        } else {
+          $appsapprove = AvgRatings::with(['categories'])->where('is_approve', 1)->orderBy('name', 'asc')->simplePaginate($paginate);
+          $apps = AvgRatings::with(['categories'])->orderBy('name', 'asc')->simplePaginate($paginate);
+        }
+
+        // $appsapprove = AvgRatings::with(['categories'])->where('is_approve', 1)->get();
+        // $apps = AvgRatings::with(['categories'])->get();
         $no = 1;
         foreach($apps as $data){
             $data->no = $no;
@@ -104,6 +117,7 @@ class AppsManController extends Controller
     {
         $apps = Apps::where('id', $id)->first();
         //PDF file is stored under project/public/download/info.pdf
+        $this->CheckApkPackage($apps->apk_file);
         $file= $this->MapPublicPath(). "apk/".$apps->apk_file;
 
         $headers = array(
@@ -111,13 +125,28 @@ class AppsManController extends Controller
                 );
         return response()->download($file, $apps->apk_file, $headers);
     }
+
+    public function getDownloadExpansion($id)
+    {
+        $apps = Apps::where('id', $id)->first();
+        //PDF file is stored under project/public/download/info.pdf
+        $this->CheckExpFile($apps->expansion_file);
+        $file= $this->MapPublicPath(). "exp_file/".$apps->expansion_file;
+
+        $headers = array(
+                  'Content-Type: application/obb',
+                );
+        return response()->download($file, $apps->expansion_file, $headers);
+    }
+
     public function CreateApps(Request $request)
     {
       $apps = Apps::where('id', $request->id)->first();
         if(empty($apps)){
           if($request->photo){
+              $named = str_replace(" ","_",$request->name);
               $file_extention = $request->photo->getClientOriginalExtension();
-              $file_name = 'app_icon_'.$request->name.'_'.$request->id.'.'.$file_extention;
+              $file_name = 'app_icon_'.$named.'.'.$file_extention;
               $fileSize = $request->photo->getSize();
               $valid_extension = array("jpg","jpeg","png");
               $maxFileSize = 2097152;
@@ -136,7 +165,7 @@ class AppsManController extends Controller
           }
           // if($request->apk_file){
           //     $file_extention = $request->apk_file->getClientOriginalExtension();
-          //     $apk_name = $request->name.'_'.$request->id.'.'.$file_extention;
+          //     $apk_name = $request->id.'.'.$file_extention;
           //     $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
           //     // call function from Controller.php to get sdk package
           //     $cek_sdk = $this->CheckApkPackage($apk_name);
@@ -147,7 +176,7 @@ class AppsManController extends Controller
           // }
           // if($request->exp_file){
           //     $file_extention = $request->exp_file->getClientOriginalExtension();
-          //     $expfile_name = 'exp_file_'.$request->name.'_'.$request->id.'.'.$file_extention;
+          //     $expfile_name = 'exp_file_'.$request->id.'.'.$file_extention;
           //     $file_path = $request->exp_file->move($this->MapPublicPath().'exp_file',$expfile_name);
           // }else{
           //   $expfile_name="Exp File not exists";
@@ -168,7 +197,7 @@ class AppsManController extends Controller
                   'updates_description' => $request->updates_description,
                   'developer_id'=>$request->developer,
                   'is_active'=>1,
-                  'is_approve'=>0,
+                  'is_approve'=>1,
                   // 'is_partnership'=>1,
                   'created_at' => date('Y-m-d H:i:s'),
                   'created_by' => Auth::user()->email
@@ -246,7 +275,7 @@ class AppsManController extends Controller
             foreach ($request->file('filename') as $image) {
               $no++;
               $file_extention = $image->getClientOriginalExtension();
-              $name='media_'.$request->id.'_'.$request->name.'_'.$no.'.'.$file_extention;
+              $name='media_'.$request->id.'_'.$no.'.'.$file_extention;
               $valid_extension = array("jpg","jpeg","png","mp4","mkv");
               if(in_array(strtolower($file_extention),$valid_extension)){
                   $image->move($this->MapPublicPath().'media',$name);
@@ -288,7 +317,7 @@ class AppsManController extends Controller
             foreach ($request->file('filename') as $image) {
               $no++;
               $file_extention = $image->getClientOriginalExtension();
-              $name='media_'.$request->id.'_'.$request->name.'_'.$no.'.'.$file_extention;
+              $name='media_'.$request->id.'_'.$no.'.'.$file_extention;
               $valid_extension = array("jpg","jpeg","png","mp4","mkv");
               if(in_array(strtolower($file_extention),$valid_extension)){
                   $image->move($this->MapPublicPath().'media',$name);
@@ -321,7 +350,7 @@ class AppsManController extends Controller
 
           if($request->apk_file){
               $file_extention = $request->apk_file->getClientOriginalExtension();
-              $apk_name = $apps->name.'_'.$request->id.'.'.$file_extention;
+              $apk_name = 'apps_'.$request->id.'.'.$file_extention;
               $fileSize = $request->apk_file->getSize();
               $valid_extension = array("apk");
               $maxFileSize = 100097152;
@@ -330,7 +359,7 @@ class AppsManController extends Controller
                 if($fileSize <= $maxFileSize){
                   $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
                   $cek_sdk = $this->CheckApkPackage($apk_name);
-                  if ($cek_sdk['version_name'] <= $apps->version) {
+                  if ($cek_sdk['version_code'] <= $apps->version) {
                      return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan, Mohon Update Version Apps Lebih Tinggi!');
                   }
                 }else{
@@ -351,7 +380,7 @@ class AppsManController extends Controller
                   'package_name' => $cek_sdk['package_name'],
                   'file_size' => $fileSize,
                   'apk_file' => $apk_name,
-                  'version' => $cek_sdk['version_name'],
+                  'version' => $cek_sdk['version_code'],
                   'updated_at' => date('Y-m-d H:i:s'),
                   'updated_by' => Auth::user()->email
                   ]
@@ -369,7 +398,7 @@ class AppsManController extends Controller
 
           if($request->apk_file){
               $file_extention = $request->apk_file->getClientOriginalExtension();
-              $apk_name = $apps->name.'_'.$request->id.'.'.$file_extention;
+              $apk_name = 'apps_'.$request->id.'.'.$file_extention;
               $fileSize = $request->apk_file->getSize();
               $valid_extension = array("apk");
               $maxFileSize = 100097152;
@@ -378,7 +407,7 @@ class AppsManController extends Controller
                 if($fileSize <= $maxFileSize){
                   $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
                   $cek_sdk = $this->CheckApkPackage($apk_name);
-                  if ($cek_sdk['version_name'] <= $apps->version) {
+                  if ($cek_sdk['version_code'] <= $apps->version) {
                      return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan, Mohon Update Version Apps Lebih Tinggi!');
                   }
                 }else{
@@ -399,13 +428,16 @@ class AppsManController extends Controller
                   'package_name' => $cek_sdk['package_name'],
                   'file_size' => $fileSize,
                   'apk_file' => $apk_name,
-                  'version' => $cek_sdk['version_name'],
+                  'version' => $cek_sdk['version_code'],
                   'updated_at' => date('Y-m-d H:i:s'),
                   'updated_by' => Auth::user()->email
                   ]
                 );
-
-            return redirect('apps-management')->with('suc_message', 'Apps telah diperbarui!');
+            if($request->submit_button == "save"){
+              return redirect('apps-management')->with('suc_message', 'Apps telah diperbarui!');
+            } else {
+              return redirect('edit-expansion/'.$apps->id)->with('suc_message', 'Apps telah diperbarui!');
+            }
         } else {
           return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan!');
         }
@@ -417,7 +449,7 @@ class AppsManController extends Controller
 
           if($request->exp_file){
               $file_extention = $request->exp_file->getClientOriginalExtension();
-              $expfile_name = 'exp_file_'.$apps->name.'_'.$request->id.'.'.$file_extention;
+              $expfile_name = 'exp_file_apps'.$request->id.'.'.$file_extention;
               $fileSize = $request->exp_file->getSize();
               $valid_extension = array("obb");
               $maxFileSize = 100097152;
@@ -456,21 +488,21 @@ class AppsManController extends Controller
     //     if(!empty($apps)){
     //       if($request->photo){
     //           $file_extention = $request->photo->getClientOriginalExtension();
-    //           $file_name = 'app_icon_'.$request->name.'_'.$request->id.'.'.$file_extention;
+    //           $file_name = 'app_icon_'.$request->id.'.'.$file_extention;
     //           $file_path = $request->photo->move($this->MapPublicPath().'apps',$file_name);
     //       }else{
     //         $file_name=$apps->app_icon;
     //       }
     //       if($request->apk_file){
     //           $file_extention = $request->apk_file->getClientOriginalExtension();
-    //           $apk_name = $request->name.'_'.$request->id.'.'.$file_extention;
+    //           $apk_name = $request->id.'.'.$file_extention;
     //           $file_path = $request->photo->move($this->MapPublicPath().'apk',$apk_name);
     //       }else{
     //         $apk_name=$apps->app_icon;
     //       }
     //       if($request->exp_file){
     //           $file_extention = $request->exp_file->getClientOriginalExtension();
-    //           $expfile_name = 'exp_file_'.$apps->name.'_'.$request->id.'.'.$file_extention;
+    //           $expfile_name = 'exp_file_apps'.$request->id.'.'.$file_extention;
     //           $file_path = $request->photo->move($this->MapPublicPath().'exp_file',$expfile_name);
     //       }else{
     //         $expfile_name=$apps->app_icon;
@@ -506,7 +538,7 @@ class AppsManController extends Controller
         if(!empty($apps)){
           if($request->photo){
               $file_extention = $request->photo->getClientOriginalExtension();
-              $file_name = 'app_icon_'.$request->name.'_'.$request->id.'.'.$file_extention;
+              $file_name = 'app_icon_'.$request->id.'.'.$file_extention;
               $fileSize = $request->photo->getSize();
               $valid_extension = array("jpg","jpeg","png");
               $maxFileSize = 2097152;
@@ -583,6 +615,13 @@ class AppsManController extends Controller
                     'is_approve' => 1,
                   ]
                 );
+                $created = Notifikasi::create([
+                    'to_users_id' => $apps->developer_id,
+                    'from_users_id' => Auth::user()->id,
+                    'content' => $apps->name." Approved oleh ".Auth::user()->email,
+                    'apps_id' => $request->id,
+                    // 'token' => Str::random(60),
+                ]);
 
             return redirect('apps-management')->with('suc_message', 'Apps Approved !');
         } else {
@@ -599,6 +638,13 @@ class AppsManController extends Controller
                     'reject_reason' => $request->reaseon
                   ]
                 );
+            $created = Notifikasi::create([
+                'to_users_id' => $apps->developer_id,
+                'from_users_id' => Auth::user()->id,
+                'content' => $apps->name." Rejected oleh ".Auth::user()->email,
+                'apps_id' => $request->id,
+                // 'token' => Str::random(60),
+            ]);
 
             return redirect('apps-management')->with('suc_message', 'Apps Rejected!');
         } else {
@@ -610,6 +656,12 @@ class AppsManController extends Controller
         $apps = Apps::where('id', $request->id)->first();
         if(!empty($apps)){
             Apps::where('id', $request->id)->delete();
+            $created = Notifikasi::create([
+                'to_users_id' => $apps->developer_id,
+                'from_users_id' => Auth::user()->id,
+                'content' => $apps->name." Deleted oleh ".Auth::user()->email,
+                // 'token' => Str::random(60),
+            ]);
             return redirect()->back()->with('suc_message', 'Apps telah dihapus!');
         } else {
             return redirect()->back()->with('err_message', 'Apps tidak ditemukan!');
@@ -647,14 +699,14 @@ class AppsManController extends Controller
         if(empty($apps)){
           if($request->photo){
               $file_extention = $request->photo->getClientOriginalExtension();
-              $file_name = 'app_icon_'.$request->name.'_'.$request->id.'.'.$file_extention;
+              $file_name = 'app_icon_'.$request->id.'.'.$file_extention;
               $file_path = $request->photo->move($this->MapPublicPath().'apps',$file_name);
           }else{
             $file_name="Photo not exists";
           }
           if($request->apk_file){
               $file_extention = $request->apk_file->getClientOriginalExtension();
-              $apk_name = $request->name.'_'.$request->id.'.'.$file_extention;
+              $apk_name = $request->id.'.'.$file_extention;
               $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
               // call function from Controller.php to get sdk package
               $cek_sdk = $this->CheckApkPackage($apk_name);
@@ -665,7 +717,7 @@ class AppsManController extends Controller
           }
           if($request->exp_file){
               $file_extention = $request->exp_file->getClientOriginalExtension();
-              $expfile_name = 'exp_file_'.$request->name.'_'.$request->id.'.'.$file_extention;
+              $expfile_name = 'exp_file_'.$request->id.'.'.$file_extention;
               $file_path = $request->exp_file->move($this->MapPublicPath().'exp_file',$expfile_name);
           }else{
             $expfile_name="Exp File not exists";
@@ -678,7 +730,7 @@ class AppsManController extends Controller
                   'package_name' => $cek_sdk['package_name'],
                   'category_id' => $request->category,
                   'rate' => $request->rate,
-                  'version' => $cek_sdk['version_name'],
+                  'version' => $cek_sdk['version_code'],
                   'file_size' => '',
                   'apk_file' => $apk_name,
                   'expansion_file' => $expfile_name,
@@ -716,14 +768,14 @@ class AppsManController extends Controller
         if(!empty($apps)){
           if($request->photo){
               $file_extention = $request->photo->getClientOriginalExtension();
-              $file_name = 'app_icon_'.$request->name.'_'.$request->id.'.'.$file_extention;
+              $file_name = 'app_icon_'.$request->id.'.'.$file_extention;
               $file_path = $request->photo->move($this->MapPublicPath().'apps',$file_name);
           }else{
             $file_name=$apps->app_icon;
           }
           if($request->apk_file){
               $file_extention = $request->apk_file->getClientOriginalExtension();
-              $apk_name = $request->name.'_'.$request->id.'.'.$file_extention;
+              $apk_name = $request->id.'.'.$file_extention;
               $file_path = $request->apk_file->move($this->MapPublicPath().'apk',$apk_name);
               // call function from Controller.php to get sdk package
               // $cek_sdk['package_name'].//com.example.rezkyflutter
@@ -734,8 +786,8 @@ class AppsManController extends Controller
               $cek_sdk = $this->CheckApkPackage($apk_name);
               $package_name = $cek_sdk['package_name'];
               $sdk_version = $cek_sdk['min_sdk_level'];
-              $version = $cek_sdk['version_name'];
-              if ($cek_sdk['version_name'] <= $request->version) {
+              $version = $cek_sdk['version_code'];
+              if ($cek_sdk['version_code'] <= $request->version) {
                  return redirect()->back()->with('err_message', 'Apps Gagal ditambahkan, Mohon Update Version Apps Lebih Tinggi!');
               }
           }else{
@@ -746,7 +798,7 @@ class AppsManController extends Controller
           }
           if($request->exp_file){
               $file_extention = $request->exp_file->getClientOriginalExtension();
-              $expfile_name = 'exp_file_'.$request->name.'_'.$request->id.'.'.$file_extention;
+              $expfile_name = 'exp_file_'.$request->id.'.'.$file_extention;
               $file_path = $request->exp_file->move($this->MapPublicPath().'exp_file',$expfile_name);
           }else{
             $expfile_name=$apps->expansion_file;

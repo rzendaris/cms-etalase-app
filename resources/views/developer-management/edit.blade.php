@@ -35,7 +35,7 @@
                         <div class="row">
                             <div class="col-xl-2 col-md-2 m-b-10px">
                                 <div class="form-group">
-                                    <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/pictures/'.$data['user']->picture) }}" /><br>
+                                    <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/pictures/'.$data['user']->picture) }}" onerror="this.src='{{ env('DEVELOPER_URL') }}/pictures/{{$data['user']->picture}}';"/><br>
                                     <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
                                     <p class="text-danger">Max. file size 2 MB</p>
                                 </div>

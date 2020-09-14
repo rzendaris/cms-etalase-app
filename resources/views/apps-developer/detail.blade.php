@@ -24,11 +24,11 @@
                     @foreach(json_decode($data['apps']->media) as $key => $media)
                       @if($key=='media1')
                         <div class="item active">
-                            <img src="{{ url('/media/'.$media) }}" alt="etalase">
+                            <img src="{{ url('/media/'.$media) }}" onerror="this.src='{{ env('ADMIN_URL') }}/media/{{ $media }}';" alt="etalase">
                         </div>
                       @else
                         <div class="item">
-                            <img src="{{ url('/media/'.$media) }}" alt="etalase">
+                            <img src="{{ url('/media/'.$media) }}" onerror="this.src='{{ env('ADMIN_URL') }}/media/{{ $media }}';" alt="etalase">
                         </div>
                       @endif
                     @endforeach
@@ -61,7 +61,7 @@
                 <div class="row">
                     <div class="col-xl-2 col-md-2 m-b-10px">
                         <div class="form-group">
-                            <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="100%" height="150" src="{{ url('/apps/'.$data['apps']->app_icon) }}" /><br>
+                            <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="100%" height="150" src="{{ url('/apps/'.$data['apps']->app_icon) }}" onerror="this.src='{{ env('ADMIN_URL') }}/apps/{{ $data['apps']->app_icon }}';" /><br>
                             <!-- <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; "> -->
                         </div>
                         <div class="form-group text-center">
@@ -171,7 +171,7 @@
     <hr>
     <div class="row">
         <div class="col-xl-12 col-md-12 m-b-10px text-right">
-            <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Back</a>
+            <a href="{{ url('apps-developer') }}" class="btn btn-danger pull-left">Back</a>
         </div>
     </div>
 

@@ -82,7 +82,7 @@ class RegisterController extends Controller
       if($data['picture']){
           $file_extention = $data['picture']->getClientOriginalExtension();
           $file_name = $data['email'].'image_profile.'.$file_extention;
-          $file_path = $data['picture']->move(public_path().'/pictures',$file_name);
+          $file_path = $data['picture']->move($this->MapPublicPath().'pictures',$file_name);
       }
         return User::create([
             'name' => $data['name'],

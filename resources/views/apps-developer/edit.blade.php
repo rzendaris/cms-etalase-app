@@ -8,6 +8,10 @@
 
 @section('content')
 
+<div class="loader" style="display:none;">
+    <div class="loader-main"><i class="fa fa-spinner fa-pulse"></i></div>
+</div>
+
 <div class="content-body-white">
     <form method="post" action="{{url('update-apps-dev')}}" enctype="multipart/form-data">
           {{csrf_field()}}
@@ -35,7 +39,7 @@
                         <div class="row">
                             <div class="col-xl-2 col-md-2 m-b-10px">
                                 <div class="form-group">
-                                    <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/apps/'.$data['apps']->app_icon) }}" /><br>
+                                    <img id="blah2" style="margin-bottom:5px;border:solid 1px #c2cad8;" width="150" height="150" src="{{ url('/apps/'.$data['apps']->app_icon) }}" onerror="this.src='{{ env('ADMIN_URL') }}/apps/{{ $data['apps']->app_icon}}';" /><br>
                                     <input id="upload-img-2" name="photo" type="file" onchange="document.getElementById('blah2').src = window.URL.createObjectURL(this.files[0])" style=" width: 99%; border: solid 1px #c2cbd8; ">
                                 </div>
                                 <div class="form-group">
@@ -43,6 +47,9 @@
                                 </div>
                                 <div class="form-group">
                                     <a href="{{ url('edit-app-dev/'.$data['apps']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-android"></i> Update App</a>
+                                </div>
+                                <div class="form-group">
+                                    <a href="{{ url('edit-expansion-dev/'.$data['apps']->id) }}" class="btn btn-primary" style="width:100%;"><i class="fa fa-android"></i> Update OBB</a>
                                 </div>
                             </div>
                             <div class="col-xl-10 col-md-10 m-b-10px">
@@ -82,9 +89,13 @@
                                       <div class="form-group">
                                           <label class="form-control-label">Type :</label>
                                           <select class="form-control" name="type">
-                                              <option value="Games">Games</option>
-                                              <option value="Hiburan">Hiburan</option>
-                                              <option value="Musik">Musik</option>
+                                            @if($data['apps']->type=="Games")
+                                              <option value="Games" selected>Games</option>
+                                                <option value="Application">Application</option>
+                                            @else
+                                              <option value="Games" >Games</option>
+                                              <option value="Application" selected>Application</option>
+                                            @endif
                                           </select>
                                       </div>
                                       <div class="form-group">
@@ -115,7 +126,7 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 m-b-10px text-right">
-                    <a href="{{ url('apps-management') }}" class="btn btn-danger pull-left">Cancel</a>
+                    <a href="{{ url('apps-developer') }}" class="btn btn-danger pull-left">Cancel</a>
                     <input type="submit" class="btn btn-primary" value="Update">
                 </div>
             </div>
@@ -136,6 +147,9 @@
         $('[type=tel]').on('keypress', function(e) {
             keys = ['0','1','2','3','4','5','6','7','8','9','.']
             return keys.indexOf(event.key) > -1
+        });
+        $(document).on('submit', 'form', function() {
+            $(".loader").attr("style","display:block;");
         });
     </script>
 @endsection

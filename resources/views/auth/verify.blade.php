@@ -65,6 +65,11 @@
                 @csrf
                 <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
             </form>
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="pull-right" href="#">Back to Login</a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <br><br>
         </div>
     <!-- END LOGIN FORM -->
 </div>

@@ -11,7 +11,7 @@
 <div class="content-body-white">
     <div class="page-head">
         <div class="text-center">
-            <h2>{{ count($data['ratingsall']) }}</h2>
+            <h2>{{ $data['apps']->name }}</h2>
             <h4>{{ $data['apps']->type }} - Feedbacks</h4>
             <h2>{{ $data['avgrating'] }} <i class="fa fa-star"></i></h2>
             <h4>{{ count($data['ratings']) }} Feedbacks</h4>
@@ -24,7 +24,16 @@
             <div class="table-responsive custom--2">
                 <div class="row custom-position-header">
                     <div class="float-left col-xl-3 col-md-3 col-xs-8 m-b-10px">
+                      <input type="hidden" name="id" id="id_app" value="{{ $data['apps']->id }}">
                         <input name="name" id="search-value" type="search" value="" placeholder="Search" class="form-control">
+                    </div>
+                    <div class="float-left col-xl-2 col-md-2 col-xs-12 m-b-10px">
+                        <select class="form-control" name="rating" id="ratings-value">
+                          <option value="">Semua Rating</option>
+                          @for($i=1; $i<=5; $i++)
+                                  <option value="{{ $i}}">{{ $i }}</option>
+                          @endfor
+                        </select>
                     </div>
                     <div class="float-left col-xl-3 col-md-3 col-xs-4 m-b-10px">
                         <button type="button" id="search-button" class="btn btn-primary">Cari</button>
@@ -73,12 +82,18 @@
     <script>
     $(function () {
         $('#search-button').click(function(){
-            var search = $('#search-value').val();
-            if (search == null || search == ""){
-                window.location.href="family-management";
-            } else {
-                window.location.href="family-management?search="+search;
-            }
+          var search = $('#search-value').val();
+          var ratings = $('#ratings-value').val();
+          var id = $('#id_app').val();
+          if (search == "" && ratings == ""){
+            window.location.href="{{ url('review-info') }}/"+id;
+          }else if (ratings == "" ){
+            window.location.href="{{ url('review-info') }}/"+id+"?search="+search;
+          }else if (search == ""){
+            window.location.href="{{ url('review-info') }}/"+id+"?ratings="+ratings;
+          } else {
+            window.location.href="{{ url('review-info') }}/"+id+"?search="+search+"&ratings="+ratings;
+          }
         });
         $('#sorting-table').DataTable( {
             "dom": '<"toolbar">frtip',
@@ -88,7 +103,7 @@
             "searching":     false,
         } );
 
-        $("div.toolbar").html('<select class="form-control"><option value="all">Semua Rating</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>');
+        $("div.toolbar").html('<br>');
     });
     </script>
 @endsection

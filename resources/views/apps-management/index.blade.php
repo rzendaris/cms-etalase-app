@@ -68,7 +68,7 @@
                                 <tr>
                                     <td>{{ $apps->no }}</td>
                                     <td>
-                                          <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100"/>
+                                      <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100" onerror="this.src='{{ env('DEVELOPER_URL') }}/apps/{{ $apps->app_icon}}';"/>
                                     </td>
                                     <td>{{ $apps->name }}</td>
                                     <td>{{ $apps->type }}</td>
@@ -80,7 +80,13 @@
                                     <td>@if($apps->is_active==0)
                                             {{"Blocked"}}
                                           @else
-                                            {{"Actived"}}
+                                            @if($apps->is_approve==0)
+                                                  {{"Need Approved"}}
+                                            @elseif($apps->is_approve==2)
+                                                  {{"Rejected"}}
+                                            @else
+                                              {{"Actived"}}
+                                            @endif
                                           @endif </td>
                                     <td class="text-center">
                                       <a href="{{ url('detail-apps-management/'.$apps->id) }}"><i class="fa fa-eye fa-lg custom--1"></i></a>
@@ -106,10 +112,10 @@
                     <div class="table-responsive custom--2">
                         <div class="row">
                             <div class="float-left col-xl-3 col-md-3 col-xs-8 m-b-10px">
-                                <input name="name" id="search-value" type="search" value="" placeholder="Search" class="form-control">
+                                <input name="name" id="search-values" type="search" value="" placeholder="Search" class="form-control">
                             </div>
                             <div class="float-left col-xl-3 col-md-3 col-xs-4 m-b-10px">
-                                <button type="button" id="search-button" class="btn btn-primary">Cari</button>
+                                <button type="button" id="search-buttons" class="btn btn-primary">Cari</button>
                             </div>
                         </div>
                         <br>
@@ -136,7 +142,7 @@
                                 <tr>
                                     <td>{{ $apps->no }}</td>
                                     <td>
-                                      <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100"/>
+                                      <img src="{{ url('/apps/'.$apps->app_icon) }}" width="100" onerror="this.src='{{ env('DEVELOPER_URL') }}/apps/{{ $apps->app_icon}}';"/>
                                     </td>
                                     <td>{{ $apps->name }}</td>
                                     <td>{{ $apps->type }}</td>
@@ -244,9 +250,17 @@
         $('#search-button').click(function(){
             var search = $('#search-value').val();
             if (search == null || search == ""){
-                window.location.href="family-management";
+                window.location.href="apps-management";
             } else {
-                window.location.href="family-management?search="+search;
+                window.location.href="apps-management?search="+search;
+            }
+        });
+        $('#search-buttons').click(function(){
+            var search = $('#search-values').val();
+            if (search == null || search == ""){
+                window.location.href="apps-management";
+            } else {
+                window.location.href="apps-management?search="+search+"&#unreleased";
             }
         });
         $('#sorting-table').DataTable( {
