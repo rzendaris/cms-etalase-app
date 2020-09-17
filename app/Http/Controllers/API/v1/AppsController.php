@@ -79,21 +79,23 @@ class AppsController extends Controller
             if(isset($apps)){
                 if($list_app['version'] != $apps->version){
                     $apps_status = "UPDATE";
-                    $apps->apps_status = $apps_status;
-                    if($apps->media != NULL){
-                        $media = (array)json_decode($apps->media);
-                        $temp_array_media = array();
-                        for($i = 1; $i < 20; $i++){
-                            if(isset($media['media'.$i])){
-                                array_push($temp_array_media, "media/".$media['media'.$i]);
-                            } else {
-                                break;
-                            }
-                        }
-                        $apps->media = $temp_array_media;
-                    }
-                    array_push($temp_array, $apps);
+                } else {
+                    $apps_status = "INSTALLED";
                 }
+                $apps->apps_status = $apps_status;
+                if($apps->media != NULL){
+                    $media = (array)json_decode($apps->media);
+                    $temp_array_media = array();
+                    for($i = 1; $i < 20; $i++){
+                        if(isset($media['media'.$i])){
+                            array_push($temp_array_media, "media/".$media['media'.$i]);
+                        } else {
+                            break;
+                        }
+                    }
+                    $apps->media = $temp_array_media;
+                }
+                array_push($temp_array, $apps);
             }
         }
         // if (isset($request)){
