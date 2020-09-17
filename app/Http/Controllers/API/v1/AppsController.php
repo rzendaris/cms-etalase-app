@@ -312,6 +312,9 @@ class AppsController extends Controller
         if (isset($request->category_id)){
             $apps = $apps->where('category_id', $request->category_id);
         }
+        if (isset($request->type_apps)){
+            $apps = $apps->where('type', $request->type_apps);
+        }
         if (isset($request->search)){
             $apps = $apps->where('name', 'LIKE', "%{$request->search}%");
         }
