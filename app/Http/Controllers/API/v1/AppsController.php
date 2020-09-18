@@ -43,6 +43,7 @@ class AppsController extends Controller
             }
             $data->download_at = $download_at;
             $data->apps_status = $apps_status;
+            $data->developers = $this->getDevelopers($data->developer_id);
         }
         foreach($temp_array_unset as $key){
             $apps->forget($key);
@@ -95,6 +96,7 @@ class AppsController extends Controller
                     }
                     $apps->media = $temp_array_media;
                 }
+                $apps->developers = $this->getDevelopers($apps->developer_id);
                 array_push($temp_array, $apps);
             }
         }
@@ -150,6 +152,7 @@ class AppsController extends Controller
                 }
                 $apps->media = $temp_array_media;
             }
+            $apps->developers = $this->getDevelopers($apps->developer_id);
             return $this->appResponse(100, 200, $apps);
         } else {
             return $this->appResponse(104, 200);
@@ -223,10 +226,17 @@ class AppsController extends Controller
         }
     }
 
-    public function GetAppsCategory()
+    public function GetAppsCategory(Request $request)
     {
-        $select_apps_category = Apps::select(['category_id'])->where('is_active', 1)->where('is_approve', 1)->groupBy('category_id')->get();
+        if (isset($request->type_apps)){
+            $select_apps_category = Apps::select(['category_id'])->where('type', $request->type_apps)->where('is_active', 1)->where('is_approve', 1)->groupBy('category_id')->get();
+        } else {
+            $select_apps_category = Apps::select(['category_id'])->where('is_active', 1)->where('is_approve', 1)->groupBy('category_id')->get();
+        }
         $apps_category = MstCategories::whereIn('id', $select_apps_category)->get();
+        foreach($apps_category as $app_category){
+            $app_category->icon = "icon_category/".$app_category->icon;
+        }
         return $this->appResponse(100, 200, $apps_category);
     }
 
@@ -238,6 +248,17 @@ class AppsController extends Controller
         if($apps->avg_ratings == NULL){
             $apps->avg_ratings = 0;
         }
+        $rating = array(
+            '1' => 0,
+            '2' => 0,
+            '3' => 0,
+            '4' => 0,
+            '5' => 0,
+        );
+        for($x = 1; $x <= 5; $x++){
+            $rating[$x] = Ratings::where('apps_id', $apps->id)->where('ratings', $x)->count();
+        }
+        $apps->rate_details = $rating;
         $apps->review = Ratings::with(['endusers'=>function($query){
             $query->select('id','name','email','picture');
         }])->where('apps_id', $apps->id)->get();
@@ -323,5 +344,11 @@ class AppsController extends Controller
 
         $return = $apps->get();
         return $return;
+    }
+
+    protected function getDevelopers($developer_id){
+        $developer = User::select(['name', 'email', 'picture', 'dev_web'])->where('id', $developer_id)->first();
+        $developer->picture = 'picture/'.$developer->picture;
+        return $developer;
     }
 }

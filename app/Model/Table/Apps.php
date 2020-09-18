@@ -18,10 +18,6 @@ class Apps extends Model
   {
       return $this->belongsTo('App\Model\Table\MstCategories', 'category_id', 'id');
   }
-  public function developers()
-  {
-      return $this->belongsTo('App\User', 'developer_id', 'id');
-  }
   public function ratings()
   {
       return $this->hasMany('App\Model\Table\Ratings', 'apps_id', 'id');
