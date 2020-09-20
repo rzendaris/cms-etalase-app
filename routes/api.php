@@ -34,7 +34,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::get('apps/action/{action}/{apps_id}', 'API\v1\AppsController@AppsAction');
             Route::get('apps/list-category', 'API\v1\AppsController@GetAppsCategory');
             Route::get('apps', 'API\v1\AppsController@GetAllApps');
-            Route::get('apps/{id}/detail', 'API\v1\AppsController@AppDetail');
+            Route::post('apps/{id}/detail', 'API\v1\AppsController@AppDetail');
             Route::get('apps/{id}/review-feedback', 'API\v1\AppsController@GetAppReview');
             Route::post('apps/review', 'API\v1\AppsController@PostAppReview');
             Route::put('apps/review', 'API\v1\AppsController@PutAppReview');

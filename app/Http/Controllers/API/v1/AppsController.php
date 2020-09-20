@@ -61,8 +61,25 @@ class AppsController extends Controller
                     }
                 }
                 $app->media = $temp_array_media;
-                array_push($data, $app);
             }
+            $apps_detail = AvgRatings::where('id', $app->id)->where('is_active', 1)->where('is_approve', 1)->first();
+            $avg_ratings = 0;
+            if($apps_detail->avg_ratings != NULL){
+                $avg_ratings = $apps_detail->avg_ratings;
+            }
+            $rating = array(
+                '1' => 0,
+                '2' => 0,
+                '3' => 0,
+                '4' => 0,
+                '5' => 0,
+            );
+            for($x = 1; $x <= 5; $x++){
+                $rating[$x] = Ratings::where('apps_id', $app->id)->where('ratings', $x)->count();
+            }
+            $app->rate_details = $rating;
+            $app->avg_ratings = $avg_ratings;
+            array_push($data, $app);
         }
         return $this->appResponse(100, 200, $data);
     }
@@ -97,6 +114,24 @@ class AppsController extends Controller
                     $apps->media = $temp_array_media;
                 }
                 $apps->developers = $this->getDevelopers($apps->developer_id);
+
+                $apps_detail = AvgRatings::where('id', $apps->id)->where('is_active', 1)->where('is_approve', 1)->first();
+                $avg_ratings = 0;
+                if($apps_detail->avg_ratings != NULL){
+                    $avg_ratings = $apps_detail->avg_ratings;
+                }
+                $rating = array(
+                    '1' => 0,
+                    '2' => 0,
+                    '3' => 0,
+                    '4' => 0,
+                    '5' => 0,
+                );
+                for($x = 1; $x <= 5; $x++){
+                    $rating[$x] = Ratings::where('apps_id', $apps->id)->where('ratings', $x)->count();
+                }
+                $apps->rate_details = $rating;
+                $apps->avg_ratings = $avg_ratings;
                 array_push($temp_array, $apps);
             }
         }
@@ -136,10 +171,19 @@ class AppsController extends Controller
         return $this->appResponse(100, 200, $temp_array);
     }
 
-    public function AppDetail($id)
+    public function AppDetail(Request $request, $id)
     {
-        $apps = Apps::where('id', $id)->first();
+        $apps = Apps::where('package_name', $request->package_name)->where('is_active', 1)->where('is_approve', 1)->first();
         if(isset($apps)){
+            $apps_status = "DOWNLOAD";
+            if($request->version != '0'){
+                if($request->version != $apps->version){
+                    $apps_status = "UPDATE";
+                } else {
+                    $apps_status = "INSTALLED";
+                }
+            }
+            $apps->apps_status = $apps_status;
             if($apps->media != NULL){
                 $media = (array)json_decode($apps->media);
                 $temp_array_media = array();
@@ -153,6 +197,40 @@ class AppsController extends Controller
                 $apps->media = $temp_array_media;
             }
             $apps->developers = $this->getDevelopers($apps->developer_id);
+
+            $apps_detail = AvgRatings::where('id', $apps->id)->where('is_active', 1)->where('is_approve', 1)->first();
+            $avg_ratings = 0;
+            if($apps_detail->avg_ratings != NULL){
+                $avg_ratings = $apps_detail->avg_ratings;
+            }
+            $rating = array(
+                '1' => 0,
+                '2' => 0,
+                '3' => 0,
+                '4' => 0,
+                '5' => 0,
+            );
+            for($x = 1; $x <= 5; $x++){
+                $rating[$x] = Ratings::where('apps_id', $apps->id)->where('ratings', $x)->count();
+            }
+            $apps->rate_details = $rating;
+            $apps->avg_ratings = $avg_ratings;
+
+            $review = Ratings::with(['endusers'=>function($query){
+                $query->select('id','name','email','picture');
+            }])->where('apps_id', $apps->id)->get();
+
+            $user_active = array();
+            $all_user = array();
+            foreach($review as $app_review){
+                $app_review->endusers->picture = "pictures/".$app_review->endusers->picture;
+                if($app_review->endusers->id == $request->user_id){
+                    array_push($user_active, $app_review);
+                } else {
+                    array_push($all_user, $app_review);
+                }
+            }
+            $apps->review = array_merge($user_active, $all_user);
             return $this->appResponse(100, 200, $apps);
         } else {
             return $this->appResponse(104, 200);
@@ -240,7 +318,7 @@ class AppsController extends Controller
         return $this->appResponse(100, 200, $apps_category);
     }
 
-    public function GetAppReview($apps_id){
+    public function GetAppReview(Request $request, $apps_id){
         $apps = AvgRatings::where('id', $apps_id)->where('is_active', 1)->where('is_approve', 1)->first();
         if(empty($apps)){
             return $this->appResponse(104, 200, "App ID Not Found!");
@@ -259,12 +337,22 @@ class AppsController extends Controller
             $rating[$x] = Ratings::where('apps_id', $apps->id)->where('ratings', $x)->count();
         }
         $apps->rate_details = $rating;
-        $apps->review = Ratings::with(['endusers'=>function($query){
+
+        $review = Ratings::with(['endusers'=>function($query){
             $query->select('id','name','email','picture');
         }])->where('apps_id', $apps->id)->get();
-        foreach($apps->review as $app_review){
+
+        $user_active = array();
+        $all_user = array();
+        foreach($review as $app_review){
             $app_review->endusers->picture = "pictures/".$app_review->endusers->picture;
+            if($app_review->endusers->id == $request->user_id){
+                array_push($user_active, $app_review);
+            } else {
+                array_push($all_user, $app_review);
+            }
         }
+        $apps->review = array_merge($user_active, $all_user);
         return $this->appResponse(100, 200, $apps);
     }
 

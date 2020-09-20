@@ -21,14 +21,14 @@ class ApiAuthentication
         $start_time = microtime(true);
         $token = $request->header('jwt');
 
-        $list_endpoint = array('/api/v1/apps', '/api/v1/apps/regex:[0-9]/detail', '/api/v1/apps/list-category', '/api/v1/ads');
+        $list_endpoint = array('/api/v1/apps', '/api/v1/apps/regex:[0-9]/detail', '/api/v1/apps/regex:[0-9]/review-feedback', '/api/v1/apps/list-category', '/api/v1/ads');
         $check_url = explode('?', Request::getRequestUri());
         $local_status = env('LOCAL_STATUS', false);
         if($local_status){
             $check_url[0] = str_replace('/cms-etalase-app/public', '', $check_url[0]);
         }
         $search_details = explode('/', $check_url[0]);
-        if(in_array($check_url[0], $list_endpoint) || $search_details[count($search_details) - 1] == 'detail'){
+        if(in_array($check_url[0], $list_endpoint) || $search_details[count($search_details) - 1] == 'detail' || $search_details[count($search_details) - 1] == 'review-feedback'){
             $public_token = $request->header('signature');
             if($token == null){
                 if($public_token == env('PUBLIC_TOKEN')){
