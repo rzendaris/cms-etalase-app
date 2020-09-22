@@ -185,7 +185,11 @@
                     </div>
                     <div class="form-group">
                         <label class="form-control-label">Country :</label>
-                        <input type="text" name="" value="{{ $data['user']->countrys->country }}" class="form-control" disabled/>
+                        @if(isset($data['user']->countrys))
+                            <input type="text" name="" value="{{ $data['user']->countrys->country }}" class="form-control" disabled/>
+                        @else
+                            <input type="text" name="" value="" class="form-control" disabled/>
+                        @endif
                     </div>
                 </div>
             </div>
