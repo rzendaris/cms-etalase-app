@@ -32,7 +32,7 @@ class ApiAuthentication
             $public_token = $request->header('signature');
             if($token == null){
                 if($public_token == env('PUBLIC_TOKEN')){
-                    $request->sdk_version = "20";
+                    $request->sdk_version = "40";
                     $request->user_id = 0;
                     return $next($request)->header('Cache-Control', 'no-cache, must-revalidate');
                 } else {
