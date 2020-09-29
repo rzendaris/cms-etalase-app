@@ -38,6 +38,7 @@ class APIAuthController extends Controller
             'imei_2' => 'required|string',
             'device_brand' => 'required|string',
             'device_model' => 'required|string',
+            'firebase_id' => 'string',
         ]);
         $check_user = User::where('email', $request->email)->first();
         if ($check_user){
@@ -61,7 +62,8 @@ class APIAuthController extends Controller
                 'eu_imei1' => $request->imei_1,
                 'eu_imei2' => $request->imei_2,
                 'is_blocked' => 1,
-                'picture' => $file_name
+                'picture' => $file_name,
+                'notification_id' => $request->firebase_id
             ]);
             $user->save();
             $token = md5(rand(1, 50) . microtime());
@@ -104,6 +106,7 @@ class APIAuthController extends Controller
                 'imei_2' => 'required|string',
                 'device_brand' => 'required|string',
                 'device_model' => 'required|string',
+                'firebase_id' => 'string',
             ]);
             $user = User::where('email', $request->email)->where('role_id', 3)->first();
             if(isset($user)){
@@ -129,6 +132,7 @@ class APIAuthController extends Controller
                                 'eu_device_model' => $request->device_model,
                                 'eu_imei1' => $request->imei_1,
                                 'eu_imei2' => $request->imei_2,
+                                'notification_id' => $request->firebase_id
                             ]);
                             return $this->appResponse(201, 200, $returnData);
                         }else{

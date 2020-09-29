@@ -11,7 +11,7 @@ class AvgRatings extends Model
   protected $table = 'view_avg_ratings';
 
   protected $fillable = [
-      'avg_ratings','id', 'name', 'type', 'app_icon', 'eu_sdk_version','package_name', 'category_id', 'rate', 'version', 'file_size', 'description', 'updates_description',
+      'avg_ratings','download_counter','id', 'name', 'type', 'app_icon', 'eu_sdk_version','package_name', 'category_id', 'rate', 'version', 'file_size', 'description', 'updates_description',
       'link', 'apk_file', 'expansion_file','media', 'developer_id', 'is_approve','reject_reason', 'is_active', 'is_partnership', 'created_at', 'created_by', 'updated_at', 'updated_by'
   ];
   public function categories()

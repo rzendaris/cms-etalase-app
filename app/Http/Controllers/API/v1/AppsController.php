@@ -22,7 +22,7 @@ class AppsController extends Controller
         if (isset($request)){
             $apps = $this->searchEngine($request);
         } else {
-            $apps = Apps::where('is_active', 1)->where('is_approve', 1)->get();
+            $apps = AvgRatings::where('is_active', 1)->where('is_approve', 1)->get();
         }
         $temp_array_unset = array();
         foreach($apps as $key => $data){
@@ -62,10 +62,8 @@ class AppsController extends Controller
                 }
                 $app->media = $temp_array_media;
             }
-            $apps_detail = AvgRatings::where('id', $app->id)->where('is_active', 1)->where('is_approve', 1)->first();
-            $avg_ratings = 0;
-            if($apps_detail->avg_ratings != NULL){
-                $avg_ratings = $apps_detail->avg_ratings;
+            if($app->avg_ratings == NULL){
+                $app->avg_ratings = "0";
             }
             $rating = array(
                 '1' => 0,
@@ -78,7 +76,6 @@ class AppsController extends Controller
                 $rating[$x] = Ratings::where('apps_id', $app->id)->where('ratings', $x)->count();
             }
             $app->rate_details = $rating;
-            $app->avg_ratings = $avg_ratings;
             array_push($data, $app);
         }
         return $this->appResponse(100, 200, $data);
@@ -419,7 +416,7 @@ class AppsController extends Controller
     }
 
     protected function searchEngine($request){
-        $apps = Apps::where('is_active', 1)->where('is_approve', 1);
+        $apps = AvgRatings::where('is_active', 1)->where('is_approve', 1);
         if (isset($request->category_id)){
             $apps = $apps->where('category_id', $request->category_id);
         }
@@ -428,6 +425,14 @@ class AppsController extends Controller
         }
         if (isset($request->search)){
             $apps = $apps->where('name', 'LIKE', "%{$request->search}%");
+        }
+        if (isset($request->sort_by)){
+            if($request->sort_by == 'TERBAIK'){
+                $apps = $apps->orderBy('avg_ratings', 'desc');
+            }
+            if($request->sort_by == 'TERLARIS'){
+                $apps = $apps->orderBy('download_counter', 'desc');
+            }
         }
 
         $return = $apps->get();
