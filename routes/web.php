@@ -12,6 +12,7 @@
 */
 
 Auth::routes(['verify' => true]);
+Route::get('push-notification', 'Controller@PushNotification');
 
 Route::get('/home', 'HomeController@main')->middleware('verified');
 Route::middleware('auth')->group(function() {
