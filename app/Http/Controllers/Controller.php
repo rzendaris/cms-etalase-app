@@ -17,15 +17,15 @@ class Controller extends BaseController
         $payload = [
             'iss' => "lumen-jwt", // Issuer of the token
             'sub' => $user, // Subject of the token
-            'iat' => time(), // Time when JWT was issued. 
+            'iat' => time(), // Time when JWT was issued.
             'exp' => time() + 60*3600 // Expiration time
         ];
-        
-        // As you can see we are passing `JWT_SECRET` as the second parameter that will 
+
+        // As you can see we are passing `JWT_SECRET` as the second parameter that will
         // be used to decode the token in the future.
         return JWT::encode($payload, env('JWT_SECRET'));
     }
-    
+
     public static function CheckApkPackage($filename) {
         $status = TRUE;
         $base_url = "";
@@ -58,7 +58,7 @@ class Controller extends BaseController
         }
         return $data;
     }
-    
+
     public static function CheckExpFile($filename) {
         $status = TRUE;
         $base_url = "";
@@ -82,7 +82,7 @@ class Controller extends BaseController
         curl_setopt($ch, CURLOPT_NOBODY, true);
         curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    
+
         if ($code == 200) {
             $status = true;
         } else {
@@ -91,7 +91,7 @@ class Controller extends BaseController
         curl_close($ch);
         return $status;
     }
-    
+
     public static function MapPublicPath() {
         $path = public_path().'/';
         if (env('DEPLOYMENT_STATUS', 0) == 1){
@@ -115,7 +115,7 @@ class Controller extends BaseController
 
     /**
      * Handling Response Code And Message
-     * 
+     *
      * @param Response Code $response_code
      * @return Array Response
      */
@@ -203,5 +203,41 @@ class Controller extends BaseController
                 $message = "Response Code Undefined";
         }
         return $message;
+    }
+
+    public function PushNotification()
+    {
+        $curl = curl_init();
+        $registration_id = '["d8jGmVE_Ws8:APA91bFPyGnSMip1XAaOedIyx86MgNCeFm4cFm13skRvjfRYY7uGp8KucCoEueTiwqXmQZVnuw0orP14NyKiMCpGZMAZpLZg-RrIDG0VlmXSpwhOuJqi4b05dp9PFHbhv8E-coC7byzN"]';
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => '{
+          "registration_ids": ' . $registration_id . ',
+                  "notification": {
+                      "title": "Judul",
+                      "body": "Ini Judul"
+                  }
+                }',
+        CURLOPT_HTTPHEADER => array(
+          "Authorization: key=AAAAozLiQyE:APA91bF-ncA0K0ImNK670_cZNRrPg43IOw10XKCCtGcHWJgBTNCyf_tppSdcMbULsE5lnNPWluJBIEC-49Lvruz6rBqvu7FTwyLHZxCBSlPnv0q0fEWEp6xjEHLpPRmxzVKsrFEJ5kZh",
+          "Content-Type: application/json",
+          "cache-control: no-cache"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+        if ($err) {
+        echo "cURL Error #:" . $err;
+        } else {
+        echo $response;
+        }
     }
 }
