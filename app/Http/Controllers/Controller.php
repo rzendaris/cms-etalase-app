@@ -205,39 +205,40 @@ class Controller extends BaseController
         return $message;
     }
 
-    public function PushNotification()
+    public function PushNotification($user_target, $title, $body)
     {
         $curl = curl_init();
-        $registration_id = '["d8jGmVE_Ws8:APA91bFPyGnSMip1XAaOedIyx86MgNCeFm4cFm13skRvjfRYY7uGp8KucCoEueTiwqXmQZVnuw0orP14NyKiMCpGZMAZpLZg-RrIDG0VlmXSpwhOuJqi4b05dp9PFHbhv8E-coC7byzN"]';
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => '{
-          "registration_ids": ' . $registration_id . ',
-                  "notification": {
-                      "title": "Judul",
-                      "body": "Ini Judul"
-                  }
-                }',
-        CURLOPT_HTTPHEADER => array(
-          "Authorization: key=AAAAozLiQyE:APA91bF-ncA0K0ImNK670_cZNRrPg43IOw10XKCCtGcHWJgBTNCyf_tppSdcMbULsE5lnNPWluJBIEC-49Lvruz6rBqvu7FTwyLHZxCBSlPnv0q0fEWEp6xjEHLpPRmxzVKsrFEJ5kZh",
-          "Content-Type: application/json",
-          "cache-control: no-cache"
-        ),
+            CURLOPT_URL => "https://fcm.googleapis.com/fcm/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => json_encode(
+                array(
+                    'to' => $user_target,
+                    'notification' => array(
+                        'body' => $body,
+                        'title' => $title
+                    )
+                )
+            ),
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: key=".env('FIREBASE_KEY', ''),
+                "Content-Type: application/json",
+                "cache-control: no-cache"
+            ),
         ));
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
         curl_close($curl);
         if ($err) {
-        echo "cURL Error #:" . $err;
+            return FALSE;
         } else {
-        echo $response;
+            return TRUE;
         }
     }
 }

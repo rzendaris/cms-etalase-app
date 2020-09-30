@@ -131,9 +131,13 @@ class APIAuthController extends Controller
                                 'eu_device_brand' => $request->device_brand,
                                 'eu_device_model' => $request->device_model,
                                 'eu_imei1' => $request->imei_1,
-                                'eu_imei2' => $request->imei_2,
-                                'notification_id' => $request->firebase_id
+                                'eu_imei2' => $request->imei_2
                             ]);
+                            if($request->firebase_id){
+                                User::where('id', $user->id)->update([
+                                    'notification_id' => $request->firebase_id
+                                ]);
+                            }
                             return $this->appResponse(201, 200, $returnData);
                         }else{
                             return $this->appResponse(105, 401);

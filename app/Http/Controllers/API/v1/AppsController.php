@@ -251,6 +251,13 @@ class AppsController extends Controller
                 $return = array(
                     'path_file' => "apk/".$apps->apk_file
                 );
+
+                $user = User::where('id', $request->user_id)->first();
+                if($user->notification_id != NULL){
+                    $title = "Download status";
+                    $body = $apps->name." berhasil di download";
+                    $this->PushNotification($user->notification_id, $title, $body);
+                }
                 return $this->appResponse(200, 200, $return);
 
             } else if($action == "UPDATE"){
@@ -427,7 +434,7 @@ class AppsController extends Controller
             $apps = $apps->where('name', 'LIKE', "%{$request->search}%");
         }
         if (isset($request->sort_by)){
-            if($request->sort_by == 'TERBAIK'){
+            if($request->sort_by == 'POPULER'){
                 $apps = $apps->orderBy('avg_ratings', 'desc');
             }
             if($request->sort_by == 'TERLARIS'){
