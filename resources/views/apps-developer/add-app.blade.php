@@ -81,8 +81,8 @@
                                     </div>
                                     <div class="col-xl-6 col-md-6 m-b-10px">
                                         <div class="form-group">
-                                            <label class="form-control-label">Rate : *</label>
-                                            <input type="text" name="rate" class="form-control" required/>
+                                            <label class="form-control-label">Minimum Age : *</label>
+                                            <input type="number" name="rate" class="form-control" required/>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-control-label">Developer : *</label>

@@ -23,7 +23,7 @@
         </div>
     @endif
       <div class="text-center">
-          <h2>{{ $data['avgrating'] }} <i class="fa fa-star"></i></h2>
+          <h2>{{ number_format((float)$data['avgrating'], 1, '.', '') }} <i class="fa fa-star"></i></h2>
           <h4>{{ count($data['ratings']) }} Feedbacks</h4>
       </div>
   </div>

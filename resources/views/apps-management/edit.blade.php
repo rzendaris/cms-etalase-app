@@ -99,8 +99,8 @@
                                           </select>
                                       </div>
                                       <div class="form-group">
-                                          <label class="form-control-label">Rate :*</label>
-                                          <input type="text" name="rate" value="{{ $data['apps']->rate }}" class="form-control" required/>
+                                          <label class="form-control-label">Minimum Age :*</label>
+                                          <input type="number" name="rate" value="{{ $data['apps']->rate }}" class="form-control" required/>
                                       </div>
                                       <div class="form-group">
                                           <label class="form-control-label">Last Update :</label>
