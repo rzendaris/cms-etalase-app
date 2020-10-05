@@ -32,7 +32,7 @@ class AppsController extends Controller
             }
             $apps_status = 'DOWNLOAD';
             $download_at = '';
-            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $data->id)->first();
+            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $data->id)->orderBy('id', 'desc')->first();
             if(isset($installed_apps)){
                 if($apk_manifest['version_code'] != (int)$data->version){
                     $apps_status = "UPDATE";
@@ -239,7 +239,7 @@ class AppsController extends Controller
         $data = "Action > ".$action." --- "."Apps Id > ".$apps_id;
         $apps = Apps::where('id', $apps_id)->where('is_active', 1)->where('is_approve', 1)->first();
         if(isset($apps)){
-            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->first();
+            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->orderBy('id', 'desc')->first();
             if($action == "DOWNLOAD"){
                 $apk_manifest = $this->CheckApkPackage($apps->apk_file);
                 $apps_download = new DownloadApps([
@@ -264,7 +264,8 @@ class AppsController extends Controller
 
                 if(isset($installed_apps)){
                     $apk_manifest = $this->CheckApkPackage($apps->apk_file);
-                    DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->update(['version' => $apk_manifest['version_code']]);
+                    $latest_download = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->orderBy('id', 'desc')->first();
+                    DownloadApps::where('id', $latest_download->id)->update(['version' => $apk_manifest['version_code']]);
                     $return = array(
                         'path_file' => "apk/".$apps->apk_file
                     );
@@ -287,7 +288,7 @@ class AppsController extends Controller
         ]);
         $apps = Apps::where('id', $request->apps_id)->where('is_active', 1)->where('is_approve', 1)->first();
         if(isset($apps)){
-            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->first();
+            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->orderBy('id', 'desc')->first();
             if(empty($installed_apps)){
                 $apk_manifest = $this->CheckApkPackage($apps->apk_file);
                 $apps_download = new DownloadApps([
