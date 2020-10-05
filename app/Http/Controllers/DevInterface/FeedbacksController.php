@@ -137,6 +137,12 @@ class FeedbacksController extends Controller
               // 'token' => Str::random(60),
           ]);
           if ($updated==1) {
+              $user = User::where('id', $request->to_users_id)->first();
+              if($user->notification_id != NULL){
+                  $title = "Balasan dari developer";
+                  $body = "Developer ".$request->apps_name." membalas komentar anda";
+                  $this->PushNotification($user->notification_id, $title, $body);
+              }
               return redirect('feedbacks-and-reply')->with('succ_message', 'Reply telah diperbarui!');
 
           }else {

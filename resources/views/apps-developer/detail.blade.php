@@ -105,8 +105,8 @@
                                     <input type="text" name="type" value="{{ $data['apps']->type }}" class="form-control" disabled/>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label">Rate :</label>
-                                    <input type="text" name="rate" value="{{ $data['apps']->rate }}" class="form-control" disabled/>
+                                    <label class="form-control-label">Minimum Age :</label>
+                                    <input type="number" name="rate" value="{{ $data['apps']->rate }}" class="form-control" disabled/>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Version :</label>

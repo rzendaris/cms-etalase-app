@@ -66,7 +66,7 @@
                           <td>{{ $apps->type }}</td>
                           <td>{{ $apps->categories->name }}</td>
                           <td>{{ $apps->rate }}</td>
-                          <td>{{ '0' }}</td>
+                          <td>{{ number_format((float)$apps->avg_ratings, 1, '.', '') }}</td>
                           <td>{{ $apps->version }}</td>
                           <td>{{ $apps->updated_at }}</td>
                           <td>@if($apps->is_active==0)

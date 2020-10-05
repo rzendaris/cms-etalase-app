@@ -22,7 +22,7 @@ class AppsController extends Controller
         if (isset($request)){
             $apps = $this->searchEngine($request);
         } else {
-            $apps = Apps::where('is_active', 1)->where('is_approve', 1)->get();
+            $apps = AvgRatings::where('is_active', 1)->where('is_approve', 1)->get();
         }
         $temp_array_unset = array();
         foreach($apps as $key => $data){
@@ -32,7 +32,7 @@ class AppsController extends Controller
             }
             $apps_status = 'DOWNLOAD';
             $download_at = '';
-            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $data->id)->first();
+            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $data->id)->orderBy('id', 'desc')->first();
             if(isset($installed_apps)){
                 if($apk_manifest['version_code'] != (int)$data->version){
                     $apps_status = "UPDATE";
@@ -62,10 +62,8 @@ class AppsController extends Controller
                 }
                 $app->media = $temp_array_media;
             }
-            $apps_detail = AvgRatings::where('id', $app->id)->where('is_active', 1)->where('is_approve', 1)->first();
-            $avg_ratings = 0;
-            if($apps_detail->avg_ratings != NULL){
-                $avg_ratings = $apps_detail->avg_ratings;
+            if($app->avg_ratings == NULL){
+                $app->avg_ratings = "0";
             }
             $rating = array(
                 '1' => 0,
@@ -78,7 +76,6 @@ class AppsController extends Controller
                 $rating[$x] = Ratings::where('apps_id', $app->id)->where('ratings', $x)->count();
             }
             $app->rate_details = $rating;
-            $app->avg_ratings = $avg_ratings;
             array_push($data, $app);
         }
         return $this->appResponse(100, 200, $data);
@@ -242,7 +239,7 @@ class AppsController extends Controller
         $data = "Action > ".$action." --- "."Apps Id > ".$apps_id;
         $apps = Apps::where('id', $apps_id)->where('is_active', 1)->where('is_approve', 1)->first();
         if(isset($apps)){
-            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->first();
+            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->orderBy('id', 'desc')->first();
             if($action == "DOWNLOAD"){
                 $apk_manifest = $this->CheckApkPackage($apps->apk_file);
                 $apps_download = new DownloadApps([
@@ -254,13 +251,21 @@ class AppsController extends Controller
                 $return = array(
                     'path_file' => "apk/".$apps->apk_file
                 );
+
+                $user = User::where('id', $request->user_id)->first();
+                if($user->notification_id != NULL){
+                    $title = "Download status";
+                    $body = $apps->name." berhasil di download";
+                    $this->PushNotification($user->notification_id, $title, $body);
+                }
                 return $this->appResponse(200, 200, $return);
 
             } else if($action == "UPDATE"){
 
                 if(isset($installed_apps)){
                     $apk_manifest = $this->CheckApkPackage($apps->apk_file);
-                    DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->update(['version' => $apk_manifest['version_code']]);
+                    $latest_download = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->orderBy('id', 'desc')->first();
+                    DownloadApps::where('id', $latest_download->id)->update(['version' => $apk_manifest['version_code']]);
                     $return = array(
                         'path_file' => "apk/".$apps->apk_file
                     );
@@ -283,7 +288,7 @@ class AppsController extends Controller
         ]);
         $apps = Apps::where('id', $request->apps_id)->where('is_active', 1)->where('is_approve', 1)->first();
         if(isset($apps)){
-            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->first();
+            $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $apps->id)->orderBy('id', 'desc')->first();
             if(empty($installed_apps)){
                 $apk_manifest = $this->CheckApkPackage($apps->apk_file);
                 $apps_download = new DownloadApps([
@@ -419,7 +424,7 @@ class AppsController extends Controller
     }
 
     protected function searchEngine($request){
-        $apps = Apps::where('is_active', 1)->where('is_approve', 1);
+        $apps = AvgRatings::where('is_active', 1)->where('is_approve', 1);
         if (isset($request->category_id)){
             $apps = $apps->where('category_id', $request->category_id);
         }
@@ -428,6 +433,14 @@ class AppsController extends Controller
         }
         if (isset($request->search)){
             $apps = $apps->where('name', 'LIKE', "%{$request->search}%");
+        }
+        if (isset($request->sort_by)){
+            if($request->sort_by == 'POPULER'){
+                $apps = $apps->orderBy('avg_ratings', 'desc');
+            }
+            if($request->sort_by == 'TERLARIS'){
+                $apps = $apps->orderBy('download_counter', 'desc');
+            }
         }
 
         $return = $apps->get();

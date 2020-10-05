@@ -72,8 +72,8 @@
                                           </select>
                                       </div>
                                       <div class="form-group">
-                                          <label class="form-control-label">Rate :</label>
-                                          <input type="text" name="rate" class="form-control"/>
+                                          <label class="form-control-label">Minimum Age :</label>
+                                          <input type="number" name="rate" class="form-control"/>
                                       </div>
                                       <div class="form-group">
                                           <label class="form-control-label">Version :</label>

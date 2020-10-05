@@ -125,7 +125,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label">Rate :</label>
+                                    <label class="form-control-label">Minimum Age :</label>
                                     <input type="text" name="rate" value="{{ $data['apps']->rate }}" class="form-control" disabled/>
                                 </div>
                                 <div class="form-group">
