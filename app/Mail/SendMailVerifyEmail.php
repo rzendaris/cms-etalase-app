@@ -31,7 +31,7 @@ class SendMailVerifyEmail extends Mailable
     {
         return $this->to($this->data['email'])
                         ->subject('Verify Email')
-                        ->from('etalase.admin@bagustech.id','Etalase App Administrator')
+                        ->from('admin@etalase.web.id','Etalase App Administrator')
                         ->view('auth.passwords.verify-email')
                         ->with(['name' =>$this->data['name'],'reset_url'=>$this->data['reset_url']]);
     }

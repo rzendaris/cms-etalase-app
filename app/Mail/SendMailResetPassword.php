@@ -31,7 +31,7 @@ class SendMailResetPassword extends Mailable
     {
         return $this->to($this->data['email'])
                         ->subject('Perbarui Password')
-                        ->from('etalase_app_admin@bagustech.id','Etalase App Administrator')
+                        ->from('admin@etalase.web.id','Etalase App Administrator')
                         ->view('auth.passwords.email')
                         ->with(['name' =>$this->data['name'],'reset_url'=>$this->data['reset_url']]);
     }
