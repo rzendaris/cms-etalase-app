@@ -8,3 +8,5 @@ If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Lar
 
  <!-- To generate vendor folder  -->
 run `composer update`
+
+create `.env` file for environment configuration
