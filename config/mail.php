@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'mail.iwsku.org'),
+    'host' => env('MAIL_HOST', 'localhost'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => env('MAIL_PORT', 25),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'etalase.admin@bagustech.id'),
-        'name' => env('MAIL_FROM_NAME', 'Admin'),
+        'address' => env('MAIL_FROM_ADDRESS', 'admin@etalase.web.id'),
+        'name' => env('MAIL_FROM_NAME', 'Etalase App Administrator'),
     ],
 
     /*
