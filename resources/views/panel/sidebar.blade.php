@@ -3,6 +3,66 @@
         <li class="heading">
             <h3 class="uppercase">Menu</h3>
         </li>
+        @if(env('ENV') == 'ADMIN')
+
+        <li class="nav-item {{ Request::is('user-management') || Request::is('user-management/*') ? 'active' : '' }}">
+            <a href="{{ url('user-management') }}" class="nav-link nav-toggle">
+                <i class="fa fa-users"></i>
+                <span class="title">User Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('developer-management') || Request::is('developer-management/*') ? 'active' : '' }}">
+            <a href="{{ url('developer-management') }}" class="nav-link nav-toggle">
+                <i class="fa fa-user"></i>
+                <span class="title">Developer Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('apps-management') || Request::is('apps-management/*') ? 'active' : '' }}">
+            <a href="{{ url('apps-management') }}" class="nav-link nav-toggle">
+                <i class="fa fa-android"></i>
+                <span class="title">Apps Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('a') || Request::is('a/*') ? 'active' : '' }}">
+            <a href="{{ url('end-user-management') }}" class="nav-link nav-toggle">
+                <i class="fa fa-user-secret"></i>
+                <span class="title">End User Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('ads-management') || Request::is('ads-management/*') ? 'active' : '' }}">
+            <a href="{{ url('ads-management') }}" class="nav-link nav-toggle">
+                <i class="fa fa-pie-chart"></i>
+                <span class="title">Ads Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('report') || Request::is('report/*') ? 'active' : '' }}">
+            <a href="{{ url('report') }}" class="nav-link nav-toggle">
+                <i class="fa fa-file"></i>
+                <span class="title">Report </span>
+            </a>
+        </li>
+        @elseif(env('ENV') == 'DEVELOPER')
+        <li class="nav-item {{ Request::is('apps-developer') || Request::is('apps-developer/*') ? 'active' : '' }}">
+            <a href="{{ url('apps-developer') }}" class="nav-link nav-toggle">
+                <i class="fa fa-android"></i>
+                <span class="title">Apps Management </span>
+            </a>
+        </li>
+        <li class="nav-item {{ Request::is('feedbacks-and-reply') || Request::is('feedbacks-and-reply/*') ? 'active' : '' }}">
+            <a href="{{ url('feedbacks-and-reply') }}" class="nav-link nav-toggle">
+                <i class="fa fa-user-secret"></i>
+                <span class="title">Feedback And Reply </span>
+            </a>
+        </li>
+        @else
+        @endif
+    </ul>
+</div>
+<!-- <div class="page-sidebar navbar-collapse collapse">
+    <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+        <li class="heading">
+            <h3 class="uppercase">Menu</h3>
+        </li>
         <li class="nav-item {{ Request::is('dashboard')? 'active' : '' }}">
             <a href="{{ url('dashboard') }}" class="nav-link nav-toggle">
                 <i class="icon-home"></i>
@@ -85,4 +145,4 @@
             </a>
         </li>
     </ul>
-</div>
+</div> -->

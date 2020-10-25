@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Model\Table\MstCountry;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -51,6 +53,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'dev_web' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -61,12 +64,37 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
+     public function getRegister()
+     {
+        if (env('ENV') == 'DEVELOPER'){
+         $country = MstCountry::all();
+         $data = [
+             'country' => $country
+         ];
+
+         return view('auth.register')->with($data);
+       }else{
+         return redirect('/');
+       }
+     }
     protected function create(array $data)
     {
+      if($data['picture']){
+          $file_extention = $data['picture']->getClientOriginalExtension();
+          $file_name = $data['email'].'image_profile.'.$file_extention;
+          $file_path = $data['picture']->move($this->MapPublicPath().'pictures',$file_name);
+      }
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'dev_web' => $data['dev_web'],
+            'dev_country_id' => $data['dev_country_id'],
+            'dev_address' => $data['dev_address'],
+            'role_id' => 2,
+            'is_blocked' => 1,
+            'picture' => $file_name,
             'password' => Hash::make($data['password']),
         ]);
+
     }
 }

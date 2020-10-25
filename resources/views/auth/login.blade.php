@@ -8,16 +8,24 @@
 
 @section('content')
 <style>
-    .login .content .forget-password {margin-top: 10px;}
-    div#LoginCaptcha_CaptchaDiv { 
+    .login .content {
+        background: rgb(255 255 255 / 1);
+        margin-top: 8%;
+        margin-bottom: 5%;
+    }
+    .login .content .forget-password {margin-top: 25px;}
+    div#LoginCaptcha_CaptchaDiv {
         background: white;
         width: 100%!important;
         padding: 10px!important;
         height: auto!important;
+        border: solid 1px #c2cbd8;
+        border-bottom: none;
     }
     .login-box-- {
+        margin-top:20%;
         background: rgba(255, 255, 255, .7);
-        border-radius: 10px!important;
+        border-radius: 5px!important;
         box-shadow: 0 0 10px rgba(51, 51, 51, 0.3);
     }
     .login-box-- .logo-default-login {
@@ -25,6 +33,36 @@
     }
     #CaptchaCode {
         padding-left: 10px;
+        /* text-transform: unset!important; */
+    }
+    .form-control {
+        height: 38px;
+    }
+    .btn-login {
+        width:100%;
+    }
+    .btn-registration {
+        width:100%;
+    }
+    .login .content .form-actions {
+        padding: 0 30px 15px;
+    }
+    .loader {
+        position: fixed;
+        top: 0;
+        background: rgb(255 255 255 / .5);
+        bottom: 0;
+        left: 0;
+        z-index: 99999;
+        height: 100%;
+        width: 100%;
+    }
+    .loader-main {
+        color: #da8788;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        font-size: 33px;
     }
     @media (max-width:767px){
         .login .content {
@@ -36,20 +74,23 @@
         }
     }
 </style>
-<div class="logo">
-    <!-- <a href="#">
-        <img src="{{ asset('assets/global/img/logo.png') }}" alt="logo-mina-indonesia" width="100"/> 
-    </a> -->
+
+<div class="loader" style="display:none;">
+    <div class="loader-main"><i class="fa fa-spinner fa-pulse"></i></div>
 </div>
+
 <div class="content login-box--">
-    <form class="login-form" method="POST" action="{{ route('login') }}">
+  {!! NoCaptcha::renderJs() !!}
+
+
+    <form class="login-form" method="POST" action="{{ route('login') }}" onsubmit="onsubmitform()">
     @csrf
         <div class="row">
             <div class="col-md-12 text-center">
                 <a href="/" >
-                    <img src="{{ asset('assets/global/img/logo.png') }}" alt="" width="100" style="width:190px; height: 110px" class="logo-default-login" />
+                    <img src="{{ asset('assets/global/img/logo.png') }}" alt="" width="100" style="width:190px;" class="logo-default-login" />
                 </a>
-                <h3 class="form-title">Login to your account</h3>
+                <hr>
                 @if(session()->has('err_message'))
                     <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -62,6 +103,24 @@
                         {{ session()->get('succ_message') }}
                     </div>
                 @endif
+                @if($errors->has('g-recaptcha-response'))
+                    <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ $errors->first('g-recaptcha-response') }}
+                    </div>
+                @endif
+                @if ($errors->has('email'))
+                    <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ $errors->first('email') }}
+                    </div>
+                @endif
+                <!-- @if(session()->has('err_message'))
+                    <div class="alert alert-danger alert-dismissible" role="alert" auto-close="10000">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ session()->get('err_message') }}
+                    </div>
+                @endif -->
             </div>
         </div>
         <div class="alert alert-danger display-hide">
@@ -75,44 +134,50 @@
                 <i class="fa fa-user"></i>
                 <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" required autofocus/>
 
-                @if ($errors->has('email'))
+                <!-- @if ($errors->has('email'))
                     <span class="help-block">
                         <strong>{{ $errors->first('email') }}</strong>
                     </span>
-                @endif
+                @endif -->
             </div>
         </div>
         <div class="form-group">
             <label class="control-label visible-ie8 visible-ie9">Password</label>
             <div class="input-icon">
                 <i class="fa fa-lock"></i>
-                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" required/> 
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" required/>
             </div>
         </div>
         <div class="form-group{{ $errors->has('CaptchaCode') ? ' has-error' : '' }}">
             <div class="input-icon">
-                {!! captcha_image_html('LoginCaptcha') !!}
-                <input type="text" class="form-control" name="CaptchaCode" id="CaptchaCode" required>
-
-                @if ($errors->has('CaptchaCode'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('CaptchaCode') }}</strong>
-                    </span>
-                @endif
+              {!! NoCaptcha::display() !!}
+              {{ csrf_field() }}
+              <!-- @if ($errors->has('g-recaptcha-response'))
+              <span class="help-block">
+              <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+              </span>
+              @endif -->
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-8 col-md-6">
-                <div class="forget-password">
-                    <a href="{{ url('forgot-password') }}" style="color:#000000"><b> <i class="fa fa-unlock-alt"></i> Lupa Password ? </b></a>
-                </div>
-            </div>
-            <div class="col-xs-4 col-md-6">
+            <div class="col-xs-12 col-md-12">
                 <div class="form-actions">
-                    <button type="submit" class="btn green pull-right"> Login </button>
+                    <button type="submit" class="btn green w-100 btn-login"> <i class="fa fa-sign-in"></i> Login </button>
                 </div>
             </div>
+            @if(env('ENV') == 'DEVELOPER')
+            <div class="col-xs-12 col-md-12">
+                <a href="{{ url('register-dev') }}" class="btn green w-100 btn-registration"> <i class="fa fa-user-plus"></i> Registration </a>
+            </div>
+            @endif
+            <div class="col-xs-12 col-md-12">
+                <div class="forget-password text-center">
+                    <a href="{{ url('forgot-password') }}"><b> <i class="fa fa-unlock-alt"></i> Lupa Password ? </b></a>
+                </div>
+            </div>
+
         </div>
+
         <br>
     </form>
     <!-- END LOGIN FORM -->
@@ -127,4 +192,11 @@
     <script src="{{ asset('assets/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/global/plugins/backstretch/jquery.backstretch.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/pages/scripts/login-4.min.js') }}" type="text/javascript"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <script>
+    function onsubmitform() {
+        $(".loader").attr("style","display:block;");
+    }
+    </script>
 @endsection

@@ -12,7 +12,7 @@ class MstCategories extends Model
 
   protected $fillable = [
       'id',
-      'name'
+      'name',
       'icon'
   ];
 }

@@ -11,19 +11,15 @@ class Apps extends Model
   protected $table = 'apps';
 
   protected $fillable = [
-      'id', 'name', 'type', 'app_icon', 'sdk_target_id', 'category_id', 'rate', 'version', 'file_size', 'description', 'updates_description',
-      'link', 'apk_file', 'expansion_file', 'developer_id', 'is_approve', 'is_active', 'is_partnership', 'created_at', 'created_by', 'updated_at', 'updated_by'
+      'id', 'name', 'type', 'app_icon', 'eu_sdk_version', 'category_id', 'rate', 'version', 'file_size', 'description', 'updates_description',
+      'link', 'apk_file', 'expansion_file','media', 'developer_id', 'is_approve','reject_reason', 'is_active', 'is_partnership', 'created_at', 'created_by', 'updated_at', 'updated_by'
   ];
-  public function skds()
-  {
-      return $this->belongsTo('App\Model\Table\MstSdk', 'sdk_target_id', 'id');
-  }
   public function categories()
   {
-      return $this->belongsTo('App\Model\Table\MstCategory', 'category_id', 'id');
+      return $this->belongsTo('App\Model\Table\MstCategories', 'category_id', 'id');
   }
-  public function developers()
+  public function ratings()
   {
-      return $this->belongsTo('App\User', 'developer_id', 'id');
+      return $this->hasMany('App\Model\Table\Ratings', 'apps_id', 'id');
   }
 }

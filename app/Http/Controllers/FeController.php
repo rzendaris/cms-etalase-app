@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Model\Table\MstCountry;
 
 class FeController extends Controller
 {
@@ -11,67 +12,138 @@ class FeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+
+    public function Register()
     {
-        $this->middleware('auth');
+        $country = MstCountry::all();
+        $data = [
+            'country' => $country
+        ];
+        return view('auth/register-page')->with($data);
+    }
+    public function Profile()
+    {
+        return view('auth/profile');
+    }
+    public function ProfilePassword()
+    {
+        return view('auth/profile-password');
+    }
+    public function EndUserManagement()
+    {
+        return view('end-user-management/index');
+    }
+    public function AddEndUser()
+    {
+        return view('end-user-management/add');
+    }
+    public function EditEndUser()
+    {
+        return view('end-user-management/edit');
+    }
+    public function DetailEndUser()
+    {
+        return view('end-user-management/detail');
     }
 
-    public function Dashboard()
+    public function DeveloperManagement()
     {
-        return view('m-dashboard/dashboard');
+        return view('developer-management/index');
     }
-    public function UserMgmt()
+    public function AddDeveloperManagement()
     {
-        return view('m-user-mgmt/list-user-mgmt');
+        return view('developer-management/add');
     }
-    public function FamilyTree()
+    public function EditDeveloperManagement()
     {
-        return view('m-family-tree/list-family-tree');
+        return view('developer-management/edit');
     }
-    public function DetailFamilyTree()
+    public function DetailDeveloperManagement()
     {
-        return view('m-family-tree/detail-family-tree');
-    }
-    public function FamilyManagement()
-    {
-        return view('m-family-mgmt/list-family-mgmt');
-    }
-    public function AddFamilyMgmt()
-    {
-        return view('m-family-mgmt/add-family-mgmt');
-    }
-    public function EditFamilyMgmt()
-    {
-        return view('m-family-mgmt/update-family-mgmt');
+        return view('developer-management/detail');
     }
 
+    public function AppsManagement()
+    {
+        return view('apps-management/index');
+    }
+    public function AddAppsManagement()
+    {
+        return view('apps-management/add');
+    }
+    public function EditAppsManagement()
+    {
+        return view('apps-management/edit');
+    }
+    public function DetailAppsManagement()
+    {
+        return view('apps-management/detail');
+    }
+    public function ReviewInfo()
+    {
+        return view('apps-management/reviewinfo');
+    }
+    public function Approval()
+    {
+        return view('apps-management/approval');
+    }
+    public function PartnershipIndex()
+    {
+        return view('apps-management/index-partnership');
+    }
+    public function AddAppsPartnership()
+    {
+        return view('apps-management/add-apps-partnership');
+    }
+    public function EditAppsPartnership()
+    {
+        return view('apps-management/edit-apps-partnership');
+    }
 
-    public function Mastercity()
+    public function IndexUserMan()
     {
-        return view('m-master-data/m-city-mgmt/m-city-mgmt');
+        return view('user-man/index');
     }
-    public function Masterdegree()
+    public function AddApp()
     {
-        return view('m-master-data/m-degree-mgmt/m-degree-mgmt');
+        return view('apps-management/add-app');
     }
-    public function Masterdistrict()
+    public function UploadMedia()
     {
-        return view('m-master-data/m-district-mgmt/m-district-mgmt');
+        return view('apps-management/upload-media');
     }
-    public function Masterethnic()
+    public function UploadApp()
     {
-        return view('m-master-data/m-ethnic-mgmt/m-ethnic-mgmt');
+        return view('apps-management/upload-app');
     }
-    public function Masterjob()
+    public function UploadExpansion()
     {
-        return view('m-master-data/m-job-mgmt/m-job-mgmt');
+        return view('apps-management/upload-expansion');
     }
-    public function Masterprovince()
+
+    public function Feedbacks()
     {
-        return view('m-master-data/m-province-mgmt/m-province-mgmt');
+        return view('developer-feedbacks/index');
     }
-    public function Mastervillage()
+    public function DevAdd()
     {
-        return view('m-master-data/m-village-mgmt/m-village-mgmt');
+        return view('apps-developer/add-apps');
+    }
+    public function DevEdit()
+    {
+        return view('apps-developer/edit-apps');
+    }
+    public function DevDetail()
+    {
+        return view('apps-developer/detail');
+    }
+    
+    public function AdsManagement()
+    {
+        return view('ads-management/index');   
+    }
+    public function Report()
+    {
+        return view('report/index');   
     }
 }

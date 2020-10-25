@@ -8,7 +8,7 @@ class MstSdk extends Model
 {
   use \Awobaz\Compoships\Compoships;
 
-  protected $table = 'mst_countries';
+  protected $table = 'mst_sdk';
 
   protected $fillable = [
       'id',
