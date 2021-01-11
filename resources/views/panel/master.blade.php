@@ -7,12 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-    <meta http-equiv="Content-Security-Policy" 
-    content="
-      worker-src blob:; 
-      child-src blob: gap:;
-      img-src 'self' blob: data:;
-      default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src	'self' 'unsafe-inline' *; img-src 'self' data: *">
 
     <!-- Favicons -->
     <!-- <link href="img/favicon.png" rel="icon"> -->
