@@ -2,8 +2,8 @@ vendor/
 ven/
 .env
 composer.lock
-public/apk/
-public/exp_file/
-public/apps/
-public/media/
-public/pictures/
+public/apk
+public/exp_file
+public/apps
+public/media
+public/pictures
