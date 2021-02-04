@@ -4,7 +4,7 @@
 
 <link href="{{ asset('assets/global/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 <link href="https://www.jqueryscript.net/demo/Multi-file-Image-Uploader-Plugin-With-jQuery-Image-Uploader/dist/styles.imageuploader.css" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
 
 @endsection
