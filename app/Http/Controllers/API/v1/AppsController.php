@@ -26,15 +26,14 @@ class AppsController extends Controller
         }
         $temp_array_unset = array();
         foreach($apps as $key => $data){
-            $apk_manifest = $this->CheckApkPackage($data->apk_file);
-            if((int)$request->sdk_version < $apk_manifest['min_sdk_level']){
+            if((int)$request->sdk_version < $data->eu_sdk_version){
                 array_push($temp_array_unset, $key);
             }
             $apps_status = 'DOWNLOAD';
             $download_at = '';
             $installed_apps = DownloadApps::where('end_users_id', $request->user_id)->where('apps_id', $data->id)->orderBy('id', 'desc')->first();
             if(isset($installed_apps)){
-                if($apk_manifest['version_code'] != (int)$data->version){
+                if($installed_apps->version != (int)$data->version){
                     $apps_status = "UPDATE";
                 } else {
                     $apps_status = "INSTALLED";
