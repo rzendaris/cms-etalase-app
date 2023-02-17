@@ -13,7 +13,7 @@
         "awobaz/compoships": "^1.1",
         "captcha-com/laravel-captcha": "^4.2",
         "fideloper/proxy": "^4.0",
-        "firebase/php-jwt": "^5.0",
+        "firebase/php-jwt": "^6.0",
         "intervention/image": "^2.5",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
